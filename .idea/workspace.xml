@@ -2,81 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4e0bbd38-79ca-476c-82af-cfedca707223" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/apiTest.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/call/callRecord.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/call/callRecord_add.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/call/callRecord_update.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/call/callrecorddetails.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/call/checkUpgrade.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/call/login.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/config.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/configDB.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/debugtalk.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/files/call/test.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/__about__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/api.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/built_in.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/cli.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/client.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/compat.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/context.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/exceptions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/loader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/locusts.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/logger.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/parser.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/report.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/response.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/runner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/templates/locustfile_template" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/templates/report_template.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner/validator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/__about__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/api.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/built_in.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/cli.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/client.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/compat.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/context.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/exceptions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/loader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/locusts.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/logger.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/parser.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/report.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/response.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/runner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/templates/locustfile_template" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/templates/report_template.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/httprunner_bak/validator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/locustfile.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reports/api.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run_all.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_data.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testcases/call/callRecord.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testcases/call/callRecord_add.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testcases/call/callRecord_update.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testcases/call/callrecorddetails.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testcases/call/checkUpgrade.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testcases/call/check_add_fileName_type.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testcases/call/get_no_upgrade.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testcases/call/get_token.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testcases/call/get_user_info_by_id.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testcases/call/login.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testcases/call/upload_msg.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testcases/call/upload_msg_with_no_audio.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testsuites/call.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/__about__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/api.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/built_in.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/cli.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/client.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/compat.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/context.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/exceptions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/loader.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/locusts.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/logger.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/parser.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/report.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/response.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/runner.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/templates/locustfile_template" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/templates/report_template.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/httprunner_bak/validator.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -90,19 +36,7 @@
         <entry file="file://$PROJECT_DIR$/debugtalk.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-513">
-              <caret line="23" column="28" lean-forward="true" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/run_all.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
-              <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+              <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -111,10 +45,13 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+        <entry file="file://$PROJECT_DIR$/run_all.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="417">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -216,11 +153,6 @@
               <item name="apiTest" type="462c0819:PsiDirectoryNode" />
               <item name="api" type="462c0819:PsiDirectoryNode" />
               <item name="call" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="apiTest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="apiTest" type="462c0819:PsiDirectoryNode" />
-              <item name="httprunner_bak" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="apiTest" type="b2602c69:ProjectViewProjectNode" />
@@ -421,12 +353,12 @@
       <workItem from="1561339632290" duration="110000" />
       <workItem from="1561340022253" duration="23172000" />
       <workItem from="1561947670163" duration="2046000" />
-      <workItem from="1561953013224" duration="16972000" />
+      <workItem from="1561953013224" duration="18454000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="199819000" />
+    <option name="totallyTimeSpent" value="201301000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -439,9 +371,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14179105" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14179105" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -455,7 +386,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3286334" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3286334" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32934782" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -736,7 +667,7 @@
     <entry file="file://$PROJECT_DIR$/debugtalk.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-513">
-          <caret line="23" column="28" lean-forward="true" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+          <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -750,16 +681,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/run_all.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -767,6 +688,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/run_all.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
