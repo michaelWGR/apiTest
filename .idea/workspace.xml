@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4e0bbd38-79ca-476c-82af-cfedca707223" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/apiTest.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/call/callRecord.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/call/callRecord_add.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/call/callRecord_update.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/call/callrecorddetails.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/call/checkUpgrade.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/call/login.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/common/configDB.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/debugtalk.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/files/call/test.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/__about__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/built_in.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/cli.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/compat.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/context.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/exceptions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/loader.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/locusts.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/logger.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/parser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/report.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/response.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/runner.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/templates/locustfile_template" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/templates/report_template.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner/validator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/__about__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/api.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/built_in.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/cli.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/compat.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/context.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/exceptions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/loader.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/locusts.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/logger.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/parser.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/report.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/response.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/runner.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/templates/locustfile_template" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/templates/report_template.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/httprunner_bak/validator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/locustfile.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/reports/api.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/run_all.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_data.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testcases/call/callRecord.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testcases/call/callRecord_add.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testcases/call/callRecord_update.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testcases/call/callrecorddetails.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testcases/call/checkUpgrade.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testcases/call/check_add_fileName_type.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testcases/call/get_no_upgrade.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testcases/call/get_token.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testcases/call/get_user_info_by_id.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testcases/call/login.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testcases/call/upload_msg.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testcases/call/upload_msg_with_no_audio.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testsuites/call.yml" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/debugtalk.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-513">
+              <caret line="23" column="28" lean-forward="true" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/run_all.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="417">
+              <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="Yaml File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>run_path</find>
+      <find>yaml_content</find>
+      <find>html_report</find>
+      <find>logger</find>
+      <find>setup_logger</find>
+      <find>load_tests</find>
+      <find>is_testcase_path</find>
+    </findStrings>
+    <dirStrings>
+      <dir>E:\michael\projectmc\apiTest</dir>
+      <dir>E:\michael\projectmc\apiTest\httprunner</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/api/call/callrecord.yml" />
+        <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/api/call/callRecord.yml" />
+        <option value="$PROJECT_DIR$/api/call/login.yml" />
+        <option value="$PROJECT_DIR$/runAll.py" />
+        <option value="$PROJECT_DIR$/testcases/call/callRecord.yml" />
+        <option value="$PROJECT_DIR$/common/configDB.py" />
+        <option value="$PROJECT_DIR$/common/config.yml" />
+        <option value="$PROJECT_DIR$/testcases/call/get_no_upgrade.yml" />
+        <option value="$PROJECT_DIR$/api/call/checkUpgrade.yml" />
+        <option value="$PROJECT_DIR$/testcases/call/login.yml" />
+        <option value="$PROJECT_DIR$/testcases/call/checkUpgrade.yml" />
+        <option value="$PROJECT_DIR$/api/call/callrecorddetails.yml" />
+        <option value="$PROJECT_DIR$/httprunner/logger.py" />
+        <option value="$PROJECT_DIR$/httprunner/loader.py" />
+        <option value="$PROJECT_DIR$/testcases/call/callrecorddetails.yml" />
+        <option value="$PROJECT_DIR$/reports/api_log.log" />
+        <option value="$PROJECT_DIR$/api/call/callRecord_add.yml" />
+        <option value="$PROJECT_DIR$/api/call/callRecord_update.yml" />
+        <option value="$PROJECT_DIR$/testcases/call/get_user_relation_info.yml" />
+        <option value="$PROJECT_DIR$/httprunner/parser.py" />
+        <option value="$PROJECT_DIR$/testcases/call/get_token.yml" />
+        <option value="$PROJECT_DIR$/testcases/call/get_user_info_by_id.yml" />
+        <option value="$PROJECT_DIR$/testcases/call/check_add_fileName_type.yml" />
+        <option value="$PROJECT_DIR$/testsuites/call.yml" />
+        <option value="$PROJECT_DIR$/testcases/call/callRecord_update.yml" />
+        <option value="$PROJECT_DIR$/test_data.yml" />
+        <option value="$PROJECT_DIR$/testcases/call/callRecord_add.yml" />
+        <option value="$PROJECT_DIR$/testcases/call/upload_msg.yml" />
+        <option value="$PROJECT_DIR$/testcases/call/upload_msg_with_no_audio.yml" />
+        <option value="$PROJECT_DIR$/debugtalk.py" />
+        <option value="$PROJECT_DIR$/run_all.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="216" />
+    <option name="y" value="-22" />
+    <option name="width" value="1400" />
+    <option name="height" value="999" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="apiTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="apiTest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="apiTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="apiTest" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="apiTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="apiTest" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="call" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="apiTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="apiTest" type="462c0819:PsiDirectoryNode" />
+              <item name="httprunner_bak" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="apiTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="apiTest" type="462c0819:PsiDirectoryNode" />
+              <item name="reports" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="apiTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="apiTest" type="462c0819:PsiDirectoryNode" />
+              <item name="testcases" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="apiTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="apiTest" type="462c0819:PsiDirectoryNode" />
+              <item name="testcases" type="462c0819:PsiDirectoryNode" />
+              <item name="call" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.run_all">
+    <configuration name="configDB" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="apiTest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/common" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/common/configDB.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="debugtalk" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="apiTest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/debugtalk.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="runAll" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="apiTest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="E:\michael\projectmc\apiTest\run_all.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="run_all" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="apiTest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/run_all.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="testtool" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="apiTest" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\dev\Python\Python27\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../testpy" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <EXTENSION ID="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" />
+        </ENTRIES>
+      </EXTENSION>
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../testpy/testtool.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.configDB" />
+      <item itemvalue="Python.debugtalk" />
+      <item itemvalue="Python.runAll" />
+      <item itemvalue="Python.testtool" />
+      <item itemvalue="Python.run_all" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.run_all" />
+        <item itemvalue="Python.debugtalk" />
+        <item itemvalue="Python.configDB" />
+        <item itemvalue="Python.runAll" />
+        <item itemvalue="Python.testtool" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4e0bbd38-79ca-476c-82af-cfedca707223" name="Default Changelist" comment="" />
+      <created>1559700198875</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1559700198875</updated>
+      <workItem from="1559700199974" duration="16983000" />
+      <workItem from="1559725651017" duration="27234000" />
+      <workItem from="1560221188046" duration="23044000" />
+      <workItem from="1560739625561" duration="16104000" />
+      <workItem from="1560821229590" duration="30841000" />
+      <workItem from="1560993418885" duration="43313000" />
+      <workItem from="1561339632290" duration="110000" />
+      <workItem from="1561340022253" duration="23172000" />
+      <workItem from="1561947670163" duration="2046000" />
+      <workItem from="1561953013224" duration="16972000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="199819000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14179105" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32934782" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.24918744" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32934782" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3286334" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32934782" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19349681" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32934782" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24918744" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32934782" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32827735" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32934782" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.env" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/apiTest$debugtalk.coverage" NAME="debugtalk Coverage Results" MODIFIED="1562037235922" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/apiTest$configDB.coverage" NAME="configDB Coverage Results" MODIFIED="1560756323014" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/common" />
+    <SUITE FILE_PATH="coverage/apiTest$runAll.coverage" NAME="runAll Coverage Results" MODIFIED="1560735645946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/apiTest$run_all.coverage" NAME="run_all Coverage Results" MODIFIED="1562139667652" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/apiTest$testtool.coverage" NAME="testtool Coverage Results" MODIFIED="1560427466689" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../testpy" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/reports/1561359711.html" />
+    <entry file="file://$PROJECT_DIR$/api/call/callRecord_add.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="23" lean-forward="true" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reports/1561359890.html" />
+    <entry file="file://$PROJECT_DIR$/reports/1561361173.html" />
+    <entry file="file://$PROJECT_DIR$/httprunner/parser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="929" column="43" lean-forward="true" selection-start-line="929" selection-start-column="43" selection-end-line="929" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reports/1561364160.html" />
+    <entry file="file://$PROJECT_DIR$/reports/1561427552.html" />
+    <entry file="file://$PROJECT_DIR$/reports/1561427697.html" />
+    <entry file="file://$PROJECT_DIR$/reports/1561427851.html" />
+    <entry file="file://$PROJECT_DIR$/reports/1561428067.html" />
+    <entry file="file://$PROJECT_DIR$/reports/1561428233.html" />
+    <entry file="file://$PROJECT_DIR$/reports/1561429066.html" />
+    <entry file="file://$PROJECT_DIR$/reports/1561429255.html" />
+    <entry file="file://$PROJECT_DIR$/testcases/call/check_add_fileName_type.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/call/callRecord_update.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="35" lean-forward="true" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/call/callRecord_update.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/call/checkUpgrade.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="28" lean-forward="true" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reports/1561953125.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/locustfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reports/1562058437.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/call/get_token.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/call/login.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/call/callRecord.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="10" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_data.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="15" lean-forward="true" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/call/checkUpgrade.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="51" lean-forward="true" selection-start-line="3" selection-start-column="51" selection-end-line="3" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/call/callRecord.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="15" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reports/api_log.log">
+      <provider selected="true" editor-type-id="LogFileEditorProvider">
+        <state relative-caret-position="85">
+          <caret line="5" column="43" lean-forward="true" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="99">
+          <caret line="53" column="54" selection-start-line="53" selection-start-column="54" selection-end-line="53" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/configDB.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="45" column="37" lean-forward="true" selection-start-line="45" selection-start-column="37" selection-end-line="45" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reports/1562120602.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reports/1562121096.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/call/login.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/call/get_user_info_by_id.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/call/upload_msg.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="35" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/call/upload_msg_with_no_audio.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testcases/call/callRecord_add.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="43" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reports/1562124692.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="18" lean-forward="true" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testsuites/call.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="38" lean-forward="true" selection-start-line="5" selection-start-column="38" selection-end-line="5" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/httprunner_bak/runner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-612" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/httprunner_bak/built_in.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-564" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/httprunner_bak/compat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-459" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/httprunner_bak/context.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1686" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/httprunner_bak/utils.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/httprunner_bak/report.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/httprunner_bak/locusts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="16" column="15" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/httprunner_bak/parser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2601" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debugtalk.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-513">
+          <caret line="23" column="28" lean-forward="true" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/reports/api.log">
+      <provider selected="true" editor-type-id="LogFileEditorProvider">
+        <state>
+          <caret line="121" column="39" lean-forward="true" selection-start-line="121" selection-start-column="39" selection-end-line="121" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/run_all.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

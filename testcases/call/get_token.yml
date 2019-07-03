@@ -1,0 +1,18 @@
+- config:
+    name: login to call system and get token
+
+- test:
+    name: get_token
+    api: api/call/login.yml
+    variables:
+      deviceId: ${yml(device_id)}
+      account: ${yml(call_account)}
+      password: ${yml(call_password)}
+    extract:
+      - token: content.data.accessToken
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - len_eq: [content.data, 6]
+      - len_eq: [content.data.accessToken, 220]

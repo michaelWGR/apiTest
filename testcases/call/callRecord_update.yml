@@ -1,0 +1,38 @@
+- config:
+    name: callRecord_update
+
+- test:
+    name: get token
+    testcase: testcases/call/get_token.yml
+    output:
+        - token
+
+- test:
+    name: forbidden to update others' msg
+    api: api/call/callRecord_update.yml
+    variables:
+        deviceId: ${yml(device_id)}
+        id: 54
+        status: 2
+        url: aaaaaa
+        Authorization: $token
+    validate:
+        - eq: [content.code, 403]
+        - eq: [content.msg, 403 FORBIDDEN]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: update error with not exist id
+    api: api/call/callRecord_update.yml
+    variables:
+        deviceId: ${yml(device_id)}
+        id: 1
+        status: 2
+        url: aaaaaa
+        Authorization: $token
+    validate:
+        - eq: [content.code, 400]
+        - eq: [content.msg, param error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]

@@ -1,0 +1,6 @@
+DATABASE:
+  host: 10.60.7.251
+  user: root
+  password: dbtest
+#  port: 8080
+  database: i61-hll-manager

@@ -1,0 +1,22 @@
+name: get_user_detail
+base_url: ${yml(base_url)}
+variables:
+  expected_status_code: 200
+  deviceId: null
+  studentId: null
+  studentName: null
+  studentGroup: null
+  Authorization: null
+request:
+  url: /v1/call/callrecorddetails
+  method: GET
+  params:
+    deviceId: $deviceId
+    studentId: $studentId
+    studentName: $studentName
+    studentGroup: $studentGroup
+  headers:
+    Authorization: $Authorization
+    Content-Type: application/json
+validate:
+  - eq: ["status_code", $expected_status_code]

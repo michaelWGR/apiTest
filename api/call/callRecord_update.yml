@@ -1,0 +1,21 @@
+name: update_audio_url_to_database
+base_url: ${yml(base_url)}
+variables:
+    expected_status_code: 200
+    deviceId: null
+    id: null
+    status: null
+    url: null
+    Authorization: null
+request:
+    url: /v1/call/callrecord/update
+    method: GET
+    params:
+        deviceId: $deviceId
+        id: $id
+        status: $status
+        url: $url
+    headers:
+        Authorization: $Authorization
+validate:
+    - eq: ["status_code", $expected_status_code]

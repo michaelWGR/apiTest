@@ -1,0 +1,29 @@
+- config:
+    name: check the app whether need to upgrade or not
+    setup_hooks:
+      - ${update_version_info_of_config_in_call(0)}
+    teardown_hooks:
+      - ${update_version_info_of_config_in_call(1)}
+
+- test:
+    name: get nothing of upgrade info with $version, $code
+    api: api/call/checkUpgrade.yml
+    variables:
+      deviceId: 123
+      version: 1.0.1
+      code: 10002
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - type_match: [content.data, dict]
+      - len_eq: [content.data, 9]
+      - eq: [content.data.clientType, null]
+      - eq: [content.data.version, null]
+      - eq: [content.data.code, null]
+      - eq: [content.data.publishTime, null]
+      - eq: [content.data.needForceUpdate, false]
+      - eq: [content.data.needNotifyUser, false]
+      - eq: [content.data.downloadUrl, null]
+      - eq: [content.data.size, null]
+      - eq: [content.data.upgradeDes, null]

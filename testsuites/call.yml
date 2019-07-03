@@ -1,0 +1,32 @@
+config:
+  name: all api of call system run
+
+testcases:
+  login to call system:
+    testcase: testcases/call/login.yml
+
+  get token:
+    testcase: testcases/call/get_token.yml
+
+  get all of students' info:
+    testcase: testcases/call/callRecord.yml
+
+  check the app whether need to upgrade or not:
+    testcase: testcases/call/checkUpgrade.yml
+
+  check the app and needn't to upgrade:
+    testcase: testcases/call/get_no_upgrade.yml
+    parameters:
+      version: [1.0.1, 1.0.2, 1.0.3]
+      code: [10002, 10003]
+
+  get the detail info of user:
+    testcase: testcases/call/callrecorddetails.yml
+
+  check add fileName type, $fileName:
+    testcase: testcases/call/check_add_fileName_type.yml
+    parameters:
+      fileName: ${get_fileName_list()}
+
+  add msg to database:
+    testcase: testcases/call/callRecord_add.yml

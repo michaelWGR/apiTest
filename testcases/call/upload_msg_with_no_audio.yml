@@ -1,0 +1,62 @@
+- config:
+    name: upload msg with no audio
+    variables:
+      isConnected: 0
+      callDuration: 0
+      wordRecord: 这是没有音频的测试
+      tag: 日常沟通
+    teardown_hooks:
+      - ${del_user_msg($user_id)}
+
+- test:
+    name: get token
+    testcase: testcases/call/get_token.yml
+    output:
+      - token
+
+- test:
+    name: upload msg with no audio
+    api: api/call/callRecord_add.yml
+    variables:
+      Authorization: $token
+      deviceId: ${yml(device_id)}
+      fileName: null
+      userId: ${yml(user_id)}
+      userGroup: 外呼系统1 10695
+      teacherGroup: 99
+      userPhoneNumber: 12300306955
+      isConnected: $isConnected
+      callDuration: $callDuration
+      wordRecord: $wordRecord
+      tag: $tag
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - type_match: [content.data, dict]
+      - type_match: [content.data.recordId, int]
+      - eq: [content.data.uploadUrl, null]
+      - eq: [content.success, true]
+    extract:
+      - recordId: content.data.recordId
+
+- test:
+    name: check uploaded msg of audio
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: ${yml(device_id)}
+      studentId: ${yml(user_id)}
+      studentName: 小枫
+      studentGroup: 外呼系统1
+      Authorization: $token
+      teacher_name: ${yml(teacher_name)}
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.data.recordVOS.0.id, $recordId]
+      - eq: [content.data.recordVOS.0.userId, $studentId]
+      - type_match: [content.data.recordVOS.0.createTime, int]
+      - eq: [content.data.recordVOS.0.teacherName, $teacher_name]
+      - eq: [content.data.recordVOS.0.isConnected, $isConnected]
+      - eq: [content.data.recordVOS.0.audioStatus, 0]
+      - eq: [content.data.recordVOS.0.audioUrl, null]
+      - eq: [content.data.recordVOS.0.wordRecord, $wordRecord]
+      - eq: [content.data.recordVOS.0.tag, $tag]

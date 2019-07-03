@@ -1,0 +1,91 @@
+- config:
+    name: upload msg with audio
+    teardown_hooks:
+        - ${del_user_msg($user_id)}
+
+- test:
+    name: get token
+    testcase: testcases/call/get_token.yml
+    output:
+      - token
+
+- test:
+    name: upload msg to get url
+    api: api/call/callRecord_add.yml
+    variables:
+      Authorization: $token
+      deviceId: ${yml(device_id)}
+      fileName: test.mp3
+      userId: ${yml(user_id)}
+      userGroup: 外呼系统1 10695
+      teacherGroup: 99
+      userPhoneNumber: 12300306955
+      isConnected: 1
+      callDuration: 5
+      wordRecord: 测试有音频
+      tag: 课后跟进
+    extract:
+      - uploadUrl: content.data.uploadUrl.uploadUrl
+      - recordId: content.data.recordId
+      - contentType: content.data.uploadUrl.contentType
+      - fileUrl: content.data.uploadUrl.fileUrl
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - type_match: [content.data, dict]
+      - type_match: [content.data.recordId, int]
+      - len_eq: [content.data.uploadUrl, 5]
+      - eq: [content.data.uploadUrl.method, put]
+
+- test:
+    name: upload audio to aliyun
+    request:
+      url: $uploadUrl
+      method: PUT
+      files:
+        audio: ${open_audio(files/call/test.mp3)}
+      headers:
+        Content-Type: $contentType
+    validate:
+      - eq: [status_code, 200]
+
+- test:
+    name: update audio url to database
+    api: api/call/callRecord_update.yml
+    variables:
+      deviceId: ${yml(device_id)}
+      id: $recordId
+      status: 2
+      url: $fileUrl
+      Authorization: $token
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.data, null]
+      - eq: [content.success, true]
+
+- test:
+    name: check uploaded msg of audio
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: ${yml(device_id)}
+      studentId: ${yml(user_id)}
+      studentName: 小枫
+      studentGroup: 外呼系统1
+      Authorization: $token
+      teacher_name: ${yml(teacher_name)}
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.data.recordVOS.0.id, $recordId]
+      - eq: [content.data.recordVOS.0.userId, $studentId]
+      - type_match: [content.data.recordVOS.0.createTime, int]
+      - eq: [content.data.recordVOS.0.teacherName, $teacher_name]
+      - eq: [content.data.recordVOS.0.isConnected, 1]
+      - eq: [content.data.recordVOS.0.audioStatus, 2]
+      - endswith: [content.data.recordVOS.0.audioUrl, .mp3]
+      - eq: [content.data.recordVOS.0.wordRecord, 测试有音频]
+      - eq: [content.data.recordVOS.0.tag, 课后跟进]
+
+
+

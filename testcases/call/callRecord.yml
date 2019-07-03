@@ -1,0 +1,80 @@
+- config:
+    name: get all of students' info
+    variables:
+      len_data: 6
+      len_token: 220
+
+- test:
+    name: get_token
+    testcase: testcases/call/get_token.yml
+    output:
+      - token
+
+- test:
+    name: get students' info successfully
+    api: api/call/callRecord.yml
+    variables:
+      deviceId: 123
+      Authorization: $token
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - type_match: [content.data, list]
+      - type_match: [content.data.0, dict]
+      - type_match: [content.data.0.name, str]
+      - type_match: [content.data.0.group, str]
+      - type_match: [content.data.0.teacherGroup, int]
+      - type_match: [content.data.0.id, int]
+      - type_match: [content.data.0.phoneNumber, str]
+      - type_match: [content.data.0.recentlyConnect, int]
+
+- test:
+    name: token error with empty deviceId
+    api: api/call/callRecord.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token error with wrong deviceId
+    api: api/call/callRecord.yml
+    variables:
+      deviceId: 123456789
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token error with empty token
+    api: api/call/callRecord.yml
+    variables:
+      deviceId: 123
+      Authorization: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token error with wrong token
+    api: api/call/callRecord.yml
+    variables:
+      deviceId: 123
+      Authorization: abc
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token error with empty deviceId and token
+    api: api/call/callRecord.yml
+    variables:
+      deviceId: null
+      Authorization: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]

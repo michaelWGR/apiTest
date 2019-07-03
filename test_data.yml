@@ -1,0 +1,9 @@
+# 测试服务器地址
+base_url: http://10.60.7.253:8999
+
+# 外呼系统账号
+call_account: callapi
+call_password: '123456'
+teacher_name: callapi
+user_id: 306955
+device_id: 123

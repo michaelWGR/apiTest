@@ -1,0 +1,289 @@
+- config:
+    name: add msg to database
+    variables:
+        user_id: ${yml(user_id)}
+    teardown_hooks:
+        - ${del_user_msg($user_id)}
+
+- test:
+    name: upload msg with audio
+    testcase: testcases/call/upload_msg.yml
+
+- test:
+    name: upload msg with no audio
+    testcase: testcases/call/upload_msg_with_no_audio.yml
+
+- test:
+    name: get user info by id
+    testcase: testcases/call/get_user_info_by_id.yml
+    output:
+        - token
+        - userName1
+        - userGroup1
+        - teacherGroup1
+        - userId1
+        - userPhoneNumber1
+
+- test:
+    name: upload msg with empty token
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: null
+        deviceId: ${yml(device_id)}
+        fileName: null
+        userId: $userId1
+        userGroup: $userGroup1
+        teacherGroup: $teacherGroup1
+        userPhoneNumber: $userPhoneNumber1
+        isConnected: 0
+        callDuration: 0
+        wordRecord: 1234564
+        tag: test
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: upload msg with empty devide id
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: $token
+        deviceId: null
+        fileName: null
+        userId: $userId1
+        userGroup: $userGroup1
+        teacherGroup: $teacherGroup1
+        userPhoneNumber: $userPhoneNumber1
+        isConnected: 0
+        callDuration: 0
+        wordRecord: 1234564
+        tag: test
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: upload msg with empty user id
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: $token
+        deviceId: ${yml(device_id)}
+        fileName: null
+        userId: null
+        userGroup: $userGroup1
+        teacherGroup: $teacherGroup1
+        userPhoneNumber: $userPhoneNumber1
+        isConnected: 0
+        callDuration: 0
+        wordRecord: 1234564
+        tag: test
+    validate:
+        - eq: [content.code, 420]
+        - eq: [content.msg, data err]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: upload msg with empty user group
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: $token
+        deviceId: ${yml(device_id)}
+        fileName: null
+        userId: $userId1
+        userGroup: null
+        teacherGroup: $teacherGroup1
+        userPhoneNumber: $userPhoneNumber1
+        isConnected: 0
+        callDuration: 0
+        wordRecord: 1234564
+        tag: test
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, System Error]
+        - type_match: [content.data, str]
+        - eq: [content.success, false]
+        - eq: [content.error, true]
+
+- test:
+    name: upload msg with empty teacher group
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: $token
+        deviceId: ${yml(device_id)}
+        fileName: null
+        userId: $userId1
+        userGroup: $userGroup1
+        teacherGroup: null
+        userPhoneNumber: $userPhoneNumber1
+        isConnected: 0
+        callDuration: 0
+        wordRecord: 1234564
+        tag: test
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, System Error]
+        - type_match: [content.data, str]
+        - eq: [content.success, false]
+        - eq: [content.error, true]
+
+- test:
+    name: upload msg with empty phonenumber
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: $token
+        deviceId: ${yml(device_id)}
+        fileName: null
+        userId: $userId1
+        userGroup: $userGroup1
+        teacherGroup: $teacherGroup1
+        userPhoneNumber: null
+        isConnected: 0
+        callDuration: 0
+        wordRecord: 1234564
+        tag: test
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, System Error]
+        - type_match: [content.data, str]
+        - eq: [content.success, false]
+        - eq: [content.error, true]
+
+- test:
+    name: upload msg with empty isConnected
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: $token
+        deviceId: ${yml(device_id)}
+        fileName: null
+        userId: $userId1
+        userGroup: $userGroup1
+        teacherGroup: $teacherGroup1
+        userPhoneNumber: $userPhoneNumber1
+        isConnected: null
+        callDuration: 0
+        wordRecord: 1234564
+        tag: test
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, System Error]
+        - type_match: [content.data, str]
+        - eq: [content.success, false]
+        - eq: [content.error, true]
+
+- test:
+    name: upload msg with empty callDuration
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: $token
+        deviceId: ${yml(device_id)}
+        fileName: null
+        userId: $userId1
+        userGroup: $userGroup1
+        teacherGroup: $teacherGroup1
+        userPhoneNumber: $userPhoneNumber1
+        isConnected: 0
+        callDuration: null
+        wordRecord: 1234564
+        tag: test
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - type_match: [content.data, dict]
+        - type_match: [content.data.recordId, int]
+        - eq: [content.data.uploadUrl, null]
+        - eq: [content.success, true]
+
+- test:
+    name: upload msg with empty wordRecord
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: $token
+        deviceId: ${yml(device_id)}
+        fileName: null
+        userId: $userId1
+        userGroup: $userGroup1
+        teacherGroup: $teacherGroup1
+        userPhoneNumber: $userPhoneNumber1
+        isConnected: 0
+        callDuration: 0
+        wordRecord: null
+        tag: test
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - type_match: [content.data, dict]
+        - type_match: [content.data.recordId, int]
+        - eq: [content.data.uploadUrl, null]
+        - eq: [content.success, true]
+
+- test:
+    name: upload msg with empty tag
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: $token
+        deviceId: ${yml(device_id)}
+        fileName: null
+        userId: $userId1
+        userGroup: $userGroup1
+        teacherGroup: $teacherGroup1
+        userPhoneNumber: $userPhoneNumber1
+        isConnected: 0
+        callDuration: 0
+        wordRecord: 123456
+        tag: null
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - type_match: [content.data, dict]
+        - type_match: [content.data.recordId, int]
+        - eq: [content.data.uploadUrl, null]
+        - eq: [content.success, true]
+
+- test:
+    name: upload msg with wrong file name
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: $token
+        deviceId: ${yml(device_id)}
+        fileName: test.hahah
+        userId: $userId1
+        userGroup: $userGroup1
+        teacherGroup: $teacherGroup1
+        userPhoneNumber: $userPhoneNumber1
+        isConnected: 1
+        callDuration: 0
+        wordRecord: 123456
+        tag: test
+    validate:
+        - eq: [content.code, 400]
+        - eq: [content.msg, param error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: upload msg with 0 isconnected, fileName
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: $token
+        deviceId: ${yml(device_id)}
+        fileName: test.hahah
+        userId: $userId1
+        userGroup: $userGroup1
+        teacherGroup: $teacherGroup1
+        userPhoneNumber: $userPhoneNumber1
+        isConnected: 0
+        callDuration: 0
+        wordRecord: 123456
+        tag: test
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - type_match: [content.data, dict]
+        - type_match: [content.data.recordId, int]
+        - eq: [content.data.uploadUrl, null]
+        - eq: [content.success, true]

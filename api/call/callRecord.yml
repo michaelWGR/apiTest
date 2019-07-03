@@ -1,0 +1,19 @@
+name: get_user_list
+base_url: ${yml(base_url)}
+variables:
+    expected_status_code: 200
+    deviceId: 123
+    page: 1
+    size: 10
+    Authorization: null
+request:
+    url: /v1/call/callrecord
+    method: GET
+    params:
+        deviceId: $deviceId
+        page: $page
+        size: $size
+    headers:
+        Authorization: $Authorization
+validate:
+    - eq: ["status_code", $expected_status_code]

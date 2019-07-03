@@ -1,0 +1,35 @@
+name: add_data_to_database
+base_url: ${yml(base_url)}
+variables:
+    expected_status_code: 200
+    Authorization: null
+    deviceId: null
+    fileName: null
+    userId: null
+    userGroup: null
+    teacherGroup: null
+    userPhoneNumber: null
+    isConnected: null
+    callDuration: null
+    wordRecord: null
+    tag: null
+request:
+    url: /v1/call/callrecord/add
+    method: POST
+    headers:
+        Authorization: $Authorization
+        Content-Type: application/json
+    params:
+        deviceId: $deviceId
+        fileName: $fileName
+    json:
+        userId: $userId
+        userGroup: $userGroup
+        teacherGroup: $teacherGroup
+        userPhoneNumber: $userPhoneNumber
+        isConnected: $isConnected
+        callDuration: $callDuration
+        wordRecord: $wordRecord
+        tag: $tag
+validate:
+    - eq: ["status_code", $expected_status_code]

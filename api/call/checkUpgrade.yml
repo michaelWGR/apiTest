@@ -1,0 +1,16 @@
+name: check_program_version_to_upgrade
+base_url: ${yml(base_url)}
+variables:
+  deviceId: 123
+  version: 1.0.1
+  code: 10001
+  expected_status_code: 200
+request:
+  url: /v1/call/checkUpgrade
+  method: GET
+  params:
+    deviceId: $deviceId
+    version: $version
+    code: $code
+validate:
+  - eq: ["status_code", $expected_status_code]

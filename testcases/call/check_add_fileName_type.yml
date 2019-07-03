@@ -1,0 +1,41 @@
+- config:
+    name: check add fileName type
+    variables:
+        user_id: ${yml(user_id)}
+    teardown_hooks:
+        - ${del_user_msg($user_id)}
+
+- test:
+    name: get user info by id
+    testcase: testcases/call/get_user_info_by_id.yml
+    output:
+        - token
+        - userName1
+        - userGroup1
+        - teacherGroup1
+        - userId1
+        - userPhoneNumber1
+
+- test:
+    name: check fileName
+    api: api/call/callRecord_add.yml
+    variables:
+        Authorization: $token
+        deviceId: ${yml(device_id)}
+        fileName: test.mp3
+        userId: $userId1
+        userGroup: $userGroup1
+        teacherGroup: $teacherGroup1
+        userPhoneNumber: $userPhoneNumber1
+        isConnected: 1
+        callDuration: 0
+        wordRecord: 123456
+        tag: test
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data, dict]
+        - type_match: [content.data.recordId, int]
+        - len_eq: [content.data.uploadUrl, 5]
+        - eq: [content.data.uploadUrl.method, put]

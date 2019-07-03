@@ -1,0 +1,124 @@
+- config:
+    name: check the app whether need to upgrade or not
+    setup_hooks:
+      - ${update_version_info_of_config_in_call(0)}
+    teardown_hooks:
+      - ${update_version_info_of_config_in_call(1)}
+
+- test:
+    name: get upgrade info with $version, $code
+    api: api/call/checkUpgrade.yml
+    variables:
+      deviceId: 123
+      version: 1.0.1
+      code: 10001
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - type_match: [content.data, dict]
+      - len_eq: [content.data, 9]
+      - eq: [content.data.clientType, Android]
+      - eq: [content.data.version, 1.0.2]
+      - eq: [content.data.code, 10002]
+      - eq: [content.data.publishTime, 1559214192694]
+      - eq: [content.data.needForceUpdate, false]
+      - eq: [content.data.needNotifyUser, true]
+      - eq: [content.data.downloadUrl, https://appdev.61draw.com/dev_test/app/android/app-package_test.apk]
+      - eq: [content.data.size, 123456]
+      - eq: [content.data.upgradeDes, 这是一条更新提示]
+
+- test:
+    name: get upgrade info with $version, $code
+    api: api/call/checkUpgrade.yml
+    variables:
+      deviceId: 123
+      version: 1.0.2
+      code: 10001
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - type_match: [content.data, dict]
+      - len_eq: [content.data, 9]
+      - eq: [content.data.clientType, Android]
+      - eq: [content.data.version, 1.0.2]
+      - eq: [content.data.code, 10002]
+      - eq: [content.data.publishTime, 1559214192694]
+      - eq: [content.data.needForceUpdate, false]
+      - eq: [content.data.needNotifyUser, true]
+      - eq: [content.data.downloadUrl, https://appdev.61draw.com/dev_test/app/android/app-package_test.apk]
+      - eq: [content.data.size, 123456]
+      - eq: [content.data.upgradeDes, 这是一条更新提示]
+
+- test:
+    name: get nothing of upgrade info with $version, $code
+    api: api/call/checkUpgrade.yml
+    variables:
+      deviceId: 123
+      version: 1.0.3
+      code: 10001
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - type_match: [content.data, dict]
+      - len_eq: [content.data, 9]
+      - eq: [content.data.clientType, null]
+      - eq: [content.data.version, null]
+      - eq: [content.data.code, null]
+      - eq: [content.data.publishTime, null]
+      - eq: [content.data.needForceUpdate, false]
+      - eq: [content.data.needNotifyUser, false]
+      - eq: [content.data.downloadUrl, null]
+      - eq: [content.data.size, null]
+      - eq: [content.data.upgradeDes, null]
+
+- test:
+    name: get nothing with empty deviceId
+    api: api/call/checkUpgrade.yml
+    variables:
+      deviceId: null
+      version: 1.0.1
+      code: 10001
+    validate:
+      - eq: [content.code, 500]
+      - eq: [content.msg, System Error]
+      - type_match: [content.data, str]
+      - eq: [content.success, false]
+      - eq: [content.error, true]
+      - eq: [status_code, 500]
+
+- test:
+    name: get nothing with empty version
+    api: api/call/checkUpgrade.yml
+    variables:
+      deviceId: 123
+      version: null
+      code: 10001
+    validate:
+      - eq: [content.code, 500]
+      - eq: [content.msg, System Error]
+      - type_match: [content.data, str]
+      - eq: [content.success, false]
+      - eq: [content.error, true]
+      - eq: [status_code, 500]
+
+- test:
+    name: get nothing with empty code
+    api: api/call/checkUpgrade.yml
+    variables:
+      deviceId: 123
+      version: 1.0.1
+      code: null
+    validate:
+      - eq: [content.code, 500]
+      - eq: [content.msg, System Error]
+      - type_match: [content.data, str]
+      - eq: [content.success, false]
+      - eq: [content.error, true]
+      - eq: [status_code, 500]
+
+
+
+

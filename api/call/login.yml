@@ -1,0 +1,20 @@
+name: login
+base_url: ${yml(base_url)}
+variables:
+    account: ${yml(call_account)}
+    password: ${yml(call_password)}
+    password_md5: ${encrypt_md5($password)}
+    deviceId: "123"
+    expected_status_code: 200
+    Content_type: application/json
+request:
+    url: /v1/call/login
+    method: GET
+    headers:
+        Content-Type: $Content_type
+    params:
+        account: $account
+        password: $password_md5
+        deviceId: $deviceId
+validate:
+    - eq: ["status_code", $expected_status_code]
