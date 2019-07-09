@@ -11,7 +11,10 @@ def yml(key):
     # 获取文件的数据
     with open(test_data_path, 'rb') as fp:
         d = yaml.load(fp, Loader=yaml.FullLoader)
-        return d[key]
+        if d[key]:
+            return d[key]
+        else:
+            return
 
 
 ##################################################################
@@ -82,5 +85,6 @@ if __name__ == '__main__':
     s = 123456
     print(len(encrypt_md5(s)))
     print(encrypt_md5(s))
+    print(yml('user_id'))
     # del_user_msg(306955)
     # print(get_fileName_list())
