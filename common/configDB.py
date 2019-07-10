@@ -9,6 +9,7 @@ with open(config_path, 'r') as cf:
     # db = d['DATABASE']
     config = d['DATABASE']
 
+
 class MyDB(object):
     def __init__(self):
         self.config = config
