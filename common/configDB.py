@@ -1,13 +1,9 @@
 import pymysql
-import yaml
-import os
+from common import get_conf
 from httprunner import logger
 
-config_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.yml')
-with open(config_path, 'r') as cf:
-    d = yaml.load(cf, Loader=yaml.FullLoader)
-    # db = d['DATABASE']
-    config = d['DATABASE']
+
+config = get_conf('DATABASE')
 
 class MyDB(object):
     def __init__(self):
@@ -76,7 +72,7 @@ if __name__ == '__main__':
     # mydb.connectDB()
     # sql = r'select * from `call_record`'
     # cursor = mydb.executeSQL(sql)
-    # v = mydb.get_all(cursor)
+    # v = mydb.get_one(cursor)
     # print(v)
     # print(type(v))
     # mydb.closeDB()

@@ -1,23 +1,25 @@
 import os
 from httprunner.api import HttpRunner
-from httprunner.report import render_html_report
 from httprunner import logger
+from common.configemail import send_email
 
 parent_dir = os.path.dirname(os.path.realpath(__file__))
 report_dir = os.path.join(parent_dir, 'reports')
 if not os.path.isdir(report_dir):
     os.makedirs(report_dir)
-log_path = os.path.join(report_dir, 'api.log')
-
-def save_log(log_level):
-    logger.setup_logger(log_level, log_path)
 
 def run(path):
+    '''
+    运行测试用例，返回报告路径
+    '''
     runner = HttpRunner(failfast=False)
-    runner.run(path)
-    return runner.summary
+    report_path = runner.run(path)
+    return report_path
 
 def del_html():
+    '''
+    删除html报告
+    '''
     fl = os.listdir(report_dir)
     for f in fl:
         if f.endswith('.html'):
@@ -25,14 +27,20 @@ def del_html():
             os.remove(f_path)
 
 def main():
-    # save_log('debug')
-    logger.setup_logger('debug')
+    '''
+    执行所用测试用例，并发送报告
+    '''
+    log_path = os.path.join(report_dir, 'api.log')
+    logger.setup_logger('info', log_path)
 
-    path = 'testcases/call/callRecord_add.yml'
-    # path = 'api/call/login.yml'
-    # path = 'testsuites/'
-    run(path)
-    del_html()
+    path = 'testsuites/'
+    report_path = run(path)
+    send_email(file_path=report_path)
 
 if __name__ == '__main__':
-    main()
+    # main()
+
+    logger.setup_logger('debug')
+    path = 'testcases/call/login.yml'
+    report_path = run(path)
+    # del_html()
