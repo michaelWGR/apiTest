@@ -1,2 +1,5 @@
+__pycache__/
+commom/__pycache__/
+httprunner/__pycache__/
 test.py
 reports/

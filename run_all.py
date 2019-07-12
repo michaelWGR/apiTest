@@ -38,9 +38,9 @@ def main():
     send_email(file_path=report_path)
 
 if __name__ == '__main__':
-    main()
+    # main()
 
-    # logger.setup_logger('debug')
-    # path = 'testcases/call/login.yml'
-    # report_path = run(path)
+    logger.setup_logger('debug')
+    path = 'testcases/call/login.yml'
+    report_path = run(path)
     # del_html()

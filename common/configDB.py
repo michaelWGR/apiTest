@@ -5,6 +5,7 @@ from httprunner import logger
 
 config = get_conf('DATABASE')
 
+
 class MyDB(object):
     def __init__(self):
         self.config = config
