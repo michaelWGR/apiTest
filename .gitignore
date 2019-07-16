@@ -3,3 +3,5 @@
 /httprunner/__pycache__
 test.py
 /reports
+/venv
+/.idea
