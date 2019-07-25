@@ -40,7 +40,7 @@ def main():
 if __name__ == '__main__':
     # main()
 
-    # logger.setup_logger('debug')
-    # path = 'testcases/call/login.yml'
-    # report_path = run(path)
-    del_html()
+    logger.setup_logger('debug')
+    path = 'testcases/call/login.yml'
+    report_path = run(path)
+    # del_html()
