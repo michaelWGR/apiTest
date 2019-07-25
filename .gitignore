@@ -4,3 +4,4 @@
 /httprunner/__pycache__
 test.py
 /reports
+locustfile.py
