@@ -38,5 +38,5 @@ class WebPageUser(HttpLocust):
     min_wait = 10
     max_wait = 30
 
-    file_path = "api/call/login.yml"
+    file_path = "testcases/call/callRecord.yml"
     tests = prepare_locust_tests(file_path)
