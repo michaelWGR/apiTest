@@ -42,7 +42,6 @@ def set_message(sender, receivers, subject, content, file_path=None):
         logger.log_error(str(ex))
         return
 
-
 def send_email(sender=sender, receivers=receivers, mail_host=mail_host, mail_pass=mail_pass, subject=subject, content=content, file_path=None):
     '''
     发送邮件请求
@@ -62,10 +61,7 @@ def send_email(sender=sender, receivers=receivers, mail_host=mail_host, mail_pas
     except Exception as ex:
         logger.log_error(str(ex))
 
-
-def main():
-    file_path = '../reports/1562726454.html'
-    send_email(file_path=None)
     
 if __name__ == '__main__':
-    main()
+    file_path = '../reports/1562726454.html'
+    send_email(file_path=file_path)

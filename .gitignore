@@ -1,7 +1,7 @@
-/__pycache__
-/commom/__pycache__
-/httprunner/__pycache__
+.idea
+__pycache__
+commom/__pycache__
+httprunner/__pycache__
 test.py
-/reports
-/venv
-/.idea
+reports
+locustfile.py
