@@ -42,7 +42,6 @@ def set_message(sender, receivers, subject, content, file_path=None):
         logger.log_error(str(ex))
         return
 
-
 def send_email(sender=sender, receivers=receivers, mail_host=mail_host, mail_pass=mail_pass, subject=subject, content=content, file_path=None):
     '''
     发送邮件请求
