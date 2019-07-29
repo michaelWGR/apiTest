@@ -13,3 +13,4 @@ teacher_base_url: http://app.test.61draw.com
 teacher_account1: ceshi200075
 teacher_password1: '123456'
 teacher_user_id1: 200075
+teacher_device_id: '123456'
