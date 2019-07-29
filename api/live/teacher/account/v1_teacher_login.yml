@@ -1,0 +1,17 @@
+name: teacher login
+base_url: ${yml(teacher_base_url)}
+variables:
+    account: ${yml(teacher_account1)}
+    password: ${yml(teacher_password1)}
+    password_md5: ${encrypt_md5($password)}
+    deviceId: '123456'
+    expected_status_code: 200
+request:
+    url: /v1/teacher/login
+    method: GET
+    params:
+        account: $account
+        password: $password_md5
+        deviceId: $deviceId
+validate:
+    - eq: ["status_code", $expected_status_code]

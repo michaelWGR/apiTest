@@ -7,3 +7,9 @@ call_password: '123456'
 teacher_name: callapi
 user_id: 306955
 device_id: 123
+
+# 直播教师测试账号
+teacher_base_url: http://app.test.61draw.com
+teacher_account1: ceshi200075
+teacher_password1: '123456'
+teacher_user_id1: 200075
