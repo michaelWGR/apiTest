@@ -43,4 +43,4 @@ if __name__ == '__main__':
     logger.setup_logger('debug')
     path = 'testcases/live/teacher/account/get_token.yml'
     report_path = run(path)
-    del_html()
+    # del_html()

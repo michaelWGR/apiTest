@@ -116,11 +116,11 @@ def get_fileName_list():
     return fileName_list
 
 if __name__ == '__main__':
-    # s = 123456
-    # print(len(encrypt_md5(s)))
-    # print(encrypt_md5(s))
+    s = 123456
+    print(len(encrypt_md5(s)))
+    print(encrypt_md5(s))
     # print(yml('user_id'))
     # del_user_msg(306955)
     # print(get_fileName_list())
-    encrypt_student_password('13097301001','000000')
-    print(len('726d2161d72e38e7cfd3972e599c46d1'))
+    # encrypt_student_password('13097301001','000000')
+    # print(len('726d2161d72e38e7cfd3972e599c46d1'))
