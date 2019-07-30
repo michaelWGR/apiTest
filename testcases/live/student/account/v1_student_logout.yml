@@ -1,0 +1,34 @@
+config:
+    name: testcase description
+    variables: {}
+teststeps:
+-   name: /v1/student/logout
+    request:
+        data:
+            deviceId: 50b3fefb29353f31
+        headers:
+            Authorization: eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoicnNXYUZldFJucTg3VDljNWFsVStidHFDbnNqaUIyb0k0K2IvclllOVYyVkJHMFZ5eXR3VnVqUEdGaklwaEdvQVBQVk9tTjYxbC83Q29UZUR3UTd6QllYZ29SaHpQSVFXN2F6NXZVYThRSmM9IiwiZXhwIjoxNTY0NTY0MzQ0fQ.2dfdg-lxar8prAFZhv0l-LCvn7kpKQkxs5Q8Fa64XJo
+            Content-Type: application/x-www-form-urlencoded
+            User-Agent: okhttp/3.11.0
+            deviceId: 50b3fefb29353f31
+        method: POST
+        url: http://app.test.61draw.com/v1/student/logout
+    validate:
+    -   eq:
+        - status_code
+        - 200
+    -   eq:
+        - headers.Content-Type
+        - application/json;charset=UTF-8
+    -   eq:
+        - content.code
+        - 200
+    -   eq:
+        - content.msg
+        - ok
+    -   eq:
+        - content.data
+        - null
+    -   eq:
+        - content.success
+        - true
