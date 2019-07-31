@@ -1,32 +1,19 @@
-config:
-    name: testcase description
-    variables: {}
-teststeps:
--   name: /v1/student/login
-    request:
-        data:
-            account: '18888600018'
-            deviceId: 50b3fefb29353f31
-            deviceToken: Ai91IUoWAKRzNCyn8G4gEYqq640VJb2U3AcaCWxwqtks
-            password: 670b14728ad9902aecba32e22fa4f6bd
-        headers:
-            Content-Type: application/x-www-form-urlencoded
-            User-Agent: okhttp/3.11.0
-        method: POST
-        url: http://app.test.61draw.com/v1/student/login
+- config:
+    name: 学生端登录接口
+    variables:
+      account: ${yml(student.account.account1)}
+      password: ${yml(student.account.default_password)}
+      deviceId: ${yml(student.account.default_device_id)}
+
+- test:
+    name: 学生正常登录
+    api: api/live/student/account/v1_student_login.yml
+    variables:
+      account: $account
+      password: $password
+      devicedId: $deviceId
     validate:
-    -   eq:
-        - status_code
-        - 200
-    -   eq:
-        - headers.Content-Type
-        - application/json;charset=UTF-8
-    -   eq:
-        - content.code
-        - 200
-    -   eq:
-        - content.msg
-        - ok
-    -   eq:
-        - content.success
-        - true
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]

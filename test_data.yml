@@ -15,10 +15,12 @@ teacher_password1: '123456'
 teacher_user_id1: 200075
 teacher_device_id: '123456'
 
-# 直播学生测试账号
-student_base_url: http://app.test.61draw.com
-student_account1: ceshi200075
-student_password1: '123456'
-student_user_id1: 200075
-student_device_id: '123456'
-sutdent_device_token:'123465'
+# 直播学生端接口参数
+student:
+  base_url: http://app.test.61draw.com
+  # 账号相关参数
+  account:
+    account1: '18888600018'
+    default_password: '000000'
+    default_device_id: '123456'
+    default_auth_code: '000000'

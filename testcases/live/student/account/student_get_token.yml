@@ -1,0 +1,17 @@
+- config:
+    name: student get token
+
+- test:
+    name: login successfully
+    api: api/live/student/account/v1_student_login.yml
+    variables:
+      account: ${yml(student.account.account1)}
+      password: ${yml(student.account.default_password)}
+      deviceId: ${yml(student.account.default_device_id)}
+    extract:
+      - token: content.data.accessToken
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]

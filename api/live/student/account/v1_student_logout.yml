@@ -1,0 +1,17 @@
+name: student logout
+base_url: ${yml(student_base_url)}
+
+variables:
+  token: ${yml(student.account.token)}
+  deviceId: ${yml(student.account.default_device_id)}
+  expected_status_code: 200
+
+request:
+  url: /v1/student/logout
+  method: POST
+  headers:
+    Authorization: $token
+    deviceId: $deviceId
+
+validate:
+  - eq: ["status_code", $expected_status_code]

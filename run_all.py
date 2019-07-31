@@ -8,6 +8,7 @@ report_dir = os.path.join(parent_dir, 'reports')
 if not os.path.isdir(report_dir):
     os.makedirs(report_dir)
 
+
 def run(path):
     '''
     运行测试用例，返回报告路径
@@ -15,6 +16,7 @@ def run(path):
     runner = HttpRunner(failfast=False)
     report_path = runner.run(path)
     return report_path
+
 
 def del_html():
     '''
@@ -25,6 +27,7 @@ def del_html():
         if f.endswith('.html'):
             f_path = os.path.join(report_dir, f)
             os.remove(f_path)
+
 
 def main():
     '''
@@ -37,10 +40,11 @@ def main():
     report_path = run(path)
     send_email(file_path=report_path)
 
+
 if __name__ == '__main__':
     # main()
 
     logger.setup_logger('debug')
-    path = 'testcases/live/teacher/account/get_token.yml'
+    path = 'testcases/live/student/account/student_get_token.yml'
     report_path = run(path)
     # del_html()
