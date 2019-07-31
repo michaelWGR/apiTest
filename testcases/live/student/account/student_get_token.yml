@@ -1,10 +1,18 @@
 - config:
     name: student get token
+<<<<<<< Updated upstream
+=======
+    variables:
+      account: ${yml(student_account1)}
+      password: ${yml(default_student_password)}
+      deviceId: ${yml(default_student_device_id)}
+>>>>>>> Stashed changes
 
 - test:
     name: login successfully
     api: api/live/student/account/v1_student_login.yml
     variables:
+<<<<<<< Updated upstream
       account: ${yml(student.account.account1)}
       password: ${yml(student.account.default_password)}
       deviceId: ${yml(student.account.default_device_id)}
@@ -15,3 +23,21 @@
       - eq: [content.code, 200]
       - eq: [content.msg, ok]
       - eq: [content.success, true]
+=======
+      account: $account
+      password: $password
+      deviceId: $deviceId
+    extract:
+      - token: content.data.accessToken
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - type_match: [content.data, dict]
+      - eq: [content.data.userId, $true_user_id]
+      - len_eq: [content.data.accessToken, 220]
+      - type_match: [content.data.accessTokenExpire, int]
+      - len_eq: [content.data.refreshToken, 40]
+      - type_match: [content.data.refreshTokenExpire, int]
+      - contains: [content.data, nickName]
+>>>>>>> Stashed changes

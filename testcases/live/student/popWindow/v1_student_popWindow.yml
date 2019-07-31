@@ -1,0 +1,65 @@
+- config:
+    name: student popWindow in live
+    variables:
+      true_deviceId: "123456"
+
+- test:
+    name: login successfully
+    api: api/live/student/account/v1_student_login.yml
+    variables:
+      account: "18888600015"
+      password: "000000"
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - type_match: [content.data, dict]
+    extract:
+      - token: content.data.accessToken
+
+- test:
+    name: popWindow successfully
+    api: api/live/student/popWindow/v1_student_popWindow.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow failure with deviceid is null
+    api: api/live/student/popWindow/v1_student_popWindow.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: popWindow failure with deviceid is wrong
+    api: api/live/student/popWindow/v1_student_popWindow.yml
+    variables:
+      deviceId: wrongid
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: popWindow failure with deviceid is special characters
+    api: api/live/student/popWindow/v1_student_popWindow.yml
+    variables:
+      deviceId: '%$#*&12345'
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+
+
+

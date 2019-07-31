@@ -1,0 +1,15 @@
+name: popWindow
+base_url: ${yml(student.base_url)}
+variables:
+    deviceId: ${yml(student.default_evice_id)}
+    Authorization: null
+    expected_status_code: 200
+request:
+    url: /v1/student/popWindow
+    method: POST
+    headers:
+        Authorization: $Authorization
+    params:
+        deviceId: $deviceId
+validate:
+    - eq: ["status_code", $expected_status_code]
