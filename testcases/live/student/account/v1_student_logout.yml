@@ -2,7 +2,7 @@
     name: 学生退出登录
     variables:
       token: ${yml(student.account.token)}
-      deviceId: ${yml(student.account.default_device_id)}
+      deviceId: ${yml(student.default_device_id)}
 
 - test:
     name: 学生正常退出登录

@@ -4,7 +4,7 @@ base_url: ${yml(student_base_url)}
 variables:
   account: ${yml(student.account.account1)}
   code: ${yml(student.account.default_auth_code)}
-  deviceId: ${yml(student.account.default_device_id)}
+  deviceId: ${yml(student.default_device_id)}
   expected_status_code: 200
 
 request:

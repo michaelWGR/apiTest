@@ -3,7 +3,7 @@
     variables:
       account: ${yml(student.account.account1)}
       password: ${yml(student.account.default_password)}
-      deviceId: ${yml(student.account.default_device_id)}
+      deviceId: ${yml(student.default_device_id)}
 
 - test:
     name: 学生正常登录
