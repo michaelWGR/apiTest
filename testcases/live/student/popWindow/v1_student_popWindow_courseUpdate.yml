@@ -1,0 +1,26 @@
+- config:
+    name:  popWindow of student courseUpdate in live
+    variables:
+      true_deviceId: "123456"
+      true_popStyle: 2
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.popWindow.account1)}
+    output:
+      - token
+
+- test:
+    name: popWindow of student courseUpdate successfully
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      popStyle: $true_popStyle
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]

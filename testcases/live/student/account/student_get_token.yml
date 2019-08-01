@@ -1,10 +1,12 @@
 - config:
     name: student get token
+    variables:
+      account: ${yml(student.account.account1)}
 - test:
     name: login successfully
     api: api/live/student/account/v1_student_login.yml
     variables:
-      account: ${yml(student.account.account1)}
+      account: $account
       password: ${yml(student.account.default_password)}
       deviceId: ${yml(student.default_device_id)}
     extract:

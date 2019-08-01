@@ -4,19 +4,12 @@
       true_deviceId: "123456"
 
 - test:
-    name: login successfully
-    api: api/live/student/account/v1_student_login.yml
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
     variables:
-      account: "18888600015"
-      password: "000000"
-      deviceId: $true_deviceId
-    validate:
-      - eq: [content.code, 200]
-      - eq: [content.msg, ok]
-      - eq: [content.success, true]
-      - type_match: [content.data, dict]
-    extract:
-      - token: content.data.accessToken
+      account: ${yml(student.popWindow.account1)}
+    output:
+      - token
 
 - test:
     name: popWindow successfully
