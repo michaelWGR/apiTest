@@ -8,7 +8,7 @@ variables:
     expected_status_code: 200
 request:
     url: /v1/student/popWindow
-    method: POST
+    method: GET
     headers:
         Authorization: $Authorization
     params:
