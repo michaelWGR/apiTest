@@ -1,0 +1,33 @@
+name: 保存设备信息接口
+base_url: ${yml(liveMonitor.base_url)}
+
+variables:
+  method: POST
+  ContentType: "application/json"
+  expected_status_code: 200
+  userId: 600018
+  roomUserScheduleId: 132
+  deviceId: "111"
+  timestamp: 1564104352427
+  deviceType: 2
+  clientDataList:
+    - dataKey: "app版本"
+      dataValue: "2.3.5"
+    - dataKey: "内存大小"
+      dataValue: "64g"
+
+request:
+  url: /deviceInfo
+  method: $method
+  headers:
+    Content-Type: $ContentType
+  json:
+    userId: $userId
+    roomUserScheduleId: $roomUserScheduleId
+    deviceId: $deviceId
+    timestamp: $timestamp
+    deviceType: $deviceType
+    clientDataList: $clientDataList
+
+validate:
+  - eq: ["status_code", $expected_status_code]

@@ -1,0 +1,26 @@
+- config:
+    name: upload students ip info
+    variables:
+      method: POST
+      ContentType: "application/json"
+      expected_status_code: 200
+      list:
+        - userId: 600018
+          deviceId: 111
+          timestamp: 1564104352427
+          ipType: 1
+          ip: "10.10.117.211"
+        - userId: 600019
+          deviceId: 222
+          timestamp: 1564104352427
+          ipType: 1
+          ip: "10.10.117.212"
+
+- test:
+    name: upload success
+    api: api/live/liveMonitor/ipInfo.yml
+    variables:
+      list: $list
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]

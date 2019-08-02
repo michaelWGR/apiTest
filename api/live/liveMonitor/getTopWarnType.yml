@@ -1,0 +1,13 @@
+name: 获取大类异常信息接口
+base_url: ${yml(liveMonitor.base_url)}
+
+variables:
+  method: GET
+  expected_status_code: 200
+
+request:
+  url: /warn/getTopWarnType
+  method: $method
+
+validate:
+  - eq: ["status_code", $expected_status_code]

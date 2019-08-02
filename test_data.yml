@@ -21,14 +21,19 @@ teacher_device_id: '123456'
 student:
   base_url: http://app.test.61draw.com
   default_device_id: '123456'
+
   # 账号相关参数
   account:
     account1: '18888600018'
     default_password: '000000'
     default_auth_code: '000000'
+
   # popWindow 相关参数
   popWindow:
     account1: '18888600015'
     default_password: '000000'
 
 
+# 直播监控相关参数
+liveMonitor:
+  base_url: http://10.60.7.72:8898

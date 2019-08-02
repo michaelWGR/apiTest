@@ -1,0 +1,20 @@
+name: 获取不同设备类型数目接口
+base_url: ${yml(liveMonitor.base_url)}
+
+variables:
+  method: GET
+  expected_status_code: 200
+  userId: 0
+  beginTime: 1563971278000
+  endTime: 1563971298000
+
+request:
+  url: /warn/getDeviceDistribute
+  method: $method
+  params:
+    userId: $userId
+    beginTime: $beginTime
+    endTime: $endTime
+
+validate:
+  - eq: ["status_code", $expected_status_code]

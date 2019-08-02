@@ -1,0 +1,22 @@
+name: 获取异常详情信息接口
+base_url: ${yml(liveMonitor.base_url)}
+
+variables:
+  method: GET
+  expected_status_code: 200
+  userId: 0
+  deviceId: 0
+  clientTime: 0
+  roomUserScheduleId: 0
+
+request:
+  url: /warn/getDetailMonitor
+  method: $method
+  params:
+    userId: $userId
+    deviceId: $deviceId
+    clientTime: $clientTime
+    roomUserScheduleId: $roomUserScheduleId
+
+validate:
+  - eq: ["status_code", $expected_status_code]

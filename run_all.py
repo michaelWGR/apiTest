@@ -45,6 +45,6 @@ if __name__ == '__main__':
     # main()
 
     logger.setup_logger('debug')
-    path = 'testcases/live/student/popWindow/v1_student_popWindow_courseUpdate.yml'
+    path = 'api/live/liveMonitor/getMonitorHeaderMsg.yml'
     report_path = run(path)
     # del_html()
