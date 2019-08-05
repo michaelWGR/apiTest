@@ -38,7 +38,7 @@ def encrypt_student_password(account, password):
         md = hashlib.md5()
 
         md.update(password_byte)
-        password_md5 = md.hexdigest()[8:24]
+        password_md5 = md.hexdigest()
         # print(len(password_md5))
 
         md.update(account_byte)
@@ -116,11 +116,11 @@ def get_fileName_list():
     return fileName_list
 
 if __name__ == '__main__':
-    s = 123456
-    print(len(encrypt_md5(s)))
-    print(encrypt_md5(s))
+    # s = '000000'
+    # print(len(encrypt_md5(s)))
+    # print(encrypt_md5(s))
     # print(yml('user_id'))
     # del_user_msg(306955)
     # print(get_fileName_list())
-    # encrypt_student_password('13097301001','000000')
+    encrypt_student_password('18826101077','000000')
     # print(len('726d2161d72e38e7cfd3972e599c46d1'))
