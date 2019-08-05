@@ -2,7 +2,6 @@ import pymysql
 from common import get_conf
 from httprunner import logger
 
-
 config = get_conf('DATABASE')
 
 

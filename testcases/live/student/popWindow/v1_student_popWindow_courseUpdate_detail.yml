@@ -1,0 +1,331 @@
+- config:
+    name: student popWindow_courseUpdate_detail_detail in live
+    variables:
+      true_deviceId: "123456"
+      true_popStyle : 2
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.popWindow.account1)}
+    output:
+      - token
+
+- test:
+    name: popWindow of student courseUpdate_detail_detail successfully
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      popStyle: $true_popStyle
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail successfully when popStyle is 1
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      popStyle: 1
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail successfully when popStyle is 3
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      popStyle: 3
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail successfully when popStyle is 4
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      popStyle: 4
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail successfully when popStyle is 5
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      popStyle: 5
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail successfully when popStyle is 6
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      popStyle: 6
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is null and  popStyle is 1
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+      popStyle: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is wrongid and  popStyle is 1
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: wrongid
+      Authorization: $token
+      popStyle: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is special characters and  popStyle is 1
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: '%$#*&12345'
+      Authorization: $token
+      popStyle: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is null and  popStyle is 2
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+      popStyle: 2
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is wrongid and  popStyle is 2
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: wrongid
+      Authorization: $token
+      popStyle: 2
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is special characters and  popStyle is 2
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: '%$#*&12345'
+      Authorization: $token
+      popStyle: 2
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is null and  popStyle is 3
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+      popStyle: 3
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is wrongid and  popStyle is 3
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: wrongid
+      Authorization: $token
+      popStyle: 3
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is special characters and  popStyle is 3
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: '%$#*&12345'
+      Authorization: $token
+      popStyle: 3
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is null and  popStyle is 4
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+      popStyle: 4
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is wrongid and  popStyle is 4
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: wrongid
+      Authorization: $token
+      popStyle: 4
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is special characters and  popStyle is 4
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: '%$#*&12345'
+      Authorization: $token
+      popStyle: 4
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is null and  popStyle is 5
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+      popStyle: 5
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is wrongid and  popStyle is 5
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: wrongid
+      Authorization: $token
+      popStyle: 5
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is special characters and  popStyle is 5
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: '%$#*&12345'
+      Authorization: $token
+      popStyle: 5
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is null and  popStyle is 6
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+      popStyle: 6
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is wrongid and  popStyle is 6
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: wrongid
+      Authorization: $token
+      popStyle: 6
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow of student courseUpdate_detail failure when deviceId is special characters and  popStyle is 6
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: '%$#*&12345'
+      Authorization: $token
+      popStyle: 6
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+      - eq: [status_code, 200]
+
+#- test:
+#    name: popWindow of student courseUpdate_detail failure when deviceId is special characters and  popStyle is 6
+#    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate.yml
+#    variables:
+#      deviceId: '123456'
+#      Authorization: $token
+#      popStyle: -1
+#    validate:
+#      - eq: [content.code, 400]
+#      - eq: [content.msg, '参数错误']
+#      - eq: [status_code, 200]
+#
+#- test:
+#    name: popWindow of student courseUpdate_detail failure when deviceId is special characters and  popStyle is 6
+#    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate.yml
+#    variables:
+#      deviceId: '123456'
+#      Authorization: $token
+#      popStyle: null
+#    validate:
+#      - eq: [content.code, 400]
+#      - eq: [content.msg, '参数错误']
+#      - eq: [status_code, 200]

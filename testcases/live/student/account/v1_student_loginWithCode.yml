@@ -1,0 +1,19 @@
+- config:
+    name: 短信验证码登录
+    variables:
+      phone: ${yml(student.account.account1)}
+      code: ${yml(student.account.default_auth_code)}
+      deviceId: ${yml(student.default_device_id)}
+
+- test:
+    name: 短信验证码登录
+    api: api/live/student/account/v1_student_loginWithCode.yml
+    variables:
+      account: $phone
+      code: $code
+      deviceId: $deviceId
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]

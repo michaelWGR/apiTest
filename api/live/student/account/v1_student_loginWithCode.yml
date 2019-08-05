@@ -1,0 +1,19 @@
+name: student login with code
+base_url: ${yml(student_base_url)}
+
+variables:
+  account: ${yml(student.account.account1)}
+  code: ${yml(student.account.default_auth_code)}
+  deviceId: ${yml(student.default_device_id)}
+  expected_status_code: 200
+
+request:
+  url: /v1/student/loginWithCode
+  method: POST
+  params:
+    phoneNum: $account
+    code: $code
+    deviceId: $deviceId
+
+validate:
+  - eq: ["status_code", $expected_status_code]

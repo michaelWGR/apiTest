@@ -1,20 +1,29 @@
-import os
-import yaml
 import hashlib
-import json
+import os
+
+import yaml
+
 from common.configDB import MyDB
 
 parent_dir = os.path.dirname(os.path.realpath(__file__))
 test_data_path = os.path.join(parent_dir, 'test_data.yml')
 
+
 def yml(key):
     # 获取文件的数据
     with open(test_data_path, 'rb') as fp:
         d = yaml.load(fp, Loader=yaml.FullLoader)
-        if d[key]:
-            return d[key]
+        if str(key).__contains__('.'):
+            keys = str(key).split('.')
+            for k in keys:
+                d = d[k]
+            return d
         else:
-            return
+            if d[key]:
+                return d[key]
+            else:
+                return
+
 
 def encrypt_md5(data):
     # MD5加密
@@ -27,6 +36,7 @@ def encrypt_md5(data):
         return str_md5
     else:
         return data
+
 
 def encrypt_student_password(account, password):
     # 学生密码加密
@@ -62,8 +72,9 @@ def encrypt_student_password(account, password):
         combination_md5 = md.hexdigest()
         print(combination_md5)
 
+
 ##################################################################
-#外呼系统调用方法
+# 外呼系统调用方法
 ##################################################################
 
 
@@ -78,17 +89,21 @@ def update_version_info_of_config_in_call(isUpdate=0):
         origin_info = db.get_one(cursor)[2]
 
         update_info = '{"clientType":"Android","version":"1.0.2","code":10002,"downloadUrl":"https://appdev.61draw.com/dev_test/app/android/app-package_test.apk","packageSize":123456,"isCurrentLastest":0,"isNeedForceUpdate":0,"isNeedNotifyUser":1,"publishTime":1559214192694,"upgradeDes":"这是一条更新提示"}'
-        sql_update = '''update config_common set conf_value = '{}' where conf_key='headteacher_call_versionInfo';'''.format(update_info)
+        sql_update = '''update config_common set conf_value = '{}' where conf_key='headteacher_call_versionInfo';'''.format(
+            update_info)
         db.executeSQL(sql_update)
 
     if isUpdate == 1:
-        sql_rollback = '''update config_common set conf_value = '{}' where conf_key='headteacher_call_versionInfo';'''.format(origin_info)
+        sql_rollback = '''update config_common set conf_value = '{}' where conf_key='headteacher_call_versionInfo';'''.format(
+            origin_info)
         db.executeSQL(sql_rollback)
 
     db.closeDB()
 
+
 def open_audio(file_path):
     return open(file_path, 'rb')
+
 
 def del_user_msg(user_id):
     db = MyDB()
@@ -96,6 +111,7 @@ def del_user_msg(user_id):
     sql = '''delete from call_record where user_id = {}'''.format(user_id)
     db.executeSQL(sql)
     db.closeDB()
+
 
 def select_user_info(response, user_id):
     rp_dict = response.json
@@ -107,6 +123,7 @@ def select_user_info(response, user_id):
     rp_dict['data'] = [user_info]
     response.json = rp_dict
 
+
 def get_fileName_list():
     tp = ["mp3", "wma", "wav", "mod", "ra", "cd", "md", "asf", "aac", "vqf", "ape", "mid", "ogg", "m4a", "vqf", "amr"]
     fileName_list = []
@@ -115,6 +132,7 @@ def get_fileName_list():
         fileName_list.append(fileName)
     return fileName_list
 
+
 if __name__ == '__main__':
     # s = '000000'
     # print(len(encrypt_md5(s)))
@@ -122,5 +140,7 @@ if __name__ == '__main__':
     # print(yml('user_id'))
     # del_user_msg(306955)
     # print(get_fileName_list())
+
     encrypt_student_password('18826101077','000000')
     # print(len('726d2161d72e38e7cfd3972e599c46d1'))
+

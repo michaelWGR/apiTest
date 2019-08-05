@@ -1,0 +1,16 @@
+- config:
+    name: 短信登录获取验证码
+    variables:
+      account: ${yml(student.account.account1)}
+
+- test:
+    name: 短信登录获取验证码
+    api: api/live/student/account/v1_student_authCode.yml
+    variables:
+      account: $account
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+

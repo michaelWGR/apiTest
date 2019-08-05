@@ -1,0 +1,30 @@
+name: 告警接口
+base_url: ${yml(liveMonitor.base_url)}
+
+variables:
+  method: POST
+  ContentType: "application/json"
+  expected_status_code: 200
+  list:
+    - warnCode: 600018
+      userId: "111"
+      userName: 1564104352427
+      deviceId: "222"
+      roomCode: 990588
+      roomUserScheduleId: 26523
+      uid: 123
+      classStartTimestamp: 1563968381085
+      classEndTimestamp: 1563968381085
+      description: "默认注释"
+      timestamp: 1563968381085
+
+request:
+  url: /warn
+  method: $method
+  headers:
+    Content-Type: $ContentType
+  json:
+    $list
+
+validate:
+  - eq: ["status_code", $expected_status_code]
