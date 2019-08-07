@@ -4,15 +4,16 @@ base_url: ${yml(liveMonitor.base_url)}
 variables:
   method: POST
   ContentType: "application/json"
-  expected_status_code: 200
+  code: 200
+  msg: 请求处理成功
   list:
     - userId: 600018
-      deviceId: "111"
+      deviceId: 111
       timestamp: 1564104352427
       ipType: 1
       ip: "10.10.117.211"
     - userId: 600019
-      deviceId: "222"
+      deviceId: 222
       roomUserScheduleId: 26523
       timestamp: 1564104352427
       ipType: 1
@@ -27,4 +28,6 @@ request:
     $list
 
 validate:
-  - eq: ["status_code", $expected_status_code]
+  - eq: ["status_code", $code]
+  - eq: [content.code, $code]
+  - eq: [content.msg, $msg]

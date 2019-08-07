@@ -10,7 +10,7 @@ def main_hrun():
     from httprunner.compat import is_py2
     from httprunner.validator import validate_json_file
     from httprunner.utils import (create_scaffold, get_python2_retire_msg,
-                                prettify_json_file)
+                                  prettify_json_file)
 
     parser = argparse.ArgumentParser(description=__description__)
     parser.add_argument(
@@ -80,7 +80,7 @@ def main_hrun():
     )
     try:
         for path in args.testcase_paths:
-            runner.run(path, dot_env_path=args.dot_env_path)
+            runner.run(path, dot_env_path=args.dot_env_path, gen_report_name=False)
     except Exception:
         logger.log_error("!!!!!!!!!! exception stage: {} !!!!!!!!!!".format(runner.exception_stage))
         raise
@@ -92,7 +92,8 @@ def main_locust():
     """ Performance test with locust: parse command line options and run commands.
     """
     # monkey patch ssl at beginning to avoid RecursionError when running locust.
-    from gevent import monkey; monkey.patch_ssl()
+    from gevent import monkey;
+    monkey.patch_ssl()
 
     import multiprocessing
     import sys

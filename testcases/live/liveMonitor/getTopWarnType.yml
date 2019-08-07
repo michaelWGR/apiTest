@@ -1,0 +1,15 @@
+- config:
+    name: get top warn type
+    variables:
+      method: GET
+      expected_status_code: 200
+
+- test:
+    name: upload success
+    api: api/live/liveMonitor/getTopWarnType.yml
+    variables:
+      method: $method
+      expected_status_code: $expected_status_code
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]

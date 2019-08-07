@@ -1,0 +1,36 @@
+config:
+  name: all api of live monitor system run
+
+testcases:
+  upload ip info:
+    testcase: testcases/live/liveMonitor/ipInfo.yml
+
+  upload device info:
+    testcase: testcases/live/liveMonitor/deviceInfo.yml
+
+  warn:
+    testcase: testcases/live/liveMonitor/warn.yml
+
+  dynamic monitor android:
+    testcase: testcases/live/liveMonitor/dynamicMonitor_android.yml
+
+  dynamic monitor ios:
+    testcase: testcases/live/liveMonitor/dynamicMonitor_ios.yml
+
+  dynamic monitor web:
+    testcase: testcases/live/liveMonitor/dynamicMonitor_web.yml
+
+  get top warn type:
+    testcase: testcases/live/liveMonitor/getTopWarnType.yml
+
+  get user monitor:
+    testcase: testcases/live/liveMonitor/getUserMonitor.yml
+
+  get detail monitor:
+    testcase: testcases/live/liveMonitor/getDetailMonitor.yml
+
+  get device distribute:
+    testcase: testcases/live/liveMonitor/getDeviceDistribute.yml
+
+  get monitor header msg:
+    testcase: testcases/live/liveMonitor/getMonitorHeaderMsg.yml
