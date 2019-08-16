@@ -38,41 +38,6 @@ def encrypt_md5(data):
         return data
 
 
-def encrypt_student_password(account, password):
-    # 学生密码加密
-    if account and password:
-        account_byte = str(account).encode(encoding='utf-8')
-        password_byte = str(password).encode(encoding='utf-8')
-        # print(account_byte)
-        # print(password_byte)
-        md = hashlib.md5()
-
-        md.update(password_byte)
-        password_md5 = md.hexdigest()
-        # print(len(password_md5))
-
-        md.update(account_byte)
-        account_md5 = md.hexdigest()
-
-        print(password_md5)
-        print(account_md5)
-
-        password_md5_byte = str(password_md5).encode(encoding='utf-8')
-        md.update(password_md5_byte)
-        password_double_md5 = md.hexdigest()
-        print(password_double_md5)
-
-        combination_str = ''
-        for i in range(len(account_md5)):
-            combination_str = combination_str + account_md5[i] + password_double_md5[i]
-        print(combination_str)
-
-        combination_byte = combination_str.encode(encoding='utf-8')
-        md.update(combination_byte)
-        combination_md5 = md.hexdigest()
-        print(combination_md5)
-
-
 ##################################################################
 # 外呼系统调用方法
 ##################################################################
@@ -134,13 +99,16 @@ def get_fileName_list():
 
 
 if __name__ == '__main__':
-    # s = '000000'
+    s = '123456'
     # print(len(encrypt_md5(s)))
-    # print(encrypt_md5(s))
+    print(encrypt_md5(s))
+    # print('jskdfjs'.encode('utf-8'))
     # print(yml('user_id'))
     # del_user_msg(306955)
     # print(get_fileName_list())
 
-    encrypt_student_password('18826101077','000000')
+    # i = encrypt_student_password('18800000002','123456')
+    # print(i)
     # print(len('726d2161d72e38e7cfd3972e599c46d1'))
+    # print(chr(1))
 
