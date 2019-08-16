@@ -1,0 +1,33 @@
+- config:
+    name: upload students device info
+    variables:
+      method: POST
+      ContentType: "application/json"
+      expected_status_code: 200
+      userId: 600018
+      roomUserScheduleId: 132
+      deviceId: "111"
+      timestamp: 1564104352427
+      deviceType: 2
+      clientDataList:
+        - dataKey: "app版本"
+          dataValue: "2.3.5"
+        - dataKey: "内存大小"
+          dataValue: "64g"
+
+- test:
+    name: upload success
+    api: api/live/liveMonitor/deviceInfo.yml
+    variables:
+      method: $method
+      ContentType: $ContentType
+      expected_status_code: $expected_status_code
+      userId: $userId
+      roomUserScheduleId: $roomUserScheduleId
+      deviceId: $deviceId
+      timestamp: $timestamp
+      deviceType: $deviceType
+      clientDataList: $clientDataList
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]

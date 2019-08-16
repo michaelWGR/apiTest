@@ -9,12 +9,12 @@ if not os.path.isdir(report_dir):
     os.makedirs(report_dir)
 
 
-def run(path):
+def run(path, gen_report_name=False):
     '''
     运行测试用例，返回报告路径
     '''
     runner = HttpRunner(failfast=False)
-    report_path = runner.run(path)
+    report_path = runner.run(path, gen_report_name=gen_report_name)
     return report_path
 
 
@@ -45,6 +45,6 @@ if __name__ == '__main__':
     # main()
 
     logger.setup_logger('debug')
-    path = 'api/live/liveMonitor/getMonitorHeaderMsg.yml'
-    report_path = run(path)
+    path = 'testsuites/live/liveMonitor.yml'
+    report_path = run(path, True)
     # del_html()

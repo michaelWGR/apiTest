@@ -5,3 +5,8 @@
 test.py
 reports
 locustfile.py
+venv
+.env
+Pipfile
+Pipfile.lock
+
