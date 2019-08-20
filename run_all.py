@@ -10,9 +10,12 @@ if not os.path.isdir(report_dir):
 
 
 def run(path, gen_report_name=False):
-    '''
+    """
     运行测试用例，返回报告路径
-    '''
+    Args:
+        path(str): 测试用例路径，以当前run_all.py的父目录为根目录
+        gen_report_name(bool): 是否以用例名来生成测试报告，等于False时使用时间戳来命名测试报告
+    """
     runner = HttpRunner(failfast=False)
     report_path = runner.run(path, gen_report_name=gen_report_name)
     return report_path
@@ -45,6 +48,6 @@ if __name__ == '__main__':
     # main()
 
     logger.setup_logger('debug')
-    path = 'testsuites/live/liveMonitor.yml'
+    path = 'testcases/live/student/account/v1_student_loginWithCode.yml'
     report_path = run(path, True)
     # del_html()

@@ -19,7 +19,7 @@ teacher_device_id: '123456'
 
 # 直播学生端接口参数
 student:
-  base_url: http://app.test.61draw.com
+  base_url: http://apptest.61draw.com
   default_device_id: '123456'
 
   # 账号相关参数
@@ -36,4 +36,5 @@ student:
 
 # 直播监控相关参数
 liveMonitor:
-  base_url: http://10.60.7.72:8898
+  # base_url: http://10.60.7.72:8898
+  base_url: http://monitor.61info.cn
