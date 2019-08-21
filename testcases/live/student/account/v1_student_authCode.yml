@@ -14,3 +14,42 @@
       - eq: [content.msg, ok]
       - eq: [content.success, true]
 
+- test:
+    name: 手机号格式错误
+    api: api/live/student/account/v1_student_authCode.yml
+    variables:
+      account: 18886001
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+
+- test:
+    name: 账号不存在
+    api: api/live/student/account/v1_student_authCode.yml
+    variables:
+      account: 13145773691
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+
+- test:
+    name: 缺少手机号
+    api: api/live/student/account/v1_student_authCode.yml
+    variables:
+      account: null
+    validate:
+      - eq: [content.code, 400]
+      - eq: [content.msg, 参数错误]
+      - eq: [content.success, flase]
+
+- test:
+    name: 数据类型错误
+    api: api/live/student/account/v1_student_authCode.yml
+    variables:
+      account: abcdefhg
+    validate:
+      - eq: [content.code, 400]
+      - eq: [content.msg, 参数错误]
+      - eq: [content.success, flase]
