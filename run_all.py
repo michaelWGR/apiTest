@@ -44,7 +44,7 @@ def main():
 if __name__ == '__main__':
     # main()
 
-    logger.setup_logger('debug')
-    path = 'testsuites/live/liveMonitor.yml'
-    report_path = run(path, True)
+    # logger.setup_logger('debug')
+    path = 'testcases/call/callRecord.yml'
+    report_path = run(path, False)
     # del_html()
