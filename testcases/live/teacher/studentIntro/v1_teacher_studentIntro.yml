@@ -25,10 +25,77 @@
     api: api/live/teacher/studentIntro/v1_teacher_studentIntro.yml
     variables:
       Authorization: abc
-      deviceId: 123455
+      deviceId: 123456
       userId: 600001
     validate:
       - eq: [content.code, 703]
-#      - eq: [content.data.userInfo.userId, 600001]
-#      - eq: [content.success, false]
 
+- test:
+    name: get intro with null token
+    api: api/live/teacher/studentIntro/v1_teacher_studentIntro.yml
+    variables:
+      Authorization: null
+      deviceId: 123456
+      userId: 600001
+    validate:
+      - eq: [content.code, 703]
+
+- test:
+    name: get intro with null userId
+    api: api/live/teacher/studentIntro/v1_teacher_studentIntro.yml
+    variables:
+      Authorization: $token
+      deviceId: 123456
+      userId: null
+    validate:
+     - eq: [status_code, 500]
+
+- test:
+    name: get intro with wrong userId
+    api: api/live/teacher/studentIntro/v1_teacher_studentIntro.yml
+    variables:
+      Authorization: $token
+      deviceId: 123456
+      userId: abc
+    validate:
+     - eq: [status_code, 500]
+
+- test:
+    name: get intro with null deviceId
+    api: api/live/teacher/studentIntro/v1_teacher_studentIntro.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+      userId: 600001
+    validate:
+     - eq: [content.code, 703]
+
+- test:
+    name: get intro with wrong deviceId
+    api: api/live/teacher/studentIntro/v1_teacher_studentIntro.yml
+    variables:
+      Authorization: $token
+      deviceId: 666666
+      userId: 600001
+    validate:
+     - eq: [content.code, 703]
+
+- test:
+    name: get intro with null deviceId and null userId
+    api: api/live/teacher/studentIntro/v1_teacher_studentIntro.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+      userId: null
+    validate:
+     - eq: [content.code, 703]
+
+- test:
+    name: get intro with wrong deviceId and wrong userId
+    api: api/live/teacher/studentIntro/v1_teacher_studentIntro.yml
+    variables:
+      Authorization: $token
+      deviceId: 666666
+      userId: abc
+    validate:
+     - eq: [content.code, 703]
