@@ -47,9 +47,9 @@ def main():
 if __name__ == '__main__':
     # main()
 
-    logger.setup_logger('debug')
-    path = 'testcases/live/student/account/v1_student_loginWithCode.yml'
-    report_path = run(path, True)
+    # logger.setup_logger('debug')
+    path = 'testcases/live/teacher/studentIntro/v1_teacher_studentIntro.yml'
+    report_path = run(path, False)
 
     # del_html()
 

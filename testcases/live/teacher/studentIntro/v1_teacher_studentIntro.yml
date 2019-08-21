@@ -11,8 +11,8 @@
 - test:
     name: get intro successful
     api: api/live/teacher/studentIntro/v1_teacher_studentIntro.yml
-    varibles:
-      token: $token
+    variables:
+      Authorization: $token
       deviceId: 123456
       userId: 600001
     validate:
@@ -23,12 +23,12 @@
 - test:
     name: get intro with wrong token
     api: api/live/teacher/studentIntro/v1_teacher_studentIntro.yml
-    varibles:
-      token: abc
-      deviceId: 12345
+    variables:
+      Authorization: abc
+      deviceId: 123455
       userId: 600001
     validate:
-      - eq: [content.code, 200]
-      - eq: [content.data.userInfo.userId, 600001]
-      - eq: [content.success, true]
+      - eq: [content.code, 703]
+#      - eq: [content.data.userInfo.userId, 600001]
+#      - eq: [content.success, false]
 
