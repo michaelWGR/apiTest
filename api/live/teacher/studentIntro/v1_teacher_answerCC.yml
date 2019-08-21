@@ -1,0 +1,19 @@
+name: answerCC
+base_url: ${yml(teacher_base_url)}
+variables:
+    deviceId: '123456'
+    expected_status_code: 200
+    userId: '600001'
+    Authorization: 'thisisatoken'
+    answer: 'read'
+request:
+    url: /v1/teacher/answerCC
+    method: POST
+    params:
+        deviceId: $deviceId
+        userId: $userId
+        answer: $answer
+    headers:
+        Authorization: $Authorization
+validate:
+    - eq: ["status_code", $expected_status_code]
