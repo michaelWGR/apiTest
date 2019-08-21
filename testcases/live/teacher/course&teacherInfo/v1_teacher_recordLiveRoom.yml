@@ -1,0 +1,123 @@
+- config:
+    name: recordLiveRoom
+
+
+- test:
+    name: get token by account 1 and deviceId 123456
+    testcase: testcases/live/teacher/course&teacherInfo/get_token.yml
+    output:
+      - token
+
+- test:
+    name: record successful
+    api: api/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom.yml
+    variables:
+      Authorization: $token
+      deviceId: 123456
+      classRoomScheduleId: 640914
+      liveRoom: "910-901"
+    validate:
+     - eq: [content.code, 200]
+     - eq: [content.msg, ok]
+     - eq: [content.success, true]
+
+
+- test:
+    name: record with wrong token
+    api: api/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom.yml
+    variables:
+      Authorization: abc
+      deviceId: 123456
+      classRoomScheduleId: 640914
+      liveRoom: "910-901"
+    validate:
+      - eq: [content.code, 703]
+
+- test:
+    name: record with null token
+    api: api/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom.yml
+    variables:
+      Authorization: null
+      deviceId: 123456
+      classRoomScheduleId: 640914
+      liveRoom: "910-901"
+    validate:
+      - eq: [content.code, 703]
+
+- test:
+    name: record with null userId
+    api: api/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom.yml
+    variables:
+      Authorization: $token
+      deviceId: 123456
+      classRoomScheduleId: null
+      liveRoom: "910-901"
+    validate:
+     - eq: [status_code, 500]
+
+- test:
+    name: record with wrong userId
+    api: api/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom.yml
+    variables:
+      Authorization: $token
+      deviceId: 123456
+      classRoomScheduleId: abc
+      liveRoom: "910-901"
+    validate:
+     - eq: [status_code, 500]
+
+- test:
+    name: record with null deviceId
+    api: api/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+      classRoomScheduleId: 640914
+      liveRoom: "910-901"
+    validate:
+     - eq: [content.code, 703]
+
+- test:
+    name: record with wrong deviceId
+    api: api/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom.yml
+    variables:
+      Authorization: $token
+      deviceId: 666666
+      classRoomScheduleId: 640914
+      liveRoom: "910-901"
+    validate:
+     - eq: [content.code, 703]
+
+- test:
+    name: record with null deviceId and null userId
+    api: api/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+      classRoomScheduleId: null
+      liveRoom: "910-901"
+    validate:
+     - eq: [content.code, 703]
+
+- test:
+    name: record with wrong deviceId and wrong userId
+    api: api/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom.yml
+    variables:
+      Authorization: $token
+      deviceId: 666666
+      classRoomScheduleId: abc
+      liveRoom: "910-901"
+    validate:
+     - eq: [content.code, 703]
+
+- test:
+    name: record with null record
+    api: api/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom.yml
+    variables:
+      Authorization: $token
+      deviceId: 123456
+      classRoomScheduleId: 640914
+      liveRoom: null
+    validate:
+     - eq: [status_code,500]
+     - eq: [content.code, 500]

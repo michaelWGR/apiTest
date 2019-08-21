@@ -1,5 +1,5 @@
 - config:
-    name: teacher_studentIntro
+    name: studentIntro
 
 
 - test:

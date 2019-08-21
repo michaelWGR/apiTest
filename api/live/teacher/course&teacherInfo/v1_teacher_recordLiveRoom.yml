@@ -1,0 +1,19 @@
+name: recordLiveRoom
+base_url: ${yml(teacher_base_url)}
+variables:
+    Authorization: 'thisisatoken'
+    deviceId: '123456'
+    classRoomScheduleId: 642001
+    liveRoom: 'mycomputer'
+    expected_status_code: 200
+request:
+    url: /v1/teacher/recordLiveRoom
+    method: POST
+    params:
+        deviceId: $deviceId
+        classRoomScheduleId: $classRoomScheduleId
+        liveRoom: $liveRoom
+    headers:
+        Authorization: $Authorization
+validate:
+    - eq: ["status_code", $expected_status_code]
