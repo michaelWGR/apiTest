@@ -3,7 +3,7 @@
 
 - test:
     name: get_token
-    testcase: testcases/call/student_get_token.yml
+    testcase: testcases/call/get_token.yml
     output:
       - token
 
@@ -26,7 +26,7 @@
       - type_match: [content.data.takeCourseNum, int]
       - type_match: [content.data.openCourseNum, int]
       - type_match: [content.data.recordVOS, list]
-      - len_eq: [content.data.recordVOS.0, 9]
+      - len_eq: [content.data.recordVOS.0, 10]
 
 - test:
     name: get detail with empty deviceId
@@ -137,7 +137,7 @@
       - type_match: [content.data.takeCourseNum, int]
       - type_match: [content.data.openCourseNum, int]
       - type_match: [content.data.recordVOS, list]
-      - len_eq: [content.data.recordVOS.0, 9]
+      - len_eq: [content.data.recordVOS.0, 10]
 
 - test:
     name: get detail with wrong studentGroup
@@ -158,7 +158,7 @@
       - type_match: [content.data.takeCourseNum, int]
       - type_match: [content.data.openCourseNum, int]
       - type_match: [content.data.recordVOS, list]
-      - len_eq: [content.data.recordVOS.0, 9]
+      - len_eq: [content.data.recordVOS.0, 10]
 
 - test:
     name: get detail with empty studentId

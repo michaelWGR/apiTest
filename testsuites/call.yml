@@ -6,7 +6,7 @@ testcases:
     testcase: testcases/call/login.yml
 
   get token:
-    testcase: testcases/call/student_get_token.yml
+    testcase: testcases/call/get_token.yml
 
   get all of students' info:
     testcase: testcases/call/callRecord.yml

@@ -10,7 +10,7 @@
 
 - test:
     name: get token
-    testcase: testcases/call/student_get_token.yml
+    testcase: testcases/call/get_token.yml
     output:
       - token
 

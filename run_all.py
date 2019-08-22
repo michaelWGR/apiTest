@@ -48,7 +48,8 @@ if __name__ == '__main__':
     # main()
 
     # logger.setup_logger('debug')
-    path = 'testcases/live/teacher/studentIntro/v1_teacher_studentIntro.yml'
+    path = 'testsuites/live/'
+    # path = 'testcases/'
     report_path = run(path, False)
 
     # del_html()

@@ -41,8 +41,8 @@
       password: ${yml(call_password)}
       deviceId: 123456
     validate:
-      - eq: [content.code, 601]
-      - eq: [content.msg, 该账号不存在]
+      - eq: [content.code, 500]
+      - eq: [content.msg, system error]
       - eq: [content.data,null]
       - eq: [content.success, false]
 
@@ -54,8 +54,8 @@
       password: ${yml(call_password)}
       deviceId: 123456
     validate:
-      - eq: [content.code, 420]
-      - eq: [content.msg, data err]
+      - eq: [content.code, 500]
+      - eq: [content.msg, system error]
       - eq: [content.data, null]
       - eq: [content.success, false]
 
@@ -67,8 +67,8 @@
       password: null
       deviceId: 123456
     validate:
-      - eq: [content.code, 420]
-      - eq: [content.msg, data err]
+      - eq: [content.code, 500]
+      - eq: [content.msg, system error]
       - eq: [content.data, null]
       - eq: [content.success, false]
 
