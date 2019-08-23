@@ -28,6 +28,9 @@ student:
     default_password: '000000'
     default_auth_code: '000000'
 
+    account_qy: '14400000001'
+    password_qy: '000000'
+
   # popWindow 相关参数
   popWindow:
     account1: '18888600015'

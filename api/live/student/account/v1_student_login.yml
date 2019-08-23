@@ -15,9 +15,5 @@ request:
     account: $account
     password: $password_md5
     deviceId: $deviceId
-
-extract:
-
-
 validate:
   - eq: ["status_code", $expected_status_code]

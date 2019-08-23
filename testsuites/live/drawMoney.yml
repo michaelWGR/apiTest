@@ -1,0 +1,6 @@
+config:
+  name: 画币商城用例集
+
+testcases:
+  获取画币商城规则:
+    testcase: testcases/live/student/drawMoney/v1_student_dm_rules.yml

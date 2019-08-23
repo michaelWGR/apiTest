@@ -2,23 +2,166 @@
     name: 登录后获取画币商城赚画币规则和画币规则
     id: get_draw_money_rules
     variables:
-      type1:
-
+      account: ${yml(student.account.account_qy)}
+      password: ${yml(student.account.password_qy)}
+      deviceId: ${gen_random_string(29)}
 
 - test:
-    name: get_login_token
-    testcat: testcases/student/get_student_login_token.yml
+    name: 登录
+    testcase: testcases/live/student/account/student_get_token.yml
     output:
-      - student_token
+      - token
 
 - test:
-    name: 正确获取赚画币规则
-    api: api/student/drawMoney/v1_student_dm_rules.yml
+    name: 正确获取赚画币规则1
+    api: api/live/student/drawMoney/v1_student_dm_rules.yml
     variables:
-      Authorization: $student_token
       type: 1
-
+      Authorization: $token
+      deviceId: $deviceId
+      rules_length: ${get_draw_money_rules_length($type)}
     validate:
       - eq: [content.code, 200]
       - eq: [content.msg, ok]
-      -
+      - type_match: [content.data, list]
+      - len_eq: [content.data, $rules_length]
+
+- test:
+    name: 正确获取赚画币规则2
+    api: api/live/student/drawMoney/v1_student_dm_rules.yml
+    variables:
+      type: 2
+      Authorization: $token
+      deviceId: $deviceId
+      rules_length: ${get_draw_money_rules_length($type)}
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - type_match: [content.data, list]
+      - len_eq: [content.data, $rules_length]
+
+- test:
+    name: 不带token获取规则
+    api: api/live/student/drawMoney/v1_student_dm_rules.yml
+    variables:
+      type: 1
+      deviceId: $deviceId
+      rules_length: ${get_draw_money_rules_length($type)}
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, "accessToken error"]
+
+- test:
+    name: 错误的token
+    api: api/live/student/drawMoney/v1_student_dm_rules.yml
+    variables:
+      type: 1
+      Authorization: "123456"
+      deviceId: $deviceId
+      rules_length: ${get_draw_money_rules_length($type)}
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, "accessToken error"]
+
+- test:
+    name: 错误的deviceId
+    api: api/live/student/drawMoney/v1_student_dm_rules.yml
+    variables:
+      type: 2
+      Authorization: $token
+      deviceId: ${gen_random_string(29)}
+      rules_length: ${get_draw_money_rules_length($type)}
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - type_match: [content.data, list]
+      - len_eq: [content.data, $rules_length]
+
+- test:
+    name: 不带type
+    api: api/live/student/drawMoney/v1_student_dm_rules.yml
+    variables:
+      Authorization: $token
+      deviceId: $deviceId
+      type: null
+      rules_length: ${get_draw_money_rules_length($type)}
+    validate:
+      - eq: [status_code, 500]
+      - eq: [content.code, 500]
+      - eq: [content.msg, "system error"]
+
+- test:
+    name: 错误的type
+    api: api/live/student/drawMoney/v1_student_dm_rules.yml
+    variables:
+      type: -1
+      Authorization: $token
+      deviceId: $deviceId
+      rules_length: ${get_draw_money_rules_length($type)}
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - type_match: [content.data, list]
+      - len_eq: [content.data, $rules_length]
+
+- test:
+    name: 超出类型范围的type
+    api: api/live/student/drawMoney/v1_student_dm_rules.yml
+    variables:
+      type: 2147483648
+      Authorization: $token
+      deviceId: $deviceId
+      rules_length: ${get_draw_money_rules_length($type)}
+    validate:
+      - eq: [status_code, 500]
+      - eq: [content.code, 500]
+      - eq: [content.msg, "system error"]
+
+- test:
+    name: 类型错误的type
+    api: api/live/student/drawMoney/v1_student_dm_rules.yml
+    variables:
+      type: "test"
+      Authorization: $token
+      deviceId: $deviceId
+      rules_length: ${get_draw_money_rules_length($type)}
+    validate:
+      - eq: [status_code, 500]
+      - eq: [content.code, 500]
+      - eq: [content.msg, "system error"]
+
+- test:
+    name: 错误的方法
+    api: api/live/student/drawMoney/v1_student_dm_rules.yml
+    request:
+      method: POST
+    variables:
+      type: 1
+      Authorization: $token
+      deviceId: $deviceId
+      rules_length: ${get_draw_money_rules_length($type)}
+    validate:
+      - eq: [status_code, 405]
+      - eq: [content.code, 405]
+      - eq: [content.msg, "method not allowed"]
+
+- test:
+    name: 错误的方法
+    api: api/live/student/drawMoney/v1_student_dm_rules.yml
+    request:
+      method: POST
+      params:
+       rules: "2"
+    variables:
+      type: 1
+      Authorization: $token
+      deviceId: $deviceId
+      rules_length: ${get_draw_money_rules_length($type)}
+    validate:
+      - eq: [status_code, 405]
+      - eq: [content.code, 405]
+      - eq: [content.msg, "method not allowed"]
+
+
+
+
