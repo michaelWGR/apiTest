@@ -1,0 +1,23 @@
+- config:
+    name: 学生退出登录
+    variables:
+      token: ${yml(student.account.token)}
+      deviceId: ${yml(student.default_device_id)}
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    output:
+      - token
+
+- test:
+    name: 学生正常退出登录
+    api: api/live/student/account/v1_student_logout.yml
+    variables:
+      token: $token
+      deviceId: $deviceId
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]

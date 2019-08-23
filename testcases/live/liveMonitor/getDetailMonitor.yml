@@ -1,0 +1,22 @@
+- config:
+    name: get detail monitor
+    variables:
+      method: GET
+      expected_status_code: 200
+      userId: 0
+      deviceId: 0
+      clientTime: 0
+      roomUserScheduleId: 0
+
+- test:
+    name: upload success
+    api: api/live/liveMonitor/getDetailMonitor.yml
+    variables:
+      method: $method
+      userId: $userId
+      deviceId: $deviceId
+      clientTime: $clientTime
+      roomUserScheduleId: $roomUserScheduleId
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]

@@ -1,0 +1,18 @@
+- config:
+    name: get token
+
+- test:
+    name: login successfully
+    api: api/live/teacher/account/v1_teacher_login.yml
+    variables:
+        account: 1
+        password: 123456
+        deviceId: 123456
+    extract:
+        - token: content.data.accessToken
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data, dict]
+        - contains: [content.data, nickName]

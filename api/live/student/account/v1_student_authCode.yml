@@ -1,0 +1,15 @@
+name: student auth code
+base_url: ${yml(student.base_url)}
+
+variables:
+  account: ${yml(student.account.account1)}
+  expected_status_code: 200
+
+request:
+  url: /v1/student/authCode
+  method: GET
+  params:
+    phoneNum: $account
+
+validate:
+  - eq: ["status_code", $expected_status_code]

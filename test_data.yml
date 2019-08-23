@@ -7,3 +7,34 @@ call_password: '123456'
 teacher_name: callapi
 user_id: 306955
 device_id: 123
+
+
+# 直播教师测试账号
+teacher_base_url: http://apptest.61draw.com
+teacher_account1: ceshi200075
+teacher_password1: '123456'
+teacher_user_id1: 200075
+teacher_device_id: '123456'
+
+
+# 直播学生端接口参数
+student:
+  base_url: http://apptest.61draw.com
+  default_device_id: '123456'
+
+  # 账号相关参数
+  account:
+    account1: '18888600018'
+    default_password: '000000'
+    default_auth_code: '000000'
+
+  # popWindow 相关参数
+  popWindow:
+    account1: '18888600015'
+    default_password: '000000'
+
+
+# 直播监控相关参数
+liveMonitor:
+  # base_url: http://10.60.7.72:8898
+  base_url: http://monitor.61info.cn

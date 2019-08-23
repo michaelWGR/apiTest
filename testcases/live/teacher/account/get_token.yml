@@ -1,0 +1,28 @@
+- config:
+    name: get token
+    variables:
+        true_account: ${yml(teacher_account1)}
+        true_password: ${yml(teacher_password1)}
+        true_deviceId: ${yml(teacher_device_id)}
+        true_user_id: ${yml(teacher_user_id1)}
+
+- test:
+    name: login successfully
+    api: api/live/teacher/account/v1_teacher_login.yml
+    variables:
+        account: $true_account
+        password: $true_password
+        deviceId: $true_deviceId
+    extract:
+        - token: content.data.accessToken
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data, dict]
+        - eq: [content.data.userId, $true_user_id]
+        - len_eq: [content.data.accessToken, 220]
+        - type_match: [content.data.accessTokenExpire, int]
+        - len_eq: [content.data.refreshToken, 40]
+        - type_match: [content.data.refreshTokenExpire, int]
+        - contains: [content.data, nickName]

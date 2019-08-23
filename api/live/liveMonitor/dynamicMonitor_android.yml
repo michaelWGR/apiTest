@@ -1,0 +1,43 @@
+name: Android端动态数据收集
+base_url: ${yml(liveMonitor.base_url)}
+
+variables:
+  method: POST
+  ContentType: "application/json"
+  expected_status_code: 200
+  list:
+    - warnCode: 600018
+      userId: "111"
+      userName: 1564104352427
+      deviceId: "222"
+      roomCode: 990588
+      roomUserScheduleId: 26523
+      uid: 123
+      classStartTimestamp: 1563968381085
+      classEndTimestamp: 1563968381085
+      timestamp: 1563968381085
+      lastmileDelay: 1
+      txVideoKBitRate: 1
+      rxVideoKBitRate: 1
+      txAudioKBitRate: 1
+      rxAudioKBitRate: 1
+      cpuTotalUsage: 1
+      cpuAppUsage: 1
+      sentBitrate: 1
+      sentFrameRate: 1
+      receicedBitrate: 1
+      receivedFrameRate: 1
+      txQuality: 1
+      rxQuality: 1
+      memoryUsage: 1
+
+request:
+  url: /dynamicMonitor/android
+  method: $method
+  headers:
+    Content-Type: $ContentType
+  json:
+    $list
+
+validate:
+  - eq: ["status_code", $expected_status_code]

@@ -1,6 +1,6 @@
 # 数据库
 DATABASE:
-  host: 10.60.7.251
+  host: 10.60.7.62
   user: root
   password: dbtest
 #  port: 8080

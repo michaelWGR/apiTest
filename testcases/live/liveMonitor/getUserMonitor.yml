@@ -1,0 +1,27 @@
+- config:
+    name: get user monitor
+    variables:
+      method: GET
+      expected_status_code: 200
+      userId: 0
+      beginTime: 1563971278000
+      endTime: 1563971298000
+      warnCode: 1
+      page: 0
+      pageNum: 0
+
+- test:
+    name: upload success
+    api: api/live/liveMonitor/getUserMonitor.yml
+    variables:
+      method: $method
+      expected_status_code: $expected_status_code
+      userId: $userId
+      beginTime: $beginTime
+      endTime: $endTime
+      warnCode: $warnCode
+      page: $page
+      pageNum: $pageNum
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]

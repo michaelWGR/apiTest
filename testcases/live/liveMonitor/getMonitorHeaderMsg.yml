@@ -1,0 +1,21 @@
+- config:
+    name: get monitor header msg
+    variables:
+      method: GET
+      expected_status_code: 200
+      userId: 0
+      beginTime: 1563971278000
+      endTime: 1563971298000
+
+- test:
+    name: upload success
+    api: api/live/liveMonitor/getMonitorHeaderMsg.yml
+    variables:
+      method: $method
+      expected_status_code: $expected_status_code
+      userId: $userId
+      beginTime: $beginTime
+      endTime: $endTime
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]

@@ -1,0 +1,17 @@
+name: studentIntro
+base_url: ${yml(teacher_base_url)}
+variables:
+    deviceId: '123456'
+    expected_status_code: 200
+    userId: '600001'
+    Authorization: 'thisisatoken'
+request:
+    url: /v1/teacher/studentIntro
+    method: GET
+    params:
+        deviceId: $deviceId
+        userId: $userId
+    headers:
+        Authorization: $Authorization
+validate:
+    - eq: ["status_code", $expected_status_code]

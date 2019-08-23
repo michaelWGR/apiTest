@@ -1,0 +1,26 @@
+name: 分页获取用户异常信息接口
+base_url: ${yml(liveMonitor.base_url)}
+
+variables:
+  method: GET
+  expected_status_code: 200
+  userId: 0
+  beginTime: 1563971278000
+  endTime: 1563971298000
+  warnCode: 1
+  page: 0
+  pageNum: 0
+
+request:
+  url: /warn/getUserMonitor
+  method: $method
+  params:
+    userId: $userId
+    beginTime: $beginTime
+    endTime: $endTime
+    warnCode: $warnCode
+    page: $page
+    pageNum: $pageNum
+
+validate:
+  - eq: ["status_code", $expected_status_code]

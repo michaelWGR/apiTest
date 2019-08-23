@@ -1,0 +1,124 @@
+- config:
+    name: answerCC
+
+
+- test:
+    name: get token by account 1 and deviceId 123456
+    testcase: testcases/live/teacher/studentIntro/get_token.yml
+    output:
+      - token
+
+- test:
+    name: answer successful
+    api: api/live/teacher/studentIntro/v1_teacher_answerCC.yml
+    variables:
+      Authorization: $token
+      deviceId: 123456
+      userId: 600001
+      answer: read
+    validate:
+     - eq: [content.code, 200]
+     - eq: [content.msg, ok]
+     - eq: [content.success, true]
+
+
+- test:
+    name: answer with wrong token
+    api: api/live/teacher/studentIntro/v1_teacher_answerCC.yml
+    variables:
+      Authorization: abc
+      deviceId: 123456
+      userId: 600001
+      answer: read
+    validate:
+      - eq: [content.code, 703]
+
+- test:
+    name: answer with null token
+    api: api/live/teacher/studentIntro/v1_teacher_answerCC.yml
+    variables:
+      Authorization: null
+      deviceId: 123456
+      userId: 600001
+      answer: read
+    validate:
+      - eq: [content.code, 703]
+
+- test:
+    name: answer with null userId
+    api: api/live/teacher/studentIntro/v1_teacher_answerCC.yml
+    variables:
+      Authorization: $token
+      deviceId: 123456
+      userId: null
+      answer: read
+    validate:
+     - eq: [status_code, 500]
+
+- test:
+    name: answer with wrong userId
+    api: api/live/teacher/studentIntro/v1_teacher_answerCC.yml
+    variables:
+      Authorization: $token
+      deviceId: 123456
+      userId: abc
+      answer: read
+    validate:
+     - eq: [status_code, 500]
+
+- test:
+    name: answer with null deviceId
+    api: api/live/teacher/studentIntro/v1_teacher_answerCC.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+      userId: 600001
+      answer: read
+    validate:
+     - eq: [content.code, 703]
+
+- test:
+    name: answer with wrong deviceId
+    api: api/live/teacher/studentIntro/v1_teacher_answerCC.yml
+    variables:
+      Authorization: $token
+      deviceId: 666666
+      userId: 600001
+      answer: read
+    validate:
+     - eq: [content.code, 703]
+
+- test:
+    name: answer with null deviceId and null userId
+    api: api/live/teacher/studentIntro/v1_teacher_answerCC.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+      userId: null
+      answer: read
+    validate:
+     - eq: [content.code, 703]
+
+- test:
+    name: answer with wrong deviceId and wrong userId
+    api: api/live/teacher/studentIntro/v1_teacher_answerCC.yml
+    variables:
+      Authorization: $token
+      deviceId: 666666
+      userId: abc
+      answer: read
+    validate:
+     - eq: [content.code, 703]
+
+- test:
+    name: answer with null answer
+    api: api/live/teacher/studentIntro/v1_teacher_answerCC.yml
+    variables:
+      Authorization: $token
+      deviceId: 123456
+      userId: 600001
+      answer: null
+    validate:
+     - eq: [content.code, 200]
+     - eq: [content.msg, ok]
+     - eq: [content.success, true]
