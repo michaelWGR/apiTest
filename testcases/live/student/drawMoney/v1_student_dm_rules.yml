@@ -1,0 +1,24 @@
+- config:
+    name: 登录后获取画币商城赚画币规则和画币规则
+    id: get_draw_money_rules
+    variables:
+      type1:
+
+
+- test:
+    name: get_login_token
+    testcat: testcases/student/get_student_login_token.yml
+    output:
+      - student_token
+
+- test:
+    name: 正确获取赚画币规则
+    api: api/student/drawMoney/v1_student_dm_rules.yml
+    variables:
+      Authorization: $student_token
+      type: 1
+
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      -

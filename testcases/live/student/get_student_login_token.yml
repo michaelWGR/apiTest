@@ -1,0 +1,21 @@
+- config:
+    name: 获取学生登录token
+    variables:
+      account: ${ENV(student_account)}
+      password: ${encrypt_md5(ENV(student_password))}
+      deviceId: ${gen_random_string(29)}
+
+- test:
+    name: 学生正常登录
+    api: api/live/student/account/v1_student_login.yml
+    variables:
+      account: $account
+      password: $password
+      devicedId: $deviceId
+    extract:
+      student_token: content.accessToken
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]

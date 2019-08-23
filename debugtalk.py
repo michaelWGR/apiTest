@@ -1,5 +1,7 @@
 import hashlib
 import os
+import random
+import string
 
 import yaml
 
@@ -37,6 +39,27 @@ def encrypt_md5(data):
     else:
         return data
 
+#########################################################
+#学生APP调用方法
+###########################################################
+def gen_random_string(len=1):
+    ran_str = "API-" + random.sample(string.ascii_letters + string.digits, len)
+    return ran_str
+
+def get_draw_money_rules(type):
+    db = MyDB()
+    db.connectDB('i61-draw-course')
+    rulelist = []
+    sql = '''select * from draw_money_rule where type = {}; '''.format(type)
+    if type == 2 or type == 1:
+        cursor = db.executeSQL(sql)
+        rule = db.get_all(cursor)
+        for i in rule:
+            rulelist.append(i[2])
+        return rulelist
+    else:
+        return rulelist
+    db.closeDB()
 
 ##################################################################
 # 外呼系统调用方法
@@ -101,7 +124,7 @@ def get_fileName_list():
 if __name__ == '__main__':
     s = '123456'
     # print(len(encrypt_md5(s)))
-    print(encrypt_md5(s))
+    print(get_draw_money_rules(2))
     # print('jskdfjs'.encode('utf-8'))
     # print(yml('user_id'))
     # del_user_msg(306955)
