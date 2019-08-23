@@ -131,32 +131,29 @@
       - eq: [content.msg, "system error"]
 
 - test:
-    name: 错误的方法
+    name: 不存在的参数
     api: api/live/student/drawMoney/v1_student_dm_rules.yml
-    request:
-      method: POST
     variables:
       type: 1
       Authorization: $token
       deviceId: $deviceId
       rules_length: ${get_draw_money_rules_length($type)}
+      more: "select * from `i61-hll-manager`.draw_money_rule;"
     validate:
-      - eq: [status_code, 405]
-      - eq: [content.code, 405]
-      - eq: [content.msg, "method not allowed"]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - type_match: [content.data, list]
+      - len_eq: [content.data, $rules_length]
 
 - test:
     name: 错误的方法
     api: api/live/student/drawMoney/v1_student_dm_rules.yml
-    request:
-      method: POST
-      params:
-       rules: "2"
     variables:
       type: 1
       Authorization: $token
       deviceId: $deviceId
       rules_length: ${get_draw_money_rules_length($type)}
+      method: POST
     validate:
       - eq: [status_code, 405]
       - eq: [content.code, 405]

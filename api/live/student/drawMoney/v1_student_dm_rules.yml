@@ -6,12 +6,15 @@ variables:
   Authorization: null
   expected_status_code: 200
   expected_content_type: "application/json;charset=UTF-8"
+  method: GET
+  more: null
 request:
   url: /v1/student/dm/rules
-  method: GET
+  method: $method
   params:
     type: $type
     deviceId: $deviceId
+    more: $more
   headers:
     Authorization: $Authorization
 validate:
