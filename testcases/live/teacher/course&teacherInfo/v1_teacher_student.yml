@@ -1,6 +1,5 @@
 - config:
-  name: Get attendence students
-
+    name: Get attendence students
 
 - test:
     name: get token
