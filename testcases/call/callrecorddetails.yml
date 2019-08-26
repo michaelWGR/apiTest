@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 - config:
     name: get the detail info of user
 
@@ -209,4 +210,217 @@
       - eq: [content.msg, Param Error]
       - eq: [content.data, Required String parameter 'studentGroup' is not present]
       - eq: [content.success, false]
+=======
+- config:
+    name: get the detail info of user
+
+- test:
+    name: get_token
+    testcase: testcases/call/get_token.yml
+    output:
+      - token
+
+- test:
+    name: get user detail successfully
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: 123
+      studentId: 306951
+      studentName: 小橘
+      studentGroup: 外呼系统1
+      Authorization: $token
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - type_match: [content.data, dict]
+      - eq: [content.data.studentName, $studentName]
+      - eq: [content.data.studentGroup, $studentGroup]
+      - type_match: [content.data.courseNum, int]
+      - type_match: [content.data.takeCourseNum, int]
+      - type_match: [content.data.openCourseNum, int]
+      - type_match: [content.data.recordVOS, list]
+      - len_eq: [content.data.recordVOS.0, 10]
+
+- test:
+    name: get detail with empty deviceId
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: null
+      studentId: 306951
+      studentName: 小橘
+      studentGroup: 外呼系统1
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: get detail with wrong deviceId
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: 1234
+      studentId: 306951
+      studentName: 小橘
+      studentGroup: 外呼系统1
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: get detail with empty token
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: 123
+      studentId: 306951
+      studentName: 小橘
+      studentGroup: 外呼系统1
+      Authorization: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: get detail with wrong token
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: 123
+      studentId: 306951
+      studentName: 小橘
+      studentGroup: 外呼系统1
+      Authorization: "123456789"
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: get detail with wrong studentId
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: 123
+      studentId: 306951123
+      studentName: 小橘
+      studentGroup: 外呼系统1
+      Authorization: $token
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - type_match: [content.data, dict]
+      - eq: [content.data.studentName, $studentName]
+      - eq: [content.data.studentGroup, $studentGroup]
+      - eq: [content.data.courseNum, 0]
+      - eq: [content.data.takeCourseNum, 0]
+      - eq: [content.data.openCourseNum, 0]
+      - len_eq: [content.data.recordVOS, 0]
+
+- test:
+    name: get detail with wrong type of studentName
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: 123
+      studentId: abc
+      studentName: 小橘
+      studentGroup: 外呼系统1
+      Authorization: $token
+    validate:
+      - eq: [status_code, 500]
+      - eq: [content.code, 500]
+      - eq: [content.msg, System Error]
+      - type_match: [content.data, str]
+      - eq: [content.success, false]
+      - eq: [content.error, true]
+
+- test:
+    name: get detail with wrong studentName
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: 123
+      studentId: 306951
+      studentName: 小橘123
+      studentGroup: 外呼系统1
+      Authorization: $token
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - type_match: [content.data, dict]
+      - eq: [content.data.studentName, $studentName]
+      - eq: [content.data.studentGroup, $studentGroup]
+      - type_match: [content.data.courseNum, int]
+      - type_match: [content.data.takeCourseNum, int]
+      - type_match: [content.data.openCourseNum, int]
+      - type_match: [content.data.recordVOS, list]
+      - len_eq: [content.data.recordVOS.0, 10]
+
+- test:
+    name: get detail with wrong studentGroup
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: 123
+      studentId: 306951
+      studentName: 小橘
+      studentGroup: 外呼系统123456
+      Authorization: $token
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - type_match: [content.data, dict]
+      - eq: [content.data.studentName, $studentName]
+      - eq: [content.data.studentGroup, $studentGroup]
+      - type_match: [content.data.courseNum, int]
+      - type_match: [content.data.takeCourseNum, int]
+      - type_match: [content.data.openCourseNum, int]
+      - type_match: [content.data.recordVOS, list]
+      - len_eq: [content.data.recordVOS.0, 10]
+
+- test:
+    name: get detail with empty studentId
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: 123
+      studentId: null
+      studentName: 小橘
+      studentGroup: 外呼系统123456
+      Authorization: $token
+    validate:
+      - eq: [status_code, 500]
+      - eq: [content.code, 400]
+      - eq: [content.msg, Param Error]
+      - eq: [content.data, Required int parameter 'studentId' is not present]
+      - eq: [content.success, false]
+      - eq: [content.error, true]
+
+- test:
+    name: get detail with empty studentName
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: 123
+      studentId: 123
+      studentName: null
+      studentGroup: 外呼系统123456
+      Authorization: $token
+    validate:
+      - eq: [status_code, 500]
+      - eq: [content.code, 400]
+      - eq: [content.msg, Param Error]
+      - eq: [content.data, Required String parameter 'studentName' is not present]
+      - eq: [content.success, false]
+      - eq: [content.error, true]
+
+- test:
+    name: get detail with empty studentGroup
+    api: api/call/callrecorddetails.yml
+    variables:
+      deviceId: 123
+      studentId: 123
+      studentName: 小橘
+      studentGroup: null
+      Authorization: $token
+    validate:
+      - eq: [status_code, 500]
+      - eq: [content.code, 400]
+      - eq: [content.msg, Param Error]
+      - eq: [content.data, Required String parameter 'studentGroup' is not present]
+      - eq: [content.success, false]
+>>>>>>> 224e6b1e78d4e9b594d4a458e8043e351700be0f
       - eq: [content.error, true]

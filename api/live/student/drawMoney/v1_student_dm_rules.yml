@@ -1,0 +1,22 @@
+name: 获取画币规则
+base_url: ${yml(student.base_url)}
+variables:
+  type: null
+  deviceId: null
+  Authorization: null
+  expected_status_code: 200
+  expected_content_type: "application/json;charset=UTF-8"
+  method: GET
+  more: null
+request:
+  url: /v1/student/dm/rules
+  method: $method
+  params:
+    type: $type
+    deviceId: $deviceId
+    more: $more
+  headers:
+    Authorization: $Authorization
+validate:
+  - eq: ["status_code", $expected_status_code]
+  - eq: [headers.Content-Type, $expected_content_type]

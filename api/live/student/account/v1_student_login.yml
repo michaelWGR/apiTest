@@ -15,9 +15,12 @@ request:
     account: $account
     password: $password_md5
     deviceId: $deviceId
+<<<<<<< HEAD
 
 extract:
 
 
+=======
+>>>>>>> 224e6b1e78d4e9b594d4a458e8043e351700be0f
 validate:
   - eq: ["status_code", $expected_status_code]

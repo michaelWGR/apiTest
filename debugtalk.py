@@ -1,8 +1,8 @@
 import hashlib
 import os
-
+import random
+import string
 import yaml
-
 from common.configDB import MyDB
 
 parent_dir = os.path.dirname(os.path.realpath(__file__))
@@ -37,6 +37,30 @@ def encrypt_md5(data):
     else:
         return data
 
+#########################################################
+#学生APP调用方法
+###########################################################
+def gen_random_string(len=1):
+    ran_str = random.sample(string.ascii_letters + string.digits, len)
+    str = "API-"
+    for i in ran_str:
+        str += i
+    return str
+
+def get_draw_money_rules_length(type):
+    db = MyDB()
+    db.connectDB('i61-draw-course')
+    rulelist = []
+    sql = '''select * from draw_money_rule where type = {}; '''.format(type)
+    if type == 2 or type == 1:
+        cursor = db.executeSQL(sql)
+        rule = db.get_all(cursor)
+        for i in rule:
+            rulelist.append(i[2])
+        return len(rulelist)
+    else:
+        return len(rulelist)
+    db.closeDB()
 
 ##################################################################
 # 外呼系统调用方法
@@ -101,7 +125,7 @@ def get_fileName_list():
 if __name__ == '__main__':
     s = '123456'
     # print(len(encrypt_md5(s)))
-    print(encrypt_md5(s))
+    print(gen_random_string(10))
     # print('jskdfjs'.encode('utf-8'))
     # print(yml('user_id'))
     # del_user_msg(306955)
@@ -111,4 +135,3 @@ if __name__ == '__main__':
     # print(i)
     # print(len('726d2161d72e38e7cfd3972e599c46d1'))
     # print(chr(1))
-

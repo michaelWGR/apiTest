@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 - config:
     name: Login to the app of teacher call
     variables:
@@ -85,3 +86,92 @@
       - eq: ["content.success", true]
       - len_eq: ["content.data", $len_data]
       - len_eq: ["content.data.accessToken", 188]
+=======
+- config:
+    name: Login to the app of teacher call
+    variables:
+      len_data: 6
+      len_token: 220
+
+- test:
+    name: login successfully
+    api: api/call/login.yml
+    variables:
+      password: ${yml(call_password)}
+      deviceId: 123456
+      account: ${yml(call_account)}
+    extract:
+      - token: content.data.accessToken
+    validate:
+      - eq: ["content.code", 200]
+      - eq: ["content.msg", "ok"]
+      - eq: ["content.success", true]
+      - len_eq: ["content.data", $len_data]
+      - len_eq: ["content.data.accessToken", $len_token]
+
+- test:
+    name: login failed with wrong password
+    api: api/call/login.yml
+    variables:
+      account: ${yml(call_account)}
+      password: cao123456
+      deviceId: 123456
+    validate:
+      - eq: [content.code, 603]
+      - eq: [content.msg, 密码错误]
+      - eq: [content.data, null]
+      - eq: [content.success, false]
+
+- test:
+    name: login failed with wrong account
+    api: api/call/login.yml
+    variables:
+      account: cao789456
+      password: ${yml(call_password)}
+      deviceId: 123456
+    validate:
+      - eq: [content.code, 500]
+      - eq: [content.msg, system error]
+      - eq: [content.data,null]
+      - eq: [content.success, false]
+
+- test:
+    name: login failed with empty account
+    api: api/call/login.yml
+    variables:
+      account: null
+      password: ${yml(call_password)}
+      deviceId: 123456
+    validate:
+      - eq: [content.code, 500]
+      - eq: [content.msg, system error]
+      - eq: [content.data, null]
+      - eq: [content.success, false]
+
+- test:
+    name: login failed with empty password
+    api: api/call/login.yml
+    variables:
+      account: ${yml(call_account)}
+      password: null
+      deviceId: 123456
+    validate:
+      - eq: [content.code, 500]
+      - eq: [content.msg, system error]
+      - eq: [content.data, null]
+      - eq: [content.success, false]
+
+- test:
+    name: login with empty deviceId
+    api: api/call/login.yml
+    variables:
+      password: ${yml(call_password)}
+      account: ${yml(call_account)}
+      deviceId: null
+    validate:
+      - eq: ["content.code", 200]
+      - eq: ["content.msg", "ok"]
+      - eq: ["content.success", true]
+      - len_eq: ["content.data", $len_data]
+      - len_eq: ["content.data.accessToken", 188]
+>>>>>>> 224e6b1e78d4e9b594d4a458e8043e351700be0f

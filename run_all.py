@@ -39,7 +39,7 @@ def main():
     log_path = os.path.join(report_dir, 'api.log')
     logger.setup_logger('info', log_path)
 
-    path = 'testsuites/'
+    path = 'testsuites\\'
     report_path = run(path)
     send_email(file_path=report_path)
 

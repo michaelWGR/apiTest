@@ -5,6 +5,7 @@
 test.py
 reports
 locustfile.py
+<<<<<<< HEAD
 Pipfile
 venv
 .env
