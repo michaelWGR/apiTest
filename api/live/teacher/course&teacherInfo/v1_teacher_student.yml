@@ -1,0 +1,17 @@
+name: get_student_list
+base_url: ${yml(teacher_base_url)}
+variables:
+  expected_status_code: 200
+  deviceId: 123456
+  classRoomScheduleId: 656430
+  Authorization: null
+request:
+  url: /v1/teacher/student
+  method: GET
+  params:
+    deviceId: $deviceId
+    classRoomScheduleId: $classRoomScheduleId
+  headers:
+    Authorization: $Authorization
+validate:
+  - eq: ["status_code", $expected_status_code]
