@@ -39,7 +39,7 @@ def main():
     log_path = os.path.join(report_dir, 'api.log')
     logger.setup_logger('info', log_path)
 
-    path = 'testsuites\\'
+    path = 'testsuites/'
     report_path = run(path)
     send_email(file_path=report_path)
 
@@ -48,10 +48,10 @@ if __name__ == '__main__':
     # main()
 
     # logger.setup_logger('debug')
-    path = 'testsuites/live/drawMoney.yml'
+    path = 'testcases/live/teacher/account/get_token.yml'
     #path = 'testcases/live/student/drawMoney/v1_student_dm_rules.yml'
     # path = 'testcases/'
-    report_path = run(path, True)
+    report_path = run(path, False)
 
     # del_html()
 

@@ -59,10 +59,13 @@ def get_draw_money_rules_length(type):
         rule = db.get_all(cursor)
         for i in rule:
             rulelist.append(i[2])
+
+        db.closeDB()
         return len(rulelist)
     else:
+        db.closeDB()
         return len(rulelist)
-    db.closeDB()
+
 
 ##################################################################
 # 外呼系统调用方法

@@ -1,7 +1,6 @@
 - config:
     name: recordLiveRoom
 
-
 - test:
     name: get token by account 1 and deviceId 123456
     testcase: testcases/live/teacher/course&teacherInfo/get_token.yml

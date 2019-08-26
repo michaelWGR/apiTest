@@ -1,7 +1,7 @@
 name: popWindow
 base_url: ${yml(student.base_url)}
 variables:
-    deviceId: ${yml(student.default_evice_id)}
+    deviceId: ${yml(student.default_device_id)}
     Authorization: null
     expected_status_code: 200
 request:
