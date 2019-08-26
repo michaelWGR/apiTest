@@ -48,6 +48,7 @@ if __name__ == '__main__':
     # main()
 
     # logger.setup_logger('debug')
+
     path = 'testcases/live/teacher/account/get_token.yml'
     #path = 'testcases/live/student/drawMoney/v1_student_dm_rules.yml'
     # path = 'testcases/'
