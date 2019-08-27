@@ -1,0 +1,34 @@
+- config:
+    name: student popWindow courseUpdate close in live
+    variables:
+      true_deviceId: "123456"
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.popWindow.account1)}
+    output:
+      - token
+
+- test:
+    name: popWindow courseUpdate close successfully
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_close.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: popWindow courseUpdate close failure with deviceid is null
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_close.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']

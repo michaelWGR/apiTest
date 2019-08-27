@@ -1,19 +1,19 @@
-name: popWindow courseUpdate
+name: popWindow courseUpdate close
 base_url: ${yml(student.base_url)}
 variables:
     deviceId: ${yml(student.default_device_id)}
     Authorization: null
-    popStyle: null
+
 
     expected_status_code: 200
 request:
-    url: /v1/student/popWindow/courseUpdate
+    url: /v1/student/popWindow/courseUpdate/close
     method: GET
     headers:
         Authorization: $Authorization
     params:
         deviceId: $deviceId
-        popStyle: $popStyle
+
 
 validate:
     - eq: ["status_code", $expected_status_code]
