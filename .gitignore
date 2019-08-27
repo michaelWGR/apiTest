@@ -9,3 +9,4 @@ Pipfile
 venv
 .env
 Pipfile.lock
+run_all.py
