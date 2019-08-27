@@ -50,7 +50,7 @@ if __name__ == '__main__':
     # logger.setup_logger('debug')
 
     # path = 'testcases/live/teacher/studentIntro'
-    path = 'testcases/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml'
+    path = 'testcases/live/student/popWindow/v1_student_deliveryRemind_cityInfoAll.yml'
     # path = 'testcases/'
     report_path = run(path, False)
 
