@@ -47,11 +47,10 @@ def main():
 if __name__ == '__main__':
     # main()
 
-    # logger.setup_logger('debug')
+    logger.setup_logger('debug')
 
-    path = 'testcases/live/teacher/studentIntro'
-    #path = 'testcases/live/student/drawMoney/v1_student_dm_rules.yml'
-    # path = 'testcases/'
+    path = 'testcases/live/teacher/account/v1_teacher_logout.yml'
+
     report_path = run(path, False)
 
     # del_html()
