@@ -1,0 +1,15 @@
+name: get_teacherinfo
+base_url: ${yml(teacher_base_url)}
+variables:
+  expected_status_code: 200
+  deviceId: 123456
+  Authorization: null
+request:
+  url: /v1/teacher/teacherInfo
+  method: POST
+  params:
+    deviceId: $deviceId
+  headers:
+    Authorization: $Authorization
+validate:
+  - eq: ["status_code", $expected_status_code]

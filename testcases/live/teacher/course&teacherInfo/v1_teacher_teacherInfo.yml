@@ -1,0 +1,72 @@
+- config:
+    name: Get teacherInfo
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+      - token
+
+- test:
+    name: get  successful
+    api: api/live/teacher/course&teacherInfo/v1_teacher_teacherInfo.yml
+    variables:
+      Authorization: $token
+      deviceId: 123456
+    validate:
+     - eq: [content.code, 200]
+     - eq: [content.msg, ok]
+     - eq: [content.success, true]
+- test:
+    name: token error with empty deviceId
+    api: api/live/teacher/course&teacherInfo/v1_teacher_teacherInfo.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token error with wrong deviceId
+    api: api/live/teacher/course&teacherInfo/v1_teacher_teacherInfo.yml
+    variables:
+      deviceId: 123456789
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token error with empty token
+    api: api/live/teacher/course&teacherInfo/v1_teacher_teacherInfo.yml
+    variables:
+      deviceId: 123
+      Authorization: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token error with wrong token
+    api: api/live/teacher/course&teacherInfo/v1_teacher_teacherInfo.yml
+    variables:
+      deviceId: 123
+      Authorization: abc
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token error with empty deviceId and token
+    api: api/live/teacher/course&teacherInfo/v1_teacher_teacherInfo.yml
+    variables:
+      deviceId: null
+      Authorization: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+
+
+
