@@ -1,0 +1,140 @@
+- config:
+    name: teacher logout from live
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: logout successfully
+    api: api/live/teacher/account/v1_teacher_logout.yml
+    variables:
+        deviceId: ${yml(teacher_device_id)}
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: logout failed with not logining
+    api: api/live/teacher/account/v1_teacher_logout.yml
+    variables:
+        deviceId: ${yml(teacher_device_id)}
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: logout failed with not logining and empty deviceId
+    api: api/live/teacher/account/v1_teacher_logout.yml
+    variables:
+        deviceId: null
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: logout failed with not logining and wrong deviceId
+    api: api/live/teacher/account/v1_teacher_logout.yml
+    variables:
+        deviceId: wrongid
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    variables:
+        deviceId: ${yml(teacher_device_id)}
+    output:
+        - token
+
+- test:
+    name: logout failed with wrong deviceId
+    api: api/live/teacher/account/v1_teacher_logout.yml
+    variables:
+        deviceId: wrongid
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    variables:
+        deviceId: ${yml(teacher_device_id)}
+    output:
+        - token
+
+- test:
+    name: logout failed with empty deviceId
+    api: api/live/teacher/account/v1_teacher_logout.yml
+    variables:
+        deviceId: null
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    variables:
+        deviceId: ${yml(teacher_device_id)}
+    output:
+        - token
+
+- test:
+    name: logout failed with wrong token
+    api: api/live/teacher/account/v1_teacher_logout.yml
+    variables:
+        deviceId: ${yml(teacher_device_id)}
+        Authorization: wrongtoken
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    variables:
+        deviceId: ${yml(teacher_device_id)}
+    output:
+        - token
+
+- test:
+    name: logout failed with wrong token
+    api: api/live/teacher/account/v1_teacher_logout.yml
+    variables:
+        deviceId: ${yml(teacher_device_id)}
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    variables:
+        deviceId: ${yml(teacher_device_id)}
+    output:
+        - token
+
+- test:
+    name: logout failed with wrong token
+    api: api/live/teacher/account/v1_teacher_logout.yml
+    variables:
+        deviceId: null
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
