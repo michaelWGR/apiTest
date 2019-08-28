@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
 
     # logger.setup_logger('debug')
-    path = 'testcases/live/teacher/course&teacherInfo/v1_teacher_courseInfo.yml'
+    path = 'testcases/live/teacher/account/v1_teacher_login.yml'
     #path = 'testcases/live/student/drawMoney/v1_student_dm_rules.yml'
     # path = 'testcases/'
     report_path = run(path, False)
