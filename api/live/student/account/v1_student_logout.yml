@@ -1,5 +1,5 @@
 name: student logout
-base_url: ${yml(student_base_url)}
+base_url: ${yml(student.base_url)}
 
 variables:
   token: ${yml(student.account.token)}
