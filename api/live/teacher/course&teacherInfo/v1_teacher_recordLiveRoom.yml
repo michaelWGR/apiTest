@@ -15,5 +15,5 @@ request:
         liveRoom: $liveRoom
     headers:
         Authorization: $Authorization
-    validate:
+validate:
     - eq: ["status_code", $expected_status_code]
