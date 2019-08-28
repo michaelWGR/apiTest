@@ -1,0 +1,17 @@
+name: web student login
+base_url: ${yml(web_base_url)}
+variables:
+    account: ${yml(web_account)}
+    password: ${yml(web_password)}
+    password_md5: ${encrypt_md5($password)}
+    deviceId: ${yml(web_device_id)}
+    expected_status_code: 200
+request:
+    url: /v1/student/web/login
+    method: GET
+    params:
+        account: $account
+        password: $password_md5
+        deviceId: $deviceId
+validate:
+    - eq: ["status_code", $expected_status_code]

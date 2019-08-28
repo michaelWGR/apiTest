@@ -128,15 +128,7 @@ def get_fileName_list():
 
 
 if __name__ == '__main__':
-    s = '123456'
-    # print(len(encrypt_md5(s)))
-    print(gen_random_string(10))
-    # print('jskdfjs'.encode('utf-8'))
-    # print(yml('user_id'))
-    # del_user_msg(306955)
-    # print(get_fileName_list())
 
-    # i = encrypt_student_password('18800000002','123456')
-    # print(i)
-    # print(len('726d2161d72e38e7cfd3972e599c46d1'))
-    # print(chr(1))
+    print(encrypt_md5('000000'))
+
+

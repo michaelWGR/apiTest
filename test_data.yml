@@ -39,3 +39,13 @@ student:
 liveMonitor:
   # base_url: http://10.60.7.72:8898
   base_url: http://monitor.61info.cn
+
+
+# web端测试账号
+## web接口url
+web_base_url: https://weblivetest.61draw.com/backend-api
+## web学生账号
+web_account: '13097301001'
+web_password: '000000'
+web_device_id: '123456'
+web_user_id: 6000079
