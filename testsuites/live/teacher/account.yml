@@ -1,0 +1,11 @@
+config:
+    name: the module of teacher account
+
+testcases:
+    get_token:
+        testcase: testcases/live/teacher/account/get_token.yml
+    v1_teacher_login:
+        testcase: testcases/live/teacher/account/v1_teacher_login.yml
+
+    v1_teacher_logout:
+        testcase: testcases/live/teacher/account/v1_teacher_logout.yml

@@ -1,18 +1,18 @@
 - config:
-    name: teacher login to live
+    name: web login
     variables:
-        true_account: ${yml(teacher_account1)}
-        true_password: ${yml(teacher_password1)}
-        true_deviceId: "123456"
-        true_user_id: ${yml(teacher_user_id1)}
+        true_account: ${yml(web_account)}
+        true_password: ${yml(web_password)}
+        true_device_id: ${yml(web_device_id)}
+        true_user_id: ${yml(web_user_id)}
 
 - test:
     name: login successfully
-    api: api/live/teacher/account/v1_teacher_login.yml
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: $true_account
         password: $true_password
-        deviceId: $true_deviceId
+        deviceId: $true_device_id
     validate:
         - eq: [content.code, 200]
         - eq: [content.msg, ok]
@@ -24,53 +24,55 @@
         - len_eq: [content.data.refreshToken, 40]
         - type_match: [content.data.refreshTokenExpire, int]
         - contains: [content.data, nickName]
+        - contains: [content.data, userInfoVo]
 
 - test:
     name: login failure with wrong account
-    api: api/live/teacher/account/v1_teacher_login.yml
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: wrongaccount
         password: $true_password
-        deviceId: $true_deviceId
+        deviceId: $true_device_id
     validate:
-        - eq: [content.code, 603]
-        - eq: [content.msg, 密码错误]
+        - eq: [content.code, 601]
+        - eq: [content.msg, 该账号不存在]
         - eq: [content.data, null]
         - eq: [content.success, false]
 
 - test:
     name: login failure with empty account
-    api: api/live/teacher/account/v1_teacher_login.yml
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: null
         password: $true_password
-        deviceId: $true_deviceId
+        deviceId: $true_device_id
     validate:
-        - eq: [content.code, 603]
-        - eq: [content.msg, 密码错误]
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
         - eq: [content.data, null]
         - eq: [content.success, false]
 
 - test:
     name: login failure with account of special characters
-    api: api/live/teacher/account/v1_teacher_login.yml
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: '%$#*&12345'
         password: $true_password
-        deviceId: $true_deviceId
+        deviceId: $true_device_id
     validate:
-        - eq: [content.code, 603]
-        - eq: [content.msg, 密码错误]
+        - eq: [content.code, 601]
+        - eq: [content.msg, 该账号不存在]
         - eq: [content.data, null]
         - eq: [content.success, false]
 
 - test:
     name: login failure with wrong password
-    api: api/live/teacher/account/v1_teacher_login.yml
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
-        account: ${yml(teacher_account1)}
-        password: wrongpassword
-        deviceId: $true_deviceId
+        account: $true_account
+        password_md5: wrongpassword
+        deviceId: $true_device_id
     validate:
         - eq: [content.code, 603]
         - eq: [content.msg, 密码错误]
@@ -79,24 +81,25 @@
 
 - test:
     name: login failure with empty password
-    api: api/live/teacher/account/v1_teacher_login.yml
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
-        account: ${yml(teacher_account1)}
+        account: $true_account
         password: null
-        deviceId: $true_deviceId
+        deviceId: $true_device_id
     validate:
-        - eq: [content.code, 603]
-        - eq: [content.msg, 密码错误]
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
         - eq: [content.data, null]
         - eq: [content.success, false]
 
 - test:
     name: login failure with password of special characters
-    api: api/live/teacher/account/v1_teacher_login.yml
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
-        account: ${yml(teacher_account1)}
-        password: '%$#*&12345'
-        deviceId: $true_deviceId
+        account: $true_account
+        password_md5: '%$#*&12345'
+        deviceId: $true_device_id
     validate:
         - eq: [content.code, 603]
         - eq: [content.msg, 密码错误]
@@ -105,7 +108,7 @@
 
 - test:
     name: login successfully with wrong device id
-    api: api/live/teacher/account/v1_teacher_login.yml
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: $true_account
         password: $true_password
@@ -121,33 +124,29 @@
         - len_eq: [content.data.refreshToken, 40]
         - type_match: [content.data.refreshTokenExpire, int]
         - contains: [content.data, nickName]
+        - contains: [content.data, userInfoVo]
 
 - test:
-    name: login successfully with empty device id
-    api: api/live/teacher/account/v1_teacher_login.yml
+    name: login failure with empty device id
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: $true_account
         password: $true_password
         deviceId: null
     validate:
-        - eq: [content.code, 200]
-        - eq: [content.msg, ok]
-        - eq: [content.success, true]
-        - type_match: [content.data, dict]
-        - eq: [content.data.userId, $true_user_id]
-        - len_eq: [content.data.accessToken, 188]
-        - type_match: [content.data.accessTokenExpire, int]
-        - len_eq: [content.data.refreshToken, 40]
-        - type_match: [content.data.refreshTokenExpire, int]
-        - contains: [content.data, nickName]
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
 
 - test:
     name: login successfully with device id of special characters
-    api: api/live/teacher/account/v1_teacher_login.yml
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: $true_account
         password: $true_password
-        deviceId: '123^*&456'
+        deviceId: '45464%$#*&123454'
     validate:
         - eq: [content.code, 200]
         - eq: [content.msg, ok]
@@ -159,65 +158,108 @@
         - len_eq: [content.data.refreshToken, 40]
         - type_match: [content.data.refreshTokenExpire, int]
         - contains: [content.data, nickName]
+        - contains: [content.data, userInfoVo]
 
 - test:
     name: login failure with empty account and password
-    api: api/live/teacher/account/v1_teacher_login.yml
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: null
-        password: null
-        deviceId: $true_deviceId
+        password_md5: null
+        deviceId: $true_device_id
     validate:
-        - eq: [content.code, 603]
-        - eq: [content.msg, 密码错误]
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
         - eq: [content.data, null]
         - eq: [content.success, false]
 
 - test:
     name: login failure with wrong account and password
-    api: api/live/teacher/account/v1_teacher_login.yml
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: wrongaccount
-        password: wrongpassword
-        deviceId: $true_deviceId
+        password_md5: wrongpassword
+        deviceId: $true_device_id
     validate:
-        - eq: [content.code, 603]
-        - eq: [content.msg, 密码错误]
+        - eq: [content.code, 601]
+        - eq: [content.msg, 该账号不存在]
         - eq: [content.data, null]
         - eq: [content.success, false]
 
 - test:
-    name: login failure with account and password that has special characters
-    api: api/live/teacher/account/v1_teacher_login.yml
+    name: login failure with account and password that is special characters
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: '%$#*&12345'
-        password: '%$#*&12345dsasad'
-        deviceId: $true_deviceId
+        password_md5: '%$#*&12345'
+        deviceId: $true_device_id
     validate:
-        - eq: [content.code, 603]
-        - eq: [content.msg, 密码错误]
+        - eq: [content.code, 601]
+        - eq: [content.msg, 该账号不存在]
         - eq: [content.data, null]
         - eq: [content.success, false]
 
 - test:
-    name: login failure with empty account and device id
-    api: api/live/teacher/account/v1_teacher_login.yml
+    name: login successfully with empty account and device id
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: null
-        password: e10adc3949ba59abbe56e057f20f883e
+        password: $true_password
         deviceId: null
     validate:
-        - eq: [content.code, 603]
-        - eq: [content.msg, 密码错误]
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
         - eq: [content.data, null]
         - eq: [content.success, false]
 
 - test:
-    name: login failure with wrong account and device id
-    api: api/live/teacher/account/v1_teacher_login.yml
+    name: login successfully with wrong account and device id
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: wrongaccount
-        password: e10adc3949ba59abbe56e057f20f883e
+        password: $true_password
+        deviceId: wrongid
+    validate:
+        - eq: [content.code, 601]
+        - eq: [content.msg, 该账号不存在]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: login successfully with account and device id that is special characters
+    api: api/live/web/account/v1_student_web_login.yml
+    variables:
+        account: '%$#*&12345'
+        password: $true_password
+        deviceId: '%$#*&12345'
+    validate:
+        - eq: [content.code, 601]
+        - eq: [content.msg, 该账号不存在]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: login successfully with empty password and device id
+    api: api/live/web/account/v1_student_web_login.yml
+    variables:
+        account: $true_account
+        password_md5: null
+        deviceId: null
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: login successfully with wrong password and device id
+    api: api/live/web/account/v1_student_web_login.yml
+    variables:
+        account: $true_account
+        password_md5: wrongpassword
         deviceId: wrongid
     validate:
         - eq: [content.code, 603]
@@ -226,11 +268,11 @@
         - eq: [content.success, false]
 
 - test:
-    name: login failure with account and device id that has special characters
-    api: api/live/teacher/account/v1_teacher_login.yml
+    name: login successfully with password and device id that is special characters
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
-        account: '%$#*&12345'
-        password: e10adc3949ba59abbe56e057f20f883e
+        account: $true_account
+        password_md5: '%$#*&12345'
         deviceId: '%$#*&12345'
     validate:
         - eq: [content.code, 603]
@@ -239,53 +281,15 @@
         - eq: [content.success, false]
 
 - test:
-    name: login failure with empty password and device id
-    api: api/live/teacher/account/v1_teacher_login.yml
-    variables:
-        account: ceshi200075
-        password: null
-        deviceId: null
-    validate:
-        - eq: [content.code, 603]
-        - eq: [content.msg, 密码错误]
-        - eq: [content.data, null]
-        - eq: [content.success, false]
-
-- test:
-    name: login failure with wrong password and device id
-    api: api/live/teacher/account/v1_teacher_login.yml
-    variables:
-        account: ceshi200075
-        password: wrongpassword
-        deviceId: wrongid
-    validate:
-        - eq: [content.code, 603]
-        - eq: [content.msg, 密码错误]
-        - eq: [content.data, null]
-        - eq: [content.success, false]
-
-- test:
-    name: login failure with password and device id that has special characters
-    api: api/live/teacher/account/v1_teacher_login.yml
-    variables:
-        account: ceshi200075
-        password: '%$#*&12345'
-        deviceId: '%$#*&12345'
-    validate:
-        - eq: [content.code, 603]
-        - eq: [content.msg, 密码错误]
-        - eq: [content.data, null]
-        - eq: [content.success, false]
-
-- test:
-    name: login failure with empty account, password and device id
-    api: api/live/teacher/account/v1_teacher_login.yml
+    name: login successfully with empty parameter
+    api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: null
-        password: null
+        password_md5: null
         deviceId: null
     validate:
-        - eq: [content.code, 603]
-        - eq: [content.msg, 密码错误]
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
         - eq: [content.data, null]
         - eq: [content.success, false]
