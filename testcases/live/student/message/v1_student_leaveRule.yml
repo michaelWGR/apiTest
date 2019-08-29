@@ -1,0 +1,62 @@
+- config:
+    name: leaveRule
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    output:
+      - token
+
+- test:
+    name: get successful
+    api: api/live/student/message/v1_student_leaveRule.yml
+    variables:
+      Authorization: $token
+      deviceId: 123456
+    validate:
+     - eq: [content.code, 200]
+     - eq: [content.msg, ok]
+     - eq: [content.success, true]
+
+
+- test:
+    name: wrong token
+    api: api/live/student/message/v1_student_leaveRule.yml
+    variables:
+      Authorization: abc
+      deviceId: 123456
+
+    validate:
+      - eq: [content.code, 703]
+
+- test:
+    name: null token
+    api: api/live/student/message/v1_student_leaveRule.yml
+    variables:
+      Authorization: null
+      deviceId: 123456
+
+    validate:
+      - eq: [content.code, 703]
+
+
+- test:
+    name: null deviceId
+    api: api/live/student/message/v1_student_leaveRule.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+
+    validate:
+     - eq: [content.code, 703]
+
+- test:
+    name:  wrong deviceId
+    api: api/live/student/message/v1_student_leaveRule.yml
+    variables:
+      Authorization: $token
+      deviceId: 666666
+
+    validate:
+     - eq: [content.code, 703]
+

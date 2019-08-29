@@ -1,0 +1,16 @@
+name: leaveRule
+base_url: ${yml(student.base_url)}
+variables:
+    Authorization: 'thisisatoken'
+    expected_status_code: 200
+    deviceId: 123456
+
+request:
+    url: /v1/student/leaveRule
+    method: GET
+    params:
+        deviceId: $deviceId
+    headers:
+        Authorization: $Authorization
+validate:
+    - eq: ["status_code", $expected_status_code]
