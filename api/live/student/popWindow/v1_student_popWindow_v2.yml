@@ -5,7 +5,7 @@ variables:
     Authorization: null
     expected_status_code: 200
 request:
-    url: /v1/student/popWindow
+    url: /v1/student/popWindow/v2
     method: GET
     headers:
         Authorization: $Authorization
