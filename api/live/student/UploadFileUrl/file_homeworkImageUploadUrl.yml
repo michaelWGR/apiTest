@@ -1,0 +1,12 @@
+name: homework Image UploadUrl
+base_url: ${yml(student.base_url)}
+variables:
+    fileName: https://hualala-live.oss-cn-shenzhen.aliyuncs.com/student_homework/picture/Oct 26, 2018/233f2d9344_file.png
+    expected_status_code: 200
+request:
+    url: /file/homeworkImageUploadUrl
+    method: GET
+    params:
+        fileName: $fileName
+validate:
+    - eq: ["status_code", $expected_status_code]

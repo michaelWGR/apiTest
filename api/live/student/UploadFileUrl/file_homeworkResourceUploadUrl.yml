@@ -1,0 +1,14 @@
+name: homework homeworkResource UploadUrl
+base_url: ${yml(student.base_url)}
+variables:
+    fileNames: null
+    expected_status_code: 200
+request:
+    url: /file/homeworkResourceUploadUrl
+    method: POST
+    headers:
+        Content-Type: form-data
+    params:
+        fileNames: $fileNames
+validate:
+    - eq: ["status_code", $expected_status_code]

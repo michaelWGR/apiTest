@@ -1,0 +1,12 @@
+name: homework Audio UploadUrl
+base_url: ${yml(student.base_url)}
+variables:
+    fileName: https://hualala-live.oss-cn-shenzhen.aliyuncs.com/student_homework/audio/20190118/20190118210520.mp3
+    expected_status_code: 200
+request:
+    url: /file/homeworkAudioUploadUrl
+    method: GET
+    params:
+        fileName: $fileName
+validate:
+    - eq: ["status_code", $expected_status_code]

@@ -1,0 +1,20 @@
+- config:
+    name: homework Audio UploadUrl
+
+- test:
+    name: homework Audio UploadUrl successfully
+    api: api/live/student/UploadFileUrl/file_homeworkAudioUploadUrl.yml
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: homework Audio UploadUrl failure when fileName is wrong
+    api: api/live/student/UploadFileUrl/file_homeworkAudioUploadUrl.yml
+    variables:
+      - fileName: http://www.baidu.com
+    validate:
+      - eq: [content.code, 400]
+      - eq: [content.msg, param error]
