@@ -1,0 +1,17 @@
+name: 根据手机号码获取账号名称接口
+base_url: ${yml(student.base_url)}
+
+variables:
+  account: ${yml(student.account.account1)}
+  code: ${yml(studetn.account.default_auth_code)}
+  expected_status_code: 200
+
+request:
+  url: /v1/student/getAccountName
+  method: GET
+  params:
+    account: $account
+    code: $code
+
+validate:
+  - eq: ["status_code", $expected_status_code]

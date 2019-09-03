@@ -4,9 +4,7 @@
 # httprunner/__pycache__
 test.py
 reports
-locustfile.py
 Pipfile
 venv
 .env
 Pipfile.lock
-run_all.py

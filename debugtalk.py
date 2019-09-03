@@ -39,8 +39,13 @@ def encrypt_md5(data):
     else:
         return data
 
+
+def hook_print(msg):
+    print(msg)
+
+
 #########################################################
-#学生APP调用方法
+# 学生APP调用方法
 ###########################################################
 def gen_random_string(len=1):
     ran_str = random.sample(string.ascii_letters + string.digits, len)
@@ -48,6 +53,7 @@ def gen_random_string(len=1):
     for i in ran_str:
         str += i
     return str
+
 
 def get_draw_money_rules_length(type):
     db = MyDB()
@@ -128,7 +134,4 @@ def get_fileName_list():
 
 
 if __name__ == '__main__':
-
     print(encrypt_md5('000000'))
-
-

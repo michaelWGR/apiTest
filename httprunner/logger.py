@@ -9,10 +9,10 @@ from colorlog import ColoredFormatter
 init(autoreset=True)
 
 log_colors_config = {
-    'DEBUG':    'cyan',
-    'INFO':     'green',
-    'WARNING':  'yellow',
-    'ERROR':    'red',
+    'DEBUG': 'cyan',
+    'INFO': 'green',
+    'WARNING': 'yellow',
+    'ERROR': 'red',
     'CRITICAL': 'red',
 }
 logger = logging.getLogger("httprunner")
@@ -63,6 +63,7 @@ def color_print(msg, color="WHITE"):
 def log_with_color(level):
     """ log with color by different level
     """
+
     def wrapper(text):
         color = log_colors_config[level.upper()]
         getattr(logger, level.lower())(coloring(text, color))
