@@ -43,7 +43,7 @@ def encrypt_md5(data):
 #学生APP调用方法
 ###########################################################
 def gen_random_string(len=1):
-    ran_str = random.sample(string.ascii_letters + string.digits, len)get_draw_money_rules_length
+    ran_str = random.sample(string.ascii_letters + string.digits, len)
     str = "API-"
     for i in ran_str:
         str += i
