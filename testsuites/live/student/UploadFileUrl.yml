@@ -1,0 +1,18 @@
+config:
+  name: all api of upload file url run
+
+testcases:
+  upload url of homework audio file:
+    testcase: testcases\live\student\UploadFileUrl\file_homeworkAudioUploadUrl.yml
+
+  upload url of homework image file:
+    testcase: testcases\live\student\UploadFileUrl\file_homeworkImageUploadUrl.yml
+
+  upload url of homework resource file:
+    testcase: testcases\live\student\UploadFileUrl\file_homeworkResourceUploadUrl.yml
+
+  upload url student head image file:
+    testcase: testcases\live\student\UploadFileUrl\file_studentHeadImageUploadUrl.yml
+
+
+
