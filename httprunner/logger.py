@@ -19,7 +19,7 @@ logger = logging.getLogger("httprunner")
 
 
 def setup_logger(log_level, log_file=None):
-    """setup root logger with ColoredFormatter."""
+    """setup logger with ColoredFormatter."""
     level = getattr(logging, log_level.upper(), None)
     if not level:
         color_print("Invalid log level: %s" % log_level, "RED")
@@ -29,16 +29,12 @@ def setup_logger(log_level, log_file=None):
     if level >= logging.INFO:
         sys.tracebacklimit = 0
 
-    # 输出到文件显示格式区分
-    if log_file:
-        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-    else:
-        formatter = ColoredFormatter(
-            u"%(log_color)s%(bg_white)s%(levelname)-8s%(reset)s %(message)s",
-            datefmt=None,
-            reset=True,
-            log_colors=log_colors_config
-        )
+    formatter = ColoredFormatter(
+        u"%(log_color)s%(bg_white)s%(levelname)-8s%(reset)s %(message)s",
+        datefmt=None,
+        reset=True,
+        log_colors=log_colors_config
+    )
 
     if log_file:
         handler = logging.FileHandler(log_file, encoding="utf-8")

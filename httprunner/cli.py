@@ -3,14 +3,15 @@
 def main_hrun():
     """ API test: parse command line options and run commands.
     """
+    import sys
     import argparse
-    from httprunner import logger
-    from httprunner.__about__ import __description__, __version__
+    from httprunner.logger import color_print
+    from httprunner import __description__, __version__
     from httprunner.api import HttpRunner
     from httprunner.compat import is_py2
     from httprunner.validator import validate_json_file
     from httprunner.utils import (create_scaffold, get_python2_retire_msg,
-                                  prettify_json_file)
+                                prettify_json_file)
 
     parser = argparse.ArgumentParser(description=__description__)
     parser.add_argument(
@@ -51,13 +52,12 @@ def main_hrun():
         help="Prettify JSON testcase format.")
 
     args = parser.parse_args()
-    logger.setup_logger(args.log_level, args.log_file)
 
     if is_py2:
-        logger.log_warning(get_python2_retire_msg())
+        color_print(get_python2_retire_msg(), "YELLOW")
 
     if args.version:
-        logger.color_print("{}".format(__version__), "GREEN")
+        color_print("{}".format(__version__), "GREEN")
         exit(0)
 
     if args.validate:
@@ -76,30 +76,32 @@ def main_hrun():
         failfast=args.failfast,
         save_tests=args.save_tests,
         report_template=args.report_template,
-        report_dir=args.report_dir
+        report_dir=args.report_dir,
+        log_level=args.log_level,
+        log_file=args.log_file
     )
     try:
         for path in args.testcase_paths:
-            runner.run(path, dot_env_path=args.dot_env_path, gen_report_name=False)
+            runner.run(path, dot_env_path=args.dot_env_path)
     except Exception:
-        logger.log_error("!!!!!!!!!! exception stage: {} !!!!!!!!!!".format(runner.exception_stage))
+        color_print("!!!!!!!!!! exception stage: {} !!!!!!!!!!".format(runner.exception_stage), "YELLOW")
         raise
 
-    return 0
+    if runner.summary and runner.summary["success"]:
+        sys.exit(0)
+    else:
+        sys.exit(1)
 
 
 def main_locust():
     """ Performance test with locust: parse command line options and run commands.
     """
-    # monkey patch ssl at beginning to avoid RecursionError when running locust.
-    from gevent import monkey;
-    monkey.patch_ssl()
-
-    import multiprocessing
-    import sys
-    from httprunner import logger
-
     try:
+        # monkey patch ssl at beginning to avoid RecursionError when running locust.
+        from gevent import monkey; monkey.patch_ssl()
+        import multiprocessing
+        import sys
+        from httprunner import logger
         from httprunner import locusts
     except ImportError:
         msg = "Locust is not installed, install first and try again.\n"
@@ -179,3 +181,30 @@ def main_locust():
         locusts.run_locusts_with_processes(sys.argv, processes_count)
     else:
         locusts.start_locust_main()
+
+
+if __name__ == "__main__":
+    """ debugging mode
+    """
+    import sys
+    import os
+
+    if len(sys.argv) == 0:
+        exit(0)
+
+    sys.path.insert(0, os.getcwd())
+    cmd = sys.argv.pop(1)
+
+    if cmd in ["hrun", "httprunner", "ate"]:
+        main_hrun()
+    elif cmd in ["locust", "locusts"]:
+        main_locust()
+    else:
+        from httprunner.logger import color_print
+        color_print("Miss debugging type.", "RED")
+        example = "\n".join([
+            "e.g.",
+            "python -m httprunner.cli hrun /path/to/testcase_file",
+            "python -m httprunner.cli locusts -f /path/to/testcase_file"
+        ])
+        color_print(example, "yellow")

@@ -48,8 +48,3 @@ web_account: '13097301001'
 web_password: '000000'
 web_device_id: '123456'
 web_user_id: 6000079
-## web学生账号2
-web_account2: '13097301002'
-web_password2: '000000'
-web_device_id2: '123456'
-web_user_id2: 6000080
