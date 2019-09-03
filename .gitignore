@@ -1,7 +1,5 @@
 .idea
 **/__pycache__
-# commom/__pycache__
-# httprunner/__pycache__
 test.py
 reports
 locustfile.py
@@ -10,3 +8,4 @@ venv
 .env
 Pipfile.lock
 run_all.py
+test/

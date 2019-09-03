@@ -201,7 +201,7 @@
         - eq: [content.success, false]
 
 - test:
-    name: login successfully with empty account and device id
+    name: login failure with empty account and device id
     api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: null
@@ -215,7 +215,7 @@
         - eq: [content.success, false]
 
 - test:
-    name: login successfully with wrong account and device id
+    name: login failure with wrong account and device id
     api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: wrongaccount
@@ -228,7 +228,7 @@
         - eq: [content.success, false]
 
 - test:
-    name: login successfully with account and device id that is special characters
+    name: login failure with account and device id that is special characters
     api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: '%$#*&12345'
@@ -241,7 +241,7 @@
         - eq: [content.success, false]
 
 - test:
-    name: login successfully with empty password and device id
+    name: login failure with empty password and device id
     api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: $true_account
@@ -255,7 +255,7 @@
         - eq: [content.success, false]
 
 - test:
-    name: login successfully with wrong password and device id
+    name: login failure with wrong password and device id
     api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: $true_account
@@ -268,7 +268,7 @@
         - eq: [content.success, false]
 
 - test:
-    name: login successfully with password and device id that is special characters
+    name: login failure with password and device id that is special characters
     api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: $true_account
@@ -281,7 +281,7 @@
         - eq: [content.success, false]
 
 - test:
-    name: login successfully with empty parameter
+    name: login failure with empty parameter
     api: api/live/web/account/v1_student_web_login.yml
     variables:
         account: null

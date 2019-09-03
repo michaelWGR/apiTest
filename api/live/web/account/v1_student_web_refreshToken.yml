@@ -1,0 +1,18 @@
+name: web student refresh token
+base_url: ${yml(web_base_url)}
+variables:
+    userId: ${yml(web_user_id)}
+    refreshToken: 123
+    deviceId: ${yml(web_device_id)}
+    account: ${yml(web_account)}
+    expected_status_code: 200
+request:
+    url: /v1/student/web/refreshToken
+    method: GET
+    params:
+        userId: $userId
+        refreshToken: $refreshToken
+        deviceId: $deviceId
+        account: $account
+validate:
+    - eq: [status_code, $expected_status_code]
