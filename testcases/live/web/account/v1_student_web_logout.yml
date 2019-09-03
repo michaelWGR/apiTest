@@ -1,0 +1,116 @@
+- config:
+    name: v1_student_web_logout
+
+- test:
+    name: get_token
+    testcase: testcases/live/web/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: 退出登录成功
+    api: api/live/web/account/v1_student_web_logout.yml
+    variables:
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: get_token
+    testcase: testcases/live/web/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: 设备id错误，退出登录成功
+    api: api/live/web/account/v1_student_web_logout.yml
+    variables:
+        deviceId: 'wrongid'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: get_token
+    testcase: testcases/live/web/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: 设备id为空，退出登录成功
+    api: api/live/web/account/v1_student_web_logout.yml
+    variables:
+        deviceId: null
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: token错误，退出登录失败
+    api: api/live/web/account/v1_student_web_logout.yml
+    variables:
+        deviceId: '123456'
+        Authorization: 'wrongtoken'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: 设备id、token错误，退出登录失败
+    api: api/live/web/account/v1_student_web_logout.yml
+    variables:
+        deviceId: 'wrongid'
+        Authorization: 'wrongtoken'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: 设备id为空，token错误，退出登录失败
+    api: api/live/web/account/v1_student_web_logout.yml
+    variables:
+        deviceId: null
+        Authorization: 'wrongtoken'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: token为空，退出登录失败
+    api: api/live/web/account/v1_student_web_logout.yml
+    variables:
+        deviceId: '123456'
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: 设备id错误，token为空，退出登录失败
+    api: api/live/web/account/v1_student_web_logout.yml
+    variables:
+        deviceId: 'wrongid'
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: 设备id、token为空，退出登录失败
+    api: api/live/web/account/v1_student_web_logout.yml
+    variables:
+        deviceId: null
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]

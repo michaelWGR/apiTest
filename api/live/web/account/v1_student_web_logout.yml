@@ -1,0 +1,16 @@
+name: v1_student_web_logout
+base_url: ${yml(web_base_url)}
+variables:
+    Authorization: null
+    deviceId: null
+request:
+    url: /v1/student/web/logout
+    method: POST
+    json:
+        deviceId: $deviceId
+    headers:
+        Content-Type: application/json
+        Authorization: $Authorization
+
+validate:
+    - eq: [status_code, 200]

@@ -51,3 +51,6 @@ testcases:
 
     v1_student_web_login:
         testcase: testcases/live/web/account/v1_student_web_login.yml
+
+    v1_student_web_logout:
+        testcase: testcases/live/web/account/v1_student_web_logout.yml
