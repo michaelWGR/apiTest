@@ -1,0 +1,12 @@
+name: student head image UploadUrl
+base_url: ${yml(student.base_url)}
+variables:
+    fileName: http://img2.61info.cn/rbkd/20160113/1452692732299.png
+    expected_status_code: 200
+request:
+    url: /file/studentHeadImageUploadUrl
+    method: GET
+    params:
+        fileName: $fileName
+validate:
+    - eq: ["status_code", $expected_status_code]

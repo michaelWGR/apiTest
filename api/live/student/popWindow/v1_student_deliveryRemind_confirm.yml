@@ -1,0 +1,32 @@
+name: Address Selector
+base_url: ${yml(student.base_url)}
+variables:
+    deviceId: ${yml(student.default_device_id)}
+    Authorization: null
+    ContentType: 'application/x-www-form-urlencoded'
+    id: "[50344]"
+    receiverName: 测试名
+    receiverPhone: 13097324208
+    province: 广东省
+    city: 广州市
+    district: 天河区
+    address: 棠下村天辉大厦楼
+    expected_status_code: 200
+request:
+    url: /v1/student/deliveryRemind/confirm
+    method: POST
+    headers:
+        Authorization: $Authorization
+        Content-Type: $ContentType
+    data:
+        deviceId: $deviceId
+        id: $id
+        receiverName: $receiverName
+        receiverPhone: $receiverPhone
+        province: $province
+        city: $city
+        district: $district
+        address: $address
+
+validate:
+    - eq: ["status_code", $expected_status_code]
