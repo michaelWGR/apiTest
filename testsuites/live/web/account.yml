@@ -4,6 +4,7 @@ config:
         true_userId: ${yml(web_user_id)}
         true_deviceId: ${yml(web_device_id)}
         true_account: ${yml(web_account)}
+        true_phoneNum: ${yml(web_account2)}
 
 testcases:
     v1_student_web_refreshToken with userId_6000079, refreshToken_null:
@@ -57,3 +58,11 @@ testcases:
 
     v1_student_web_authCode:
         testcase: testcases/live/web/account/v1_student_web_authCode.yml
+
+    v1_student_web_loginWithCode:
+        testcase: testcases/live/web/account/v1_student_web_loginWithCode.yml
+
+    process_loginWithCode:
+        testcase: testcases/live/web/account/process_loginWithCode.yml
+
+

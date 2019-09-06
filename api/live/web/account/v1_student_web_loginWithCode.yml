@@ -1,0 +1,15 @@
+name: v1_student_web_loginWithCode
+base_url: ${yml(web_base_url)}
+variables:
+    phoneNum: ${yml(web_account2)}
+    code: '000000'
+    deviceId: ${yml(web_device_id)}
+request:
+    url: /v1/student/web/loginWithCode
+    method: POST
+    data:
+        phoneNum: $phoneNum
+        code: $code
+        deviceId: $deviceId
+validate:
+    - eq: [status_code, 200]
