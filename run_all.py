@@ -1,6 +1,9 @@
 import os
+import time
+
 from httprunner.api import HttpRunner
 from httprunner import logger
+from httprunner import locusts
 from common.configemail import send_email
 
 parent_dir = os.path.dirname(os.path.realpath(__file__))
@@ -19,6 +22,11 @@ def run(path, gen_report_name=False):
     runner = HttpRunner(failfast=False)
     report_path = runner.run(path, gen_report_name=gen_report_name)
     return report_path
+
+
+def run_locust(path):
+    locusts.gen_locustfile(path)
+    locusts.start_locust_main()
 
 
 def del_html():
@@ -48,8 +56,9 @@ if __name__ == '__main__':
     # main()
 
     # logger.setup_logger('debug')
-    path = 'testcases/live/student/account/v1_student_getAccountName.yml'
-    report_path = run(path, True)
+    path = 'testcases/live/liveMonitor/warn.yml'
+    for i in range(0, 5):
+        report_path = run(path, True)
+        time.sleep(2)
 
     # del_html()
-

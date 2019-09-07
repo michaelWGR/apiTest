@@ -2,6 +2,7 @@ import hashlib
 import os
 import random
 import string
+import time
 
 import yaml
 
@@ -42,6 +43,14 @@ def encrypt_md5(data):
 
 def hook_print(msg):
     print(msg)
+
+
+def cur_time_stamp(is_ms: bool = True):
+    cur_time = time.time()
+    if is_ms:
+        return int(cur_time * 1000)
+    else:
+        return int(cur_time)
 
 
 #########################################################
