@@ -1,0 +1,20 @@
+name: product express
+base_url: ${yml(student.base_url)}
+variables:
+    deviceId: ${yml(student.default_device_id)}
+    Authorization: null
+    page: null
+    expected_status_code: 200
+request:
+    url: /v1/student/productExpress
+    method: POST
+    headers:
+        Authorization: $Authorization
+        ContentType: 'application/x-www-form-urlencoded'
+    data:
+        deviceId: $deviceId
+        page: $page
+
+
+validate:
+    - eq: ["status_code", $expected_status_code]

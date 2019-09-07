@@ -1,0 +1,36 @@
+- config:
+    name: express detail in live
+    variables:
+      true_deviceId: "123456"
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.popWindow.account1)}
+    output:
+      - token
+
+- test:
+    name: show express detail  successfully
+    api: api\live\student\Express\v1_student_expressDetail.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      compressNumber: 1599
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: show express detail failure when deviceid is wrongid
+    api: api\live\student\Express\v1_student_expressDetail.yml
+    variables:
+      deviceId: wrongid
+      Authorization: $token
+      compressNumber: 1599
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']

@@ -1,0 +1,74 @@
+- config:
+    name: product express in live
+    variables:
+      true_deviceId: "123456"
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.popWindow.account1)}
+    output:
+      - token
+
+- test:
+    name: product express successfully when page is 1
+    api: api\live\student\Express\v1_student_productExpress.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      page: 1
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+
+- test:
+    name: product express successfully when page is 2
+    api: api\live\student\Express\v1_student_productExpress.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      page: 2
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: product express successfully when page is 3
+    api: api\live\student\Express\v1_student_productExpress.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      page: 3
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: product express failure when deviceid is null
+    api: api\live\student\Express\v1_student_productExpress.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+      page: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: product express failure when deviceid is wrongid
+    api: api\live\student\Express\v1_student_productExpress.yml
+    variables:
+      deviceId: wrongid
+      Authorization: $token
+      page: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
