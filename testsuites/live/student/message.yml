@@ -1,0 +1,10 @@
+config:
+  name: message
+
+testcases:
+  leaveRule:
+    testcase: testcases/live/student/message/v1_student_leaveRule
+
+  messageUnreadCount:
+    testcase: testcases/live/student/message/v1_student_messageUnreadCount
+
