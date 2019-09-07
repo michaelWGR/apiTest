@@ -17,7 +17,7 @@
      - eq: [content.code, 200]
      - eq: [content.msg, ok]
      - eq: [content.success, true]
-
+     - type_match: [content.data,int]
 
 - test:
     name: wrong token
