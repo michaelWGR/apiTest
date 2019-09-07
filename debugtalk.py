@@ -68,6 +68,50 @@ def get_draw_money_rules_length(type):
 
 
 ##################################################################
+# web端调用方法
+##################################################################
+
+def init_common_config_data():
+    '''
+    在common_config里新增一条初始化数据
+    '''
+    db = MyDB()
+    db.connectDB('i61-draw-course')
+    search_config = '''SELECT * FROM config_common WHERE conf_key='test_config';'''
+    cursor = db.executeSQL(search_config)
+    config_data = db.get_all(cursor)
+
+    if len(config_data) == 0:
+        insert_data = '''INSERT INTO config_common (conf_key, conf_value, type, version, description) values ('test_config', 'this is test of config', 1, '1', 'test of description');'''
+        db.executeSQL(insert_data)
+    elif len(config_data) == 1:
+        update_data = '''update config_common set conf_value='this is test of config', TYPE=1, version='1', description='test of description' WHERE conf_key='test_config';'''
+        db.executeSQL(update_data)
+    else:
+        delete_data = '''delete from config_common WHERE conf_key='test_config';'''
+        db.executeSQL(delete_data)
+        insert_data = '''INSERT INTO config_common (conf_key, conf_value, type, version, description) values ('test_config', 'this is test of config', 1, '1', 'test of description');'''
+        db.executeSQL(insert_data)
+
+    db.closeDB()
+
+def delete_config_data():
+    '''
+    删除新增的数据
+    '''
+    db = MyDB()
+    db.connectDB('i61-draw-course')
+    search_config = '''SELECT * FROM config_common WHERE conf_key='test_config';'''
+    cursor = db.executeSQL(search_config)
+    config_data = db.get_all(cursor)
+    if len(config_data) != 0:
+        delete_data = '''delete from config_common WHERE conf_key='test_config';'''
+        db.executeSQL(delete_data)
+
+    db.closeDB()
+
+
+##################################################################
 # 外呼系统调用方法
 ##################################################################
 
@@ -130,5 +174,5 @@ def get_fileName_list():
 if __name__ == '__main__':
 
     print(encrypt_md5('000000'))
-
-
+    # init_common_config_data()
+    # delete_config_data()

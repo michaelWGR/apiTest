@@ -1,0 +1,296 @@
+- config:
+    name: v1_common_config
+    variables:
+        true_type: 1
+        true_keys: 'test_config'
+        true_version: '1'
+    setup_hooks:
+        - ${init_common_config_data()}
+    teardown_hooks:
+        - ${delete_config_data()}
+
+- test:
+    name: 获取到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: $true_keys
+        version: $true_version
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.data.0.key, $true_keys]
+        - eq: [content.data.0.value, 'this is test of config']
+        - eq: [content.success, true]
+
+- test:
+    name: 版本错误，获取到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: $true_keys
+        version: 'wrongversion'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.data.0.key, $true_keys]
+        - eq: [content.data.0.value, 'this is test of config']
+        - eq: [content.success, true]
+
+- test:
+    name: 版本为特殊字符，获取到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: $true_keys
+        version: '*&^%$'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.data.0.key, $true_keys]
+        - eq: [content.data.0.value, 'this is test of config']
+        - eq: [content.success, true]
+
+- test:
+    name: key错误，获取不到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: 'wrongkeys'
+        version: '*&^%$'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: key和版本错误，获取不到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: 'wrongkeys'
+        version: 'wrongversion'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: key错误，版本为特殊字符，获取不到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: 'wrongkeys'
+        version: '*&^%$'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: key为特殊字符，获取不到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: '*&^%$'
+        version: $true_version
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: key为特殊字符，版本错误，获取不到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: '*&^%$'
+        version: 'wrongversion'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: key和版本都为特殊字符，获取不到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: '*&^%$'
+        version: '*&^%$'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: type为2，获取不到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: 2
+        keys: $true_keys
+        version: $true_version
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: type为3，获取不到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: 3
+        keys: $true_keys
+        version: $true_version
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: type为4，获取不到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: 4
+        keys: $true_keys
+        version: $true_version
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: type为5，获取不到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: 5
+        keys: $true_keys
+        version: $true_version
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: type为字符串，获取失败
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: 'abc'
+        keys: $true_keys
+        version: $true_version
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: type超出长度范围，获取失败
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: 12345678901
+        keys: $true_keys
+        version: $true_version
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: type为特殊字符，获取失败
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: '*&^%$'
+        keys: $true_keys
+        version: $true_version
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: key为int型，获取不到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: 123456
+        version: $true_version
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: version为int型，获取到数据
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: $true_keys
+        version: 123456
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: type为空，获取失败
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: null
+        keys: $true_keys
+        version: $true_version
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: key为空，获取失败
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: null
+        version: $true_version
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: version为空，获取失败
+    api: api/live/web/account/v1_common_config.yml
+    variables:
+        type: $true_type
+        keys: $true_keys
+        version: null
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.data.0.key, $true_keys]
+        - eq: [content.data.0.value, 'this is test of config']
+        - eq: [content.success, true]

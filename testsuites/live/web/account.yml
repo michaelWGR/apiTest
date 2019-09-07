@@ -65,4 +65,7 @@ testcases:
     process_loginWithCode:
         testcase: testcases/live/web/account/process_loginWithCode.yml
 
+    v1_common_config:
+        testcase: testcases/live/web/account/v1_common_config.yml
+
 

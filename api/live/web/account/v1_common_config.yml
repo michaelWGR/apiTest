@@ -1,0 +1,16 @@
+name: v1_common_config
+base_url: ${yml(web_base_url)}
+variables:
+    type: 1
+    keys: 'test_config'
+    version: 1
+
+request:
+    url: /v1/common/config
+    method: GET
+    params:
+        type: $type
+        keys: $keys
+        version: $version
+validate:
+    - eq: [status_code, 200]
