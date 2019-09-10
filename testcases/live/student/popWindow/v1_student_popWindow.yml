@@ -22,6 +22,25 @@
       - eq: [content.msg, ok]
       - eq: [content.success, true]
       - eq: [status_code, 200]
+- test:
+    name: token is null
+    api: api/live/student/popWindow/v1_student_popWindow.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: token is wrongtoken
+    api: api/live/student/popWindow/v1_student_popWindow.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: wrongtoken
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
 
 - test:
     name: popWindow failure with deviceid is null

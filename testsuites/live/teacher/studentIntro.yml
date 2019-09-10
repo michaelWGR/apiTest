@@ -1,0 +1,9 @@
+config:
+  name: studentIntro
+
+testcases:
+  answerCC:
+    testcase: testcases/live/teacher/studentIntro/v1_teacher_answerCC
+
+  studentIntro:
+    testcase: testcases/live/teacher/studentIntro/v1_teacher_studentIntro

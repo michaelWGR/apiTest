@@ -24,6 +24,27 @@
       - eq: [content.msg, ok]
       - eq: [content.success, true]
       - eq: [status_code, 200]
+- test:
+    name: token is null
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: null
+      popStyle: $true_popStyle
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: token is wrongtoken
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: wrongtoken
+      popStyle: $true_popStyle
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
 
 - test:
     name: popWindow of student courseUpdate_detail successfully when popStyle is 1
