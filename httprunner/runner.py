@@ -1,10 +1,11 @@
 # encoding: utf-8
-
+import json
 from unittest.case import SkipTest
 
 from httprunner import exceptions, logger, response, utils
 from httprunner.client import HttpSession
 from httprunner.context import SessionContext
+from httprunner.dubbo import DubboTester
 
 
 class Runner(object):
@@ -167,6 +168,80 @@ class Runner(object):
                 # TODO: check hook function if valid
                 self.session_context.eval_content(action)
 
+    def _run_test_dubbo(self, test_dict, parsed_test_request):
+        # setup hooks
+        setup_hooks = test_dict.get("setup_hooks", [])
+        if setup_hooks:
+            self.do_hook_actions(setup_hooks, "setup")
+
+        logger.log_debug("request kwargs(raw): {kwargs}".format(kwargs=parsed_test_request))
+
+        # 获取host、port
+        try:
+            host = parsed_test_request.pop('host')
+            port = parsed_test_request.pop('port')
+        except KeyError:
+            raise exceptions.ParamsError("host or port missed!")
+        # 获取package、method和args
+        try:
+            package = parsed_test_request.pop('package')
+            method_name = parsed_test_request.pop('method')
+            args = parsed_test_request.pop('args')
+        except KeyError:
+            raise exceptions.ParamsError("package, method or args missed!")
+        # 请求Rpc接口
+        conn = DubboTester(host, port)
+        resp_srt = conn.invoke(package, method_name, args)
+        resp_dict: dict = json.loads(resp_srt)
+        resp_obj = response.RpcRespObj(resp_srt)
+
+        # teardown hooks
+        teardown_hooks = test_dict.get("teardown_hooks", [])
+        if teardown_hooks:
+            self.session_context.update_test_variables("response", resp_dict)
+            self.do_hook_actions(teardown_hooks, "teardown")
+
+        # extract
+        extractors = test_dict.get("extract", {})
+        extracted_variables_mapping = {}
+        for key, target in extractors.items():
+            routes = str(target).split('.')
+            result = None
+            for route in routes:
+                result = resp_dict.get(route)
+            if result is not None:
+                extracted_variables_mapping[key] = result
+
+        print(resp_dict)
+
+        # validate
+        self.session_context.update_session_variables(extracted_variables_mapping)
+        validators = test_dict.get("validate") or test_dict.get("validators") or []
+        try:
+            self.session_context.validate(validators, resp_obj)
+        except (exceptions.ParamsError, exceptions.ValidationFailure, exceptions.ExtractFailure):
+            err_msg = "{} DETAILED REQUEST & RESPONSE {}\n".format("*" * 32, "*" * 32)
+
+            # log request
+            err_msg += "====== request details ======\n"
+            err_msg += "package: {}\n".format(package)
+            err_msg += "method: {}\n".format(method_name)
+            for k, v in parsed_test_request.items():
+                v = utils.omit_long_data(v)
+                err_msg += "{}: {}\n".format(k, repr(v))
+
+            err_msg += "\n"
+
+            # log response
+            err_msg += "====== response details ======\n"
+            err_msg += "result json data: {}\n".format(resp_dict)
+            logger.log_error(err_msg)
+
+            raise
+
+        finally:
+            self.validation_results = self.session_context.validation_results
+
     def _run_test(self, test_dict):
         """ run single teststep.
 
@@ -217,6 +292,9 @@ class Runner(object):
         raw_request = test_dict.get('request', {})
         parsed_test_request = self.session_context.eval_content(raw_request)
         self.session_context.update_test_variables("request", parsed_test_request)
+
+        if parsed_test_request.get('host') is not None or parsed_test_request.get('port') is not None:
+            return self._run_test_dubbo(test_dict, parsed_test_request)
 
         # prepend url with base_url unless it's already an absolute URL
         url = parsed_test_request.pop('url')
@@ -391,7 +469,7 @@ class Runner(object):
         for variable in output_variables_list:
             if variable not in variables_mapping:
                 logger.log_warning(
-                    "variable '{}' can not be found in variables mapping, failed to output!"\
+                    "variable '{}' can not be found in variables mapping, failed to output!" \
                         .format(variable)
                 )
                 continue

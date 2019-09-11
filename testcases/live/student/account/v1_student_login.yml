@@ -13,7 +13,7 @@
     name: 缺少必填参数
     api: api/live/student/account/v1_student_login.yml
     variables:
-      account: 18888600001
+      account: null
       password: null
       devicedId: null
     validate:
@@ -25,9 +25,9 @@
     name: 账号不存在
     api: api/live/student/account/v1_student_login.yml
     variables:
-      account: 99999999999
-      password: 000000
-      devicedId: 123
+      account: ${yml(student.account.non_exists_account)}
+      password: ${yml(student.account.defalut_password)}
+      devicedId: ${yml(student.default_device_id)}
     validate:
       - eq: [content.code, 601]
       - eq: [content.msg, 该账号不存在]
@@ -37,9 +37,9 @@
     name: 密码错误
     api: api/live/student/account/v1_student_login.yml
     variables:
-      account: 18888600001
-      password: 111111
-      devicedId: 123
+      account: ${yml(student.account.account1)}
+      password: wrong_password
+      devicedId: ${yml(student.default_device_id)}
     validate:
       - eq: [content.code, 603]
       - eq: [content.msg, 密码错误]

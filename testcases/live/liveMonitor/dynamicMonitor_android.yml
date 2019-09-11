@@ -4,40 +4,32 @@
       method: POST
       ContentType: "application/json"
       expected_status_code: 200
-      list:
-        - warnCode: 600018
-          userId: "111"
-          userName: 1564104352427
-          deviceId: "222"
-          roomCode: 990588
-          roomUserScheduleId: 26523
-          uid: 123
-          classStartTimestamp: 1563968381085
-          classEndTimestamp: 1563968381085
-          timestamp: 1563968381085
-          lastmileDelay: 1
-          txVideoKBitRate: 1
-          rxVideoKBitRate: 1
-          txAudioKBitRate: 1
-          rxAudioKBitRate: 1
-          cpuTotalUsage: 1
-          cpuAppUsage: 1
-          sentBitrate: 1
-          sentFrameRate: 1
-          receicedBitrate: 1
-          receivedFrameRate: 1
-          txQuality: 1
-          rxQuality: 1
-          memoryUsage: 1
+
 
 - test:
-    name: upload success
+    name: upload dynamic data of android
     api: api/live/liveMonitor/dynamicMonitor_android.yml
     variables:
       method: $method
       ContentType: $ContentType
       expected_status_code: $expected_status_code
-      list: $list
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user(android)}
+      userName: ${get_user_name($userId)}
+      userIp: ${get_user_ip($userId)}
+      userDevice: ${get_user_device($userId)}
+      cpuA: ${get_random_float()}
+      cpuT: ${sum_two($cpuA, 0.1)}
+      mem: ${get_random_float(10,100,False)}
+      downloadQuality: ${get_random_int()}
+      uploadQuality: ${get_random_int()}
+      list:
+        - {cpuAppUsage: $cpuA, cpuTotalUsage: $cpuT, deviceId: $userDevice, lastmileDelay: 4,
+           memoryUsage: $mem, receivedBitrate: 252, receivedFrameRate: 0, roomCode: 7d6c565b0487464db4433876d5ae7855,
+           roomUserScheduleId: 247022, rxAudioKBitRate: 74, rxQuality: $downloadQuality, rxVideoKBitRate: 266,
+           sentBitrate: 64, sentFrameRate: 15, timestamp: $timeStamp, txAudioKBitRate: 74,
+           txQuality: $uploadQuality, txVideoKBitRate: 63, uid: '3001', userId: $userId, userName: $userName}
+
     validate:
       - eq: ["status_code", $expected_status_code]
       - eq: [content.code, 200]

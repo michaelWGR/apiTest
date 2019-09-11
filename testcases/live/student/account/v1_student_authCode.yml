@@ -18,7 +18,7 @@
     name: 手机号格式错误
     api: api/live/student/account/v1_student_authCode.yml
     variables:
-      account: 18886001
+      account: ${yml(student.account.valid_account)}
     validate:
       - eq: [content.code, 200]
       - eq: [content.msg, ok]

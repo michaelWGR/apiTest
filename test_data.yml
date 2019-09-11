@@ -27,6 +27,7 @@ student:
     default_password: '000000'
     default_auth_code: '000000'
     non_exists_account: '99999999999'
+    valid_account: '123456'
     account_qy: '14400000001'
     password_qy: '000000'
 
@@ -50,3 +51,9 @@ web_account: '13097301001'
 web_password: '000000'
 web_device_id: '123456'
 web_user_id: 6000079
+
+
+rpc:
+  host: '10.60.7.253'
+  port: 20885
+  userId: 6000662

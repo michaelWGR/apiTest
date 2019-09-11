@@ -12,7 +12,7 @@ if not os.path.isdir(report_dir):
     os.makedirs(report_dir)
 
 
-def run(path, gen_report_name=True):
+def run(path, gen_report_name=False):
     """
     运行测试用例，返回报告路径
     Args:
@@ -22,6 +22,22 @@ def run(path, gen_report_name=True):
     runner = HttpRunner(failfast=False)
     report_path = runner.run(path, gen_report_name=gen_report_name)
     return report_path
+
+
+def run_locust(path):
+    locusts.gen_locustfile(path)
+    locusts.start_locust_main()
+
+
+def del_html():
+    '''
+    删除html报告
+    '''
+    fl = os.listdir(report_dir)
+    for f in fl:
+        if f.endswith('.html'):
+            f_path = os.path.join(report_dir, f)
+            os.remove(f_path)
 
 
 def main():
@@ -39,12 +55,8 @@ def main():
 if __name__ == '__main__':
     # main()
 
-    # logger.setup_logger('info')
-    for t in range(0, 100):
-        for i in range(0, 200):
-            run('testcases/live/liveMonitor/deviceInfo.yml')
-        for i in range(0, 100):
-            run('testcases/live/liveMonitor/ipinfo.yml')
-            run('testcases/live/liveMonitor/dynamicMonitor_android.yml')
-            run('testcases/live/liveMonitor/dynamicMonitor_ios.yml')
-            run('testcases/live/liveMonitor/warn.yml')
+    logger.setup_logger('info')
+    path = 'testcases/dubbo_template.yml'
+    report_path = run(path, True)
+
+    # del_html()

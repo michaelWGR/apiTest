@@ -11,6 +11,19 @@ from requests.structures import CaseInsensitiveDict
 text_extractor_regexp_compile = re.compile(r".*\(.*\).*")
 
 
+class RpcRespObj(object):
+    resp_dict = {}
+
+    def __init__(self, resp_json_str):
+        self.resp_dict = json.loads(resp_json_str)
+
+    def extract_field(self, field):
+        """ extract value from dubbo interface response.
+        """
+        value = self.resp_dict.get(field)
+        return value
+
+
 class ResponseObject(object):
 
     def __init__(self, resp_obj):
@@ -27,9 +40,9 @@ class ResponseObject(object):
             if key == "json":
                 value = self.resp_obj.json()
             elif key == "cookies":
-                value =  self.resp_obj.cookies.get_dict()
+                value = self.resp_obj.cookies.get_dict()
             else:
-                value =  getattr(self.resp_obj, key)
+                value = getattr(self.resp_obj, key)
 
             self.__dict__[key] = value
             return value

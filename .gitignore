@@ -8,3 +8,7 @@ Pipfile
 venv
 .env
 Pipfile.lock
+
+run_all.py
+locustfile.py
+checkoutMyBranch.bat

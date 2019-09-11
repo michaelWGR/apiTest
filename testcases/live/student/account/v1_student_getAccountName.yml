@@ -85,7 +85,7 @@
     name: 账号不存在
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
-      account: 9999999999
+      account: ${yml(non_exists_account)}
       code: $account
       token: $token
       deviceId: $deviceId
