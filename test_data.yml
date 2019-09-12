@@ -31,7 +31,6 @@ student:
   # popWindow 相关参数
   popWindow:
     account1: '13097301001'
-#    account1: '18888600015'
     default_password: '000000'
 
 
