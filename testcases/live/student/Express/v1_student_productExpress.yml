@@ -1,7 +1,12 @@
 - config:
     name: product express in live
+    setup_hooks:
+      - ${init_apply_delivery_info_data()}
+    teardown_hooks:
+      - ${delete_apply_delivery_info_data()}
     variables:
       true_deviceId: "123456"
+
 
 - test:
     name: get token
@@ -23,7 +28,11 @@
       - eq: [content.msg, ok]
       - eq: [content.success, true]
       - eq: [status_code, 200]
-
+      - type_match: [content.data.0.recipient.name, str]
+      - len_eq: [content.data.0.recipient.phone, 11]
+      - type_match: [content.data.0.recipient.address, str]
+      - type_match: [content.data.0.product.count, int]
+      - type_match: [content.data.0.product.applyTimestamp, int]
 
 - test:
     name: product express successfully when page is 2

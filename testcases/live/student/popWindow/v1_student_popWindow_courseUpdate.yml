@@ -327,18 +327,19 @@
       - eq: [content.msg, 'accessToken error']
       - eq: [status_code, 200]
 
-#- test:
-#    name: popWindow of student courseUpdate failure when deviceId is special characters and  popStyle is 6
-#    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate.yml
-#    variables:
-#      deviceId: '123456'
-#      Authorization: $token
-#      popStyle: -1
-#    validate:
-#      - eq: [content.code, 400]
-#      - eq: [content.msg, '参数错误']
-#      - eq: [status_code, 200]
-#
+- test:
+    name: popWindow of student courseUpdate failure when deviceId is special characters and  popStyle is 6
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate.yml
+    variables:
+      deviceId: '123456'
+      Authorization: $token
+      popStyle: -1
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
 #- test:
 #    name: popWindow of student courseUpdate failure when deviceId is special characters and  popStyle is 6
 #    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate.yml
@@ -347,6 +348,19 @@
 #      Authorization: $token
 #      popStyle: null
 #    validate:
-#      - eq: [content.code, 400]
-#      - eq: [content.msg, '参数错误']
+#      - eq: [content.code, 200]
+#      - eq: [content.msg, ok]
+#      - eq: [content.success, true]
 #      - eq: [status_code, 200]
+- test:
+    name: popWindow of student courseUpdate failure when deviceId is special characters and  popStyle is 8
+    api: api/live/student/popWindow/v1_student_popWindow_courseUpdate.yml
+    variables:
+      deviceId: '123456'
+      Authorization: $token
+      popStyle: 8
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
