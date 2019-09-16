@@ -56,7 +56,7 @@ if __name__ == '__main__':
     # main()
 
     logger.setup_logger('info')
-    path = 'testcases/dubbo_template.yml'
+    path = 'testcases/get_user_course_hour.yml'
     report_path = run(path, True)
 
     # del_html()

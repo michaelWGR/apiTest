@@ -186,33 +186,39 @@ class Runner(object):
         try:
             package = parsed_test_request.pop('package')
             method_name = parsed_test_request.pop('method')
-            args = parsed_test_request.pop('args')
+            args: list = parsed_test_request.pop('args')
         except KeyError:
             raise exceptions.ParamsError("package, method or args missed!")
+        # 解析入参
+        parsed_args = []
+        for arg in args:
+            arg_type = arg[0]
+            if arg_type == 'int':
+                parsed_args.append(arg[1])
+            elif arg_type == 'str':
+                parsed_args.append(json.dumps(arg[1]))
+            elif arg_type == 'list':
+                tmp_arg = arg.copy()
+                tmp_arg.pop(0)
+                parsed_args.append(tmp_arg)
+            else:
+                raise exceptions.ParamsError('arg type error: %s' % arg_type)
         # 请求Rpc接口
         conn = DubboTester(host, port)
-        resp_srt = conn.invoke(package, method_name, args)
-        resp_dict: dict = json.loads(resp_srt)
+        resp_srt = conn.invoke(package, method_name, parsed_args)
         resp_obj = response.RpcRespObj(resp_srt)
+        print(resp_obj)
 
         # teardown hooks
         teardown_hooks = test_dict.get("teardown_hooks", [])
         if teardown_hooks:
-            self.session_context.update_test_variables("response", resp_dict)
+            self.session_context.update_test_variables("response", resp_obj)
             self.do_hook_actions(teardown_hooks, "teardown")
 
         # extract
         extractors = test_dict.get("extract", {})
-        extracted_variables_mapping = {}
-        for key, target in extractors.items():
-            routes = str(target).split('.')
-            result = None
-            for route in routes:
-                result = resp_dict.get(route)
-            if result is not None:
-                extracted_variables_mapping[key] = result
-
-        print(resp_dict)
+        extracted_variables_mapping = resp_obj.extract_response(extractors)
+        self.session_context.update_session_variables(extracted_variables_mapping)
 
         # validate
         self.session_context.update_session_variables(extracted_variables_mapping)
@@ -234,7 +240,7 @@ class Runner(object):
 
             # log response
             err_msg += "====== response details ======\n"
-            err_msg += "result json data: {}\n".format(resp_dict)
+            err_msg += "result json data: {}\n".format(resp_srt)
             logger.log_error(err_msg)
 
             raise

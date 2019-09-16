@@ -12,16 +12,46 @@ text_extractor_regexp_compile = re.compile(r".*\(.*\).*")
 
 
 class RpcRespObj(object):
-    resp_dict = {}
+    resp: dict or list = None
+    extracted_variables_mapping = {}
 
-    def __init__(self, resp_json_str):
-        self.resp_dict = json.loads(resp_json_str)
+    def __init__(self, resp):
+        if isinstance(resp, str):
+            try:
+                self.resp = json.loads(resp)
+            except json.JSONDecodeError:
+                self.resp = []
+                self.resp.append(resp)
+        elif isinstance(resp, int):
+            self.resp = []
+            self.resp.append(resp)
+        elif isinstance(resp, list):
+            self.resp = resp
 
     def extract_field(self, field):
         """ extract value from dubbo interface response.
         """
-        value = self.resp_dict.get(field)
+        routes = str(field).split('.')
+        value = None
+        for route in routes:
+            if int(route):
+                value = self.resp[int(route)]
+            else:
+                value = self.resp.get(route)
         return value
+
+    def extract_response(self, extractors):
+        if not extractors:
+            return {}
+
+        logger.log_debug("start to extract from response object.")
+        extracted_variables_mapping = OrderedDict()
+        extract_binds_order_dict = utils.ensure_mapping_format(extractors)
+
+        for key, field in extract_binds_order_dict.items():
+            extracted_variables_mapping[key] = self.extract_field(field)
+
+        return extracted_variables_mapping
 
 
 class ResponseObject(object):
