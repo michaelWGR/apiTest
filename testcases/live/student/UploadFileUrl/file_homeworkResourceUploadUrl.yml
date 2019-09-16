@@ -1,0 +1,35 @@
+- config:
+    name: homework Audio UploadUrl
+
+- test:
+    name: homeworkResource UploadUrl successfully when file type is .png
+    api: api/live/student/UploadFileUrl/file_homeworkResourceUploadUrl.yml
+    variables:
+      - fileNames: https://hualala-live.oss-cn-shenzhen.aliyuncs.com/student_homework/picture/Oct 26, 2018/9b2a658a16_file.png
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: homeworkResource UploadUrl successfully when file type is .mp3
+    api: api/live/student/UploadFileUrl/file_homeworkResourceUploadUrl.yml
+    variables:
+      - fileNames: https://hualala-live.oss-cn-shenzhen.aliyuncs.com/student_homework/audio/20190118/20190118210520.mp3
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: homework Resource UploadUrl failure when fileName is wrong
+    api: api/live/student/UploadFileUrl/file_homeworkResourceUploadUrl.yml
+    variables:
+      - fileNames: http://www.baidu.com
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]

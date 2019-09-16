@@ -1,0 +1,53 @@
+- config:
+    name: deliveryRemind confirm in live
+    variables:
+      true_deviceId: "123456"
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.popWindow.account1)}
+    output:
+      - token
+
+- test:
+    name: confirm successfully
+    api: api/live/student/popWindow/v1_student_deliveryRemind_confirm.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+- test:
+    name: token is null
+    api: api/live/student/popWindow/v1_student_deliveryRemind_confirm.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: token is wrongtoken
+    api: api/live/student/popWindow/v1_student_deliveryRemind_confirm.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: wrongtoken
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+- test:
+    name: confirm failure when id is error
+    api: api/live/student/popWindow/v1_student_deliveryRemind_confirm.yml
+    variables:
+      id: "[111]"
+      Authorization: $token
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 500]
+      - eq: [content.msg, 'system error']

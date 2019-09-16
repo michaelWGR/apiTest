@@ -1,0 +1,9 @@
+config:
+  name: all api of express run
+
+testcases:
+  product express:
+    testcase: testcases\live\student\Express\v1_student_productExpress.yml
+
+  express detail:
+    testcase: testcases\live\student\Express\v1_student_expressDetail.yml

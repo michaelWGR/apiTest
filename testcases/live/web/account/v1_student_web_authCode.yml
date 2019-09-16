@@ -1,0 +1,92 @@
+- config:
+    name: v1_student_web_authCode
+
+- test:
+    name: 发送成功
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: ${yml(web_account)}
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: 1分钟内重复发送，发送失败
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: ${yml(web_account)}
+    validate:
+#        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 账号不存在，发送失败
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: '13412345678'
+    validate:
+        - eq: [content.code, 601]
+        - eq: [content.msg, 该账号不存在]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 号码错误，发送失败
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: '123456789'
+    validate:
+        - eq: [content.code, 400]
+        - eq: [content.msg, not a phone number]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 号码为英文，发送失败
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: 'abc'
+    validate:
+        - eq: [content.code, 400]
+        - eq: [content.msg, not a phone number]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 号码为空，发送失败
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: null
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 号码为特殊字符，发送失败
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: '*&^%$#'
+    validate:
+        - eq: [content.code, 400]
+        - eq: [content.msg, not a phone number]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 号码为特殊字符，发送失败
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: '130973010012'
+    validate:
+        - eq: [content.code, 400]
+        - eq: [content.msg, not a phone number]
+        - eq: [content.data, null]
+        - eq: [content.success, false]

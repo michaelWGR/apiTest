@@ -1,0 +1,196 @@
+- config:
+    name: v1_student_web_loginWithCode
+    variables:
+        true_account2: ${yml(web_account2)}
+        true_device_id: ${yml(web_device_id)}
+        true_user_id2: ${yml(web_user_id2)}
+        true_code: '000000'
+
+- test:
+    name: get code
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: $true_account2
+
+- test:
+    name: 登录成功
+    api: api/live/web/account/v1_student_web_loginWithCode.yml
+    variables:
+        phoneNum: $true_account2
+        code: $true_code
+        deviceId: $true_device_id
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data, dict]
+        - eq: [content.data.userId, $true_user_id2]
+        - len_eq: [content.data.accessToken, 220]
+        - type_match: [content.data.accessTokenExpire, int]
+        - len_eq: [content.data.refreshToken, 40]
+        - type_match: [content.data.refreshTokenExpire, int]
+        - contains: [content.data, nickName]
+        - contains: [content.data, userInfoVo]
+
+- test:
+    name: 验证码错误，登录失败
+    testcase: testcases/live/web/account/process_loginWithCode.yml
+    variables:
+        phoneNum: $true_account2
+        code: '123456'
+        deviceId: $true_device_id
+
+- test:
+    name: 验证码为特殊字符，登录失败
+    testcase: testcases/live/web/account/process_loginWithCode.yml
+    variables:
+        phoneNum: $true_account2
+        code: '*&^%$'
+        deviceId: $true_device_id
+
+- test:
+    name: 号码错误，登录失败
+    testcase: testcases/live/web/account/process_loginWithCode.yml
+    variables:
+        phoneNum: '123456789'
+        code: $true_code
+        deviceId: $true_device_id
+
+- test:
+    name: 号码错误，验证码错误登录失败
+    testcase: testcases/live/web/account/process_loginWithCode.yml
+    variables:
+        phoneNum: '123456789'
+        code: '123456'
+        deviceId: $true_device_id
+
+- test:
+    name: 号码错误，验证码为特殊字符，登录失败
+    testcase: testcases/live/web/account/process_loginWithCode.yml
+    variables:
+        phoneNum: '123456789'
+        code: '*&^%$'
+        deviceId: $true_device_id
+
+- test:
+    name: 号码为特殊字符，登录失败
+    testcase: testcases/live/web/account/process_loginWithCode.yml
+    variables:
+        phoneNum: '*&^%$'
+        code: $true_code
+        deviceId: $true_device_id
+
+- test:
+    name: 号码为特殊字符，验证码错误，登录失败
+    testcase: testcases/live/web/account/process_loginWithCode.yml
+    variables:
+        phoneNum: '*&^%$'
+        code: '123456'
+        deviceId: $true_device_id
+
+- test:
+    name: 号码和验证码为特殊字符，登录失败
+    testcase: testcases/live/web/account/process_loginWithCode.yml
+    variables:
+        phoneNum: '*&^%$'
+        code: '*&^%$'
+        deviceId: $true_device_id
+
+- test:
+    name: get code
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: null
+    validate:
+        - eq: [status_code, 500]
+
+- test:
+    name: 号码为空，登录失败
+    api: api/live/web/account/v1_student_web_loginWithCode.yml
+    variables:
+        phoneNum: null
+        code: $true_code
+        deviceId: $true_device_id
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: get code
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: $true_account2
+    validate:
+        - eq: [status_code, 200]
+
+- test:
+    name: 验证码为空登录失败
+    api: api/live/web/account/v1_student_web_loginWithCode.yml
+    variables:
+        phoneNum: $true_account2
+        code: null
+        deviceId: $true_device_id
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: get code
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: $true_account2
+    validate:
+        - eq: [status_code, 200]
+
+- test:
+    name: 设备id为空，登录失败
+    api: api/live/web/account/v1_student_web_loginWithCode.yml
+    variables:
+        phoneNum: $true_account2
+        code: $true_code
+        deviceId: null
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 登录成功,把code清空
+    api: api/live/web/account/v1_student_web_loginWithCode.yml
+    variables:
+        phoneNum: $true_account2
+        code: $true_code
+        deviceId: $true_device_id
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data, dict]
+        - eq: [content.data.userId, $true_user_id2]
+        - len_eq: [content.data.accessToken, 220]
+        - type_match: [content.data.accessTokenExpire, int]
+        - len_eq: [content.data.refreshToken, 40]
+        - type_match: [content.data.refreshTokenExpire, int]
+        - contains: [content.data, nickName]
+        - contains: [content.data, userInfoVo]
+
+- test:
+    name: 未获取验证码，登录失败
+    api: api/live/web/account/v1_student_web_loginWithCode.yml
+    variables:
+        phoneNum: $true_account2
+        code: $true_code
+        deviceId: $true_device_id
+    validate:
+        - eq: [content.code, 604]
+        - eq: [content.msg, 验证码错误或超时]
+        - eq: [content.data, null]
+        - eq: [content.success, false]

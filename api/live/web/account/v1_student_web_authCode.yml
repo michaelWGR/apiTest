@@ -1,0 +1,11 @@
+name: v1_student_web_authCode
+base_url: ${yml(web_base_url)}
+variables:
+    phoneNum: ${yml(web_account)}
+request:
+    url: /v1/student/web/authCode
+    method: POST
+    data:
+        phoneNum: $phoneNum
+validate:
+    - eq: [status_code, 200]

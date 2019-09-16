@@ -1,0 +1,83 @@
+- config:
+    name: product express in live
+    setup_hooks:
+      - ${init_apply_delivery_info_data()}
+    teardown_hooks:
+      - ${delete_apply_delivery_info_data()}
+    variables:
+      true_deviceId: "123456"
+
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.popWindow.account1)}
+    output:
+      - token
+
+- test:
+    name: product express successfully when page is 1
+    api: api\live\student\Express\v1_student_productExpress.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      page: 1
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+      - type_match: [content.data.0.recipient.name, str]
+      - len_eq: [content.data.0.recipient.phone, 11]
+      - type_match: [content.data.0.recipient.address, str]
+      - type_match: [content.data.0.product.count, int]
+      - type_match: [content.data.0.product.applyTimestamp, int]
+
+- test:
+    name: product express successfully when page is 2
+    api: api\live\student\Express\v1_student_productExpress.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      page: 2
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: product express successfully when page is 3
+    api: api\live\student\Express\v1_student_productExpress.yml
+    variables:
+      deviceId: $true_deviceId
+      Authorization: $token
+      page: 3
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: product express failure when deviceid is null
+    api: api\live\student\Express\v1_student_productExpress.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+      page: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: product express failure when deviceid is wrongid
+    api: api\live\student\Express\v1_student_productExpress.yml
+    variables:
+      deviceId: wrongid
+      Authorization: $token
+      page: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']

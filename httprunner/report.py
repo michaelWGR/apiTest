@@ -10,8 +10,7 @@ from collections import Iterable
 from datetime import datetime
 
 import requests
-from httprunner import loader, logger
-from httprunner.__about__ import __version__
+from httprunner import __version__, loader, logger
 from httprunner.compat import basestring, bytes, json, numeric_types
 from jinja2 import Template, escape
 
@@ -56,11 +55,11 @@ def get_summary(result):
         }
     }
     summary["stat"]["successes"] = summary["stat"]["total"] \
-                                   - summary["stat"]["failures"] \
-                                   - summary["stat"]["errors"] \
-                                   - summary["stat"]["skipped"] \
-                                   - summary["stat"]["expectedFailures"] \
-                                   - summary["stat"]["unexpectedSuccesses"]
+        - summary["stat"]["failures"] \
+        - summary["stat"]["errors"] \
+        - summary["stat"]["skipped"] \
+        - summary["stat"]["expectedFailures"] \
+        - summary["stat"]["unexpectedSuccesses"]
 
     summary["time"] = {
         'start_at': result.start_at,
@@ -261,6 +260,7 @@ def __get_total_response_time(meta_datas_expanded):
 
 
 def __stringify_meta_datas(meta_datas):
+
     if isinstance(meta_datas, list):
         for _meta_data in meta_datas:
             __stringify_meta_datas(_meta_data)
@@ -271,13 +271,12 @@ def __stringify_meta_datas(meta_datas):
             __stringify_response(data["response"])
 
 
-def render_html_report(summary, report_template=None, report_dir=None, report_name=None):
+def render_html_report(summary, report_template=None, report_dir=None):
     """ render html report with specified report name and template
 
     Args:
         report_template (str): specify html report template path
         report_dir (str): specify html report save directory
-        report_name (str): specify html report file name
 
     """
     if not report_template:
@@ -299,11 +298,7 @@ def render_html_report(summary, report_template=None, report_dir=None, report_na
     start_at_timestamp = int(summary["time"]["start_at"])
     summary["time"]["start_datetime"] = datetime.fromtimestamp(start_at_timestamp).strftime('%Y-%m-%d %H:%M:%S')
 
-    # generate report file name and file path, default name is current timestamp
-    if report_name:
-        report_path = os.path.join(report_dir, "{}.html".format(report_name))
-    else:
-        report_path = os.path.join(report_dir, "{}.html".format(start_at_timestamp))
+    report_path = os.path.join(report_dir, "{}.html".format(start_at_timestamp))
 
     with io.open(report_template, "r", encoding='utf-8') as fp_r:
         template_content = fp_r.read()
@@ -323,7 +318,6 @@ class HtmlTestResult(unittest.TextTestResult):
     """ A html result class that can generate formatted html results.
         Used by TextTestRunner.
     """
-
     def __init__(self, stream, descriptions, verbosity):
         super(HtmlTestResult, self).__init__(stream, descriptions, verbosity)
         self.records = []

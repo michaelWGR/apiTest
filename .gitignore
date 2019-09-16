@@ -1,14 +1,14 @@
 .idea
 **/__pycache__
-# commom/__pycache__
-# httprunner/__pycache__
 test.py
 reports
 Pipfile
 venv
 .env
 Pipfile.lock
+<<<<<<< HEAD
 
 run_all.py
 locustfile.py
-checkoutMyBranch.bat
+run_all.py
+test/

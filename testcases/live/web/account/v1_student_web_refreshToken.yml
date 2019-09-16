@@ -1,0 +1,291 @@
+- config:
+    name: refresh token
+
+- test:
+    name: get refresh token
+    testcase: testcases/live/web/account/get_refresh_token.yml
+    output:
+        - refresh_token
+
+- test:
+    name: token刷新成功
+    api: api/live/web/account/v1_student_web_refreshToken.yml
+    variables:
+        userId: ${yml(web_user_id)}
+        deviceId: ${yml(web_device_id)}
+        account: ${yml(web_account)}
+        refreshToken: $refresh_token
+    extract:
+        - refresh_token: content.data.refreshToken
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data, dict]
+        - eq: [content.data.userId, $userId]
+        - len_eq: [content.data.accessToken, 220]
+        - type_match: [content.data.accessTokenExpire, int]
+        - len_eq: [content.data.refreshToken, 40]
+        - type_match: [content.data.refreshTokenExpire, int]
+        - contains: [content.data, nickName]
+        - contains: [content.data, userInfoVo]
+
+- test:
+    name: get refresh token
+    testcase: testcases/live/web/account/get_refresh_token.yml
+    variables:
+        account: ${yml(web_account)}
+        password: ${yml(web_password)}
+        deviceId: ${yml(web_device_id)}
+        userId: ${yml(web_user_id)}
+    output:
+        - refresh_token
+
+- test:
+    name: 账号错误，请求成功
+    api: api/live/web/account/v1_student_web_refreshToken.yml
+    variables:
+        userId: ${yml(web_user_id)}
+        refreshToken: $refresh_token
+        deviceId: ${yml(web_device_id)}
+        account: wrongaccount
+    extract:
+        - refresh_token: content.data.refreshToken
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data, dict]
+        - eq: [content.data.userId, $userId]
+        - len_eq: [content.data.accessToken, 220]
+        - type_match: [content.data.accessTokenExpire, int]
+        - len_eq: [content.data.refreshToken, 40]
+        - type_match: [content.data.refreshTokenExpire, int]
+        - contains: [content.data, nickName]
+        - contains: [content.data, userInfoVo]
+
+- test:
+    name: get refresh token
+    testcase: testcases/live/web/account/get_refresh_token.yml
+    variables:
+        account: ${yml(web_account)}
+        password: ${yml(web_password)}
+        deviceId: ${yml(web_device_id)}
+        userId: ${yml(web_user_id)}
+    output:
+        - refresh_token
+
+- test:
+    name: 设备id错误，请求成功
+    api: api/live/web/account/v1_student_web_refreshToken.yml
+    variables:
+        userId: ${yml(web_user_id)}
+        refreshToken: $refresh_token
+        deviceId: wrongdeviceid
+        account: ${yml(web_account)}
+    extract:
+        - refresh_token: content.data.refreshToken
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data, dict]
+        - eq: [content.data.userId, $userId]
+        - len_eq: [content.data.accessToken, 247]
+        - type_match: [content.data.accessTokenExpire, int]
+        - len_eq: [content.data.refreshToken, 40]
+        - type_match: [content.data.refreshTokenExpire, int]
+        - contains: [content.data, nickName]
+        - contains: [content.data, userInfoVo]
+
+- test:
+    name: get refresh token
+    testcase: testcases/live/web/account/get_refresh_token.yml
+    variables:
+        account: ${yml(web_account)}
+        password: ${yml(web_password)}
+        deviceId: ${yml(web_device_id)}
+        userId: ${yml(web_user_id)}
+    output:
+        - refresh_token
+
+- test:
+    name: 设备id和账号错误，请求成功
+    api: api/live/web/account/v1_student_web_refreshToken.yml
+    variables:
+        userId: ${yml(web_user_id)}
+        refreshToken: $refresh_token
+        deviceId: wrongdeviceid
+        account: wrongaccount
+    extract:
+        - refresh_token: content.data.refreshToken
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data, dict]
+        - eq: [content.data.userId, $userId]
+        - len_eq: [content.data.accessToken, 247]
+        - type_match: [content.data.accessTokenExpire, int]
+        - len_eq: [content.data.refreshToken, 40]
+        - type_match: [content.data.refreshTokenExpire, int]
+        - contains: [content.data, nickName]
+        - contains: [content.data, userInfoVo]
+
+- test:
+    name: get refresh token
+    testcase: testcases/live/web/account/get_refresh_token.yml
+    variables:
+        account: ${yml(web_account)}
+        password: ${yml(web_password)}
+        deviceId: ${yml(web_device_id)}
+        userId: ${yml(web_user_id)}
+    output:
+        - refresh_token
+
+- test:
+    name: userid错误，请求失败
+    api: api/live/web/account/v1_student_web_refreshToken.yml
+    variables:
+        userId: 6000080
+        refreshToken: $refresh_token
+        deviceId: ${yml(web_device_id)}
+        account: ${yml(web_account)}
+    validate:
+        - eq: [content.code, 704]
+        - eq: [content.msg, refreshToken error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: get refresh token
+    testcase: testcases/live/web/account/get_refresh_token.yml
+    variables:
+        account: ${yml(web_account)}
+        password: ${yml(web_password)}
+        deviceId: ${yml(web_device_id)}
+        userId: ${yml(web_user_id)}
+    output:
+        - refresh_token
+
+- test:
+    name: userid和账号错误，请求失败
+    api: api/live/web/account/v1_student_web_refreshToken.yml
+    variables:
+        userId: 6000080
+        refreshToken: $refresh_token
+        deviceId: ${yml(web_device_id)}
+        account: wrongaccount
+    validate:
+        - eq: [content.code, 704]
+        - eq: [content.msg, refreshToken error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: get refresh token
+    testcase: testcases/live/web/account/get_refresh_token.yml
+    variables:
+        account: ${yml(web_account)}
+        password: ${yml(web_password)}
+        deviceId: ${yml(web_device_id)}
+        userId: ${yml(web_user_id)}
+    output:
+        - refresh_token
+
+- test:
+    name: userid和设备id错误，请求失败
+    api: api/live/web/account/v1_student_web_refreshToken.yml
+    variables:
+        userId: 6000080
+        refreshToken: $refresh_token
+        deviceId: wrongdeviceid
+        account: ${yml(web_account)}
+    validate:
+        - eq: [content.code, 704]
+        - eq: [content.msg, refreshToken error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: get refresh token
+    testcase: testcases/live/web/account/get_refresh_token.yml
+    variables:
+        account: ${yml(web_account)}
+        password: ${yml(web_password)}
+        deviceId: ${yml(web_device_id)}
+        userId: ${yml(web_user_id)}
+    output:
+        - refresh_token
+
+- test:
+    name: userid和设备id错误，请求失败
+    api: api/live/web/account/v1_student_web_refreshToken.yml
+    variables:
+        userId: 6000080
+        refreshToken: $refresh_token
+        deviceId: wrongdeviceid
+        account: wrongaccount
+    validate:
+        - eq: [content.code, 704]
+        - eq: [content.msg, refreshToken error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: refreshtoken错误，请求失败
+    api: api/live/web/account/v1_student_web_refreshToken.yml
+    variables:
+        userId: ${yml(web_user_id)}
+        refreshToken: wrongtoken
+        deviceId: ${yml(web_device_id)}
+        account: ${yml(web_account)}
+    validate:
+        - eq: [content.code, 704]
+        - eq: [content.msg, refreshToken error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: refreshtoken错误、account为空，请求失败
+    api: api/live/web/account/v1_student_web_refreshToken.yml
+    variables:
+        userId: ${yml(web_user_id)}
+        refreshToken: wrongtoken
+        deviceId: ${yml(web_device_id)}
+        account: null
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 用户id错误，refreshtoken错误，请求失败
+    api: api/live/web/account/v1_student_web_refreshToken.yml
+    variables:
+        userId: 6000080
+        refreshToken: wrongtoken
+        deviceId: ${yml(web_device_id)}
+        account: ${yml(web_account)}
+    validate:
+        - eq: [content.code, 704]
+        - eq: [content.msg, refreshToken error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 用户id和refreshtoken错误错误，account为空请求失败
+    api: api/live/web/account/v1_student_web_refreshToken.yml
+    variables:
+        userId: 6000080
+        refreshToken: wrongtoken
+        deviceId: ${yml(web_device_id)}
+        account: null
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]

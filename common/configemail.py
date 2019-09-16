@@ -63,5 +63,9 @@ def send_email(sender=sender, receivers=receivers, mail_host=mail_host, mail_pas
 
     
 if __name__ == '__main__':
-    file_path = '../reports/1562726454.html'
-    send_email(file_path=file_path)
+    # file_path = '../reports/1567566217.html'
+    # send_email(file_path=file_path)
+    smtp = smtplib.SMTP('61s2.ad61v1.com', 465)
+    smtp.ehlo()
+    max_limit_in_bytes = int(smtp.esmtp_features['size'])
+    print(smtp.esmtp_features['size'])

@@ -1,0 +1,25 @@
+- config:
+    name: login with code
+    variables:
+        phoneNum: ${yml(web_account2)}
+        code: '123456'
+        deviceId: ${yml(web_device_id)}
+
+- test:
+    name: get code
+    api: api/live/web/account/v1_student_web_authCode.yml
+    variables:
+        phoneNum: $phoneNum
+
+- test:
+    name: login with code
+    api: api/live/web/account/v1_student_web_loginWithCode.yml
+    variables:
+        phoneNum: $phoneNum
+        code: $code
+        deviceId: $deviceId
+    validate:
+        - eq: [content.code, 604]
+        - eq: [content.msg, 验证码错误或超时]
+        - eq: [content.data, null]
+        - eq: [content.success, false]

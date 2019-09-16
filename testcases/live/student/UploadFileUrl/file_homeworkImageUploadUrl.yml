@@ -1,0 +1,20 @@
+- config:
+    name: homework Image UploadUrl
+
+- test:
+    name: homework Image UploadUrl successfully
+    api: api/live/student/UploadFileUrl/file_homeworkImageUploadUrl.yml
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: homework Image UploadUrl failure when fileName is wrong
+    api: api/live/student/UploadFileUrl/file_homeworkImageUploadUrl.yml
+    variables:
+      - fileName: http://www.baidu.com
+    validate:
+      - eq: [content.code, 400]
+      - eq: [content.msg, param error]

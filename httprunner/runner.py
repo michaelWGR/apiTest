@@ -62,7 +62,7 @@ class Runner(object):
 
         """
         self.verify = config.get("verify", True)
-        self.output = config.get("output", [])
+        self.export = config.get("export") or config.get("output", [])
         self.validation_results = []
         config_variables = config.get("variables", {})
 
@@ -411,7 +411,7 @@ class Runner(object):
                 self.meta_datas.append(_meta_datas)
 
         self.session_context.update_session_variables(
-            test_runner.extract_output(test_runner.output)
+            test_runner.export_variables(test_runner.export)
         )
 
     def run_test(self, test_dict):
@@ -466,8 +466,8 @@ class Runner(object):
             finally:
                 self.meta_datas = self.__get_test_data()
 
-    def extract_output(self, output_variables_list):
-        """ extract output variables
+    def export_variables(self, output_variables_list):
+        """ export current testcase variables
         """
         variables_mapping = self.session_context.session_variables_mapping
 
@@ -475,8 +475,7 @@ class Runner(object):
         for variable in output_variables_list:
             if variable not in variables_mapping:
                 logger.log_warning(
-                    "variable '{}' can not be found in variables mapping, failed to output!" \
-                        .format(variable)
+                    "variable '{}' can not be found in variables mapping, failed to export!".format(variable)
                 )
                 continue
 

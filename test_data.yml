@@ -15,7 +15,6 @@ teacher_password1: '123456'
 teacher_user_id1: 200075
 teacher_device_id: '123456'
 
-
 # 直播学生端接口参数
 student:
   base_url: http://apptest.61draw.com
@@ -33,7 +32,7 @@ student:
 
   # popWindow 相关参数
   popWindow:
-    account1: '18888600015'
+    account1: '13097301001'
     default_password: '000000'
 
 
@@ -46,11 +45,16 @@ liveMonitor:
 # web端测试账号
 ## web接口url
 web_base_url: https://weblivetest.61draw.com/backend-api
-## web学生账号
+## web学生账号1
 web_account: '13097301001'
 web_password: '000000'
 web_device_id: '123456'
 web_user_id: 6000079
+
+## web学生账号2
+web_account2: '13097301002'
+web_password2: '000000'
+web_user_id2: 6000080
 
 
 rpc:

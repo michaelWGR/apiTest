@@ -1,0 +1,20 @@
+- config:
+    name: student headimage UploadUrl
+
+- test:
+    name: headimage UploadUrl successfully
+    api: api/live/student/UploadFileUrl/file_studentHeadImageUploadUrl.yml
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: headimage UploadUrl failure when fileName is wrong
+    api: api/live/student/UploadFileUrl/file_studentHeadImageUploadUrl.yml
+    variables:
+      - fileName: http://www.baidu.com
+    validate:
+      - eq: [content.code, 400]
+      - eq: [content.msg, param error]

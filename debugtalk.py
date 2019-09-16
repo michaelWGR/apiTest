@@ -193,6 +193,71 @@ def get_draw_money_rules_length(type):
         db.closeDB()
         return len(rulelist)
 
+def init_apply_delivery_info_data():
+    '''
+    在apply_delivery_info里新增一条初始化数据
+    '''
+    db =MyDB()
+    db.connectDB('i61-hll-manager')
+    delete_apply_delivery_info_data ='''delete from apply_delivery_info where user_id=6000079;'''
+    db.executeSQL(delete_apply_delivery_info_data)
+    insert_apply_delivery_info_data ='''INSERT INTO `i61-hll-manager`.`apply_delivery_info` (`user_id`, `apply_teacher_id`, `apply_standard_id`, `standard_pay_date`, `send_tools_package_id`, `send_tools_addition`, `apply_type`, `apply_state`, `receiver`, `phone`, `province`, `city`, `district`, `address`, `remark`, `applicant_sso_name`, `reason`, `certificate_imgs`, `responsible_party`, `reject_reason`, `reject_time`, `delay_apply_time`, `delay_end_time`, `delay_reason`, `express_company`, `express_number`, `express_price`, `deliver_channel`, `delivery_time`, `delivery_state`, `message_code`, `outbound_time`, `manager_sso_name`, `manager_check_time`, `gmt_create`, `gmt_modified`, `reject_express_number`) VALUES ('6000079', '3', '98', '2017-12-01', '1', '', '1', '2', '测试名', '13097324208', '广东省', '广州市', '天河区', '棠下村天辉大厦楼', '', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '13', '4', '2018-12-26 11:47:21', '3', '200', NULL, NULL, NULL, '2019-01-16 14:49:37', '2019-08-16 17:50:32', NULL);'''
+    db.executeSQL(insert_apply_delivery_info_data)
+    db.closeDB()
+
+def delete_apply_delivery_info_data():
+    '''
+    删除apply_delivery_info里新增的初始化数据
+    '''
+    db = MyDB()
+    db.connectDB('i61-hll-manager')
+    delete_apply_delivery_data ='''delete from apply_delivery_info where user_id=6000079;'''
+    db.executeSQL(delete_apply_delivery_data)
+    db.closeDB()
+
+################################################################
+# web端调用方法
+##################################################################
+
+def init_common_config_data():
+    '''
+    在common_config里新增一条初始化数据
+    '''
+    db = MyDB()
+    db.connectDB('i61-draw-course')
+    search_config = '''SELECT * FROM config_common WHERE conf_key='test_config';'''
+    cursor = db.executeSQL(search_config)
+    config_data = db.get_all(cursor)
+
+    if len(config_data) == 0:
+        insert_data = '''INSERT INTO config_common (conf_key, conf_value, type, version, description) values ('test_config', 'this is test of config', 1, '1', 'test of description');'''
+        db.executeSQL(insert_data)
+    elif len(config_data) == 1:
+        update_data = '''update config_common set conf_value='this is test of config', TYPE=1, version='1', description='test of description' WHERE conf_key='test_config';'''
+        db.executeSQL(update_data)
+    else:
+        delete_data = '''delete from config_common WHERE conf_key='test_config';'''
+        db.executeSQL(delete_data)
+        insert_data = '''INSERT INTO config_common (conf_key, conf_value, type, version, description) values ('test_config', 'this is test of config', 1, '1', 'test of description');'''
+        db.executeSQL(insert_data)
+
+    db.closeDB()
+
+def delete_config_data():
+    '''
+    删除新增的数据
+    '''
+    db = MyDB()
+    db.connectDB('i61-draw-course')
+    search_config = '''SELECT * FROM config_common WHERE conf_key='test_config';'''
+    cursor = db.executeSQL(search_config)
+    config_data = db.get_all(cursor)
+    if len(config_data) != 0:
+        delete_data = '''delete from config_common WHERE conf_key='test_config';'''
+        db.executeSQL(delete_data)
+
+    db.closeDB()
+
 
 ##################################################################
 # 外呼系统调用方法
