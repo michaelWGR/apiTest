@@ -93,9 +93,9 @@ def delete_apply_delivery_info_data():
 ##################################################################
 
 def init_common_config_data():
-    '''
+    """
     在common_config里新增一条初始化数据
-    '''
+    """
     db = MyDB()
     db.connectDB('i61-draw-course')
     search_config = '''SELECT * FROM config_common WHERE conf_key='test_config';'''

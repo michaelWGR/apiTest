@@ -22,6 +22,8 @@
       - eq: [content.msg, ok]
       - eq: [content.success, true]
       - eq: [status_code, 200]
+      - eq: [content.data.province.0, '北京']
+      - eq: [content.data.city.福建省.0, '福州市']
 - test:
     name: token is null
     api: api/live/student/popWindow/v1_student_deliveryRemind_cityInfoAll.yml

@@ -22,6 +22,10 @@
       - eq: [content.msg, ok]
       - eq: [content.success, true]
       - eq: [status_code, 200]
+      - eq: [content.data.result,True]
+      - type_match: [content.data.pop, int]
+      - type_match: [content.data.popWindowFloatingInfo.title,str]
+
 - test:
     name: token is null
     api: api/live/student/popWindow/v1_student_popWindow.yml
