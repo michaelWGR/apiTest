@@ -20,3 +20,51 @@
       - eq: [content.code, 200]
       - eq: [content.msg, ok]
       - eq: [content.success, true]
+
+- test:
+    name: token为空
+    api: api/live/student/account/v1_student_logout.yml
+    variables:
+      token: null
+      deviceId: $deviceId
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+
+- test:
+    name: deviceId为空
+    api: api/live/student/account/v1_student_logout.yml
+    variables:
+      token: $token
+      deviceId: null
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+
+- test:
+    name: token错误
+    api: api/live/student/account/v1_student_logout.yml
+    variables:
+      token: alsdjfkasjdfljajsdf
+      deviceId: $deviceId
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+
+- test:
+    name: deviceId错误
+    api: api/live/student/account/v1_student_logout.yml
+    variables:
+      token: $token
+      deviceId: feiljfslkjdfl
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]

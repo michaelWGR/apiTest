@@ -4,29 +4,23 @@
       method: POST
       ContentType: "application/json"
       expected_status_code: 200
-      userId: 600018
-      roomUserScheduleId: 132
-      deviceId: "111"
-      timestamp: 1564104352427
-      deviceType: 2
       clientDataList:
         - dataKey: "app版本"
-          dataValue: "2.3.5"
+          dataValue: "2.3.7"
         - dataKey: "内存大小"
           dataValue: "64g"
 
 - test:
-    name: upload success
+    name: upload device info
     api: api/live/liveMonitor/deviceInfo.yml
     variables:
       method: $method
       ContentType: $ContentType
       expected_status_code: $expected_status_code
-      userId: $userId
-      roomUserScheduleId: $roomUserScheduleId
-      deviceId: $deviceId
-      timestamp: $timestamp
-      deviceType: $deviceType
+      userId: ${get_next_user()}
+      deviceId: ${get_user_device($userId)}
+      timestamp: ${cur_time_stamp()}
+      deviceType: ${get_device_type($deviceId)}
       clientDataList: $clientDataList
     validate:
       - eq: ["status_code", $expected_status_code]

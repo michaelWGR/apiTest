@@ -1,28 +1,192 @@
 - config:
-    name: warn
+    name: 上传告警信息
     variables:
       method: POST
       ContentType: "application/json"
-      list:
-        - warnCode: 600018
-          userId: "111"
-          userName: 1564104352427
-          deviceId: "222"
-          roomCode: 990588
-          roomUserScheduleId: 26523
-          uid: 123
-          classStartTimestamp: 1563968381085
-          classEndTimestamp: 1563968381085
-          description: "默认注释"
-          timestamp: 1563968381085
 
 - test:
-    name: success
+    name: 声网掉线onConnectionInterrupted
     api: api/live/liveMonitor/warn.yml
     variables:
       method: $method
       ContentType: $ContentType
-      list: $list
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user()}
+      userName: ${get_user_name($userId)}
+      userDevice: ${get_user_device($userId)}
+      list:
+        - {description: 声网掉线onConnectionInterrupted, deviceId: $userDevice, userId: $userId, userName: $userName,
+           warnCode: 4002, timestamp: $timeStamp, roomUserScheduleId: 246496}
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]
+
+- test:
+    name: 重连失败
+    api: api/live/liveMonitor/warn.yml
+    variables:
+      method: $method
+      ContentType: $ContentType
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user()}
+      userName: ${get_user_name($userId)}
+      userDevice: ${get_user_device($userId)}
+      list:
+        - {description: 重连失败！, deviceId: $userDevice, userId: $userId, userName: $userName, warnCode: 3001,
+           timestamp: $timeStamp, roomUserScheduleId: 246496}
+      validate:
+        - eq: ["status_code", $expected_status_code]
+        - eq: [content.code, 200]
+
+- test:
+    name: 进入房间失败
+    api: api/live/liveMonitor/warn.yml
+    variables:
+      method: $method
+      ContentType: $ContentType
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user()}
+      userName: ${get_user_name($userId)}
+      userDevice: ${get_user_device($userId)}
+      list:
+        - {description: 进入房间失败！, deviceId: $userDevice, userId: $userId, userName: $userName, warnCode: 2002,
+           timestamp: $timeStamp, roomUserScheduleId: 246496}
+      validate:
+        - eq: ["status_code", $expected_status_code]
+        - eq: [content.code, 200]
+
+- test:
+    name: 下载资源失败
+    api: api/live/liveMonitor/warn.yml
+    variables:
+      method: $method
+      ContentType: $ContentType
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user()}
+      userName: ${get_user_name($userId)}
+      userDevice: ${get_user_device($userId)}
+      list:
+        - {description: 'http://10.60.7.252/webcast-pc/course-resource/H109.zip 课程id:14', deviceId: $userDevice,
+           roomUserScheduleId: 14, timestamp: $timeStamp, userId: $userId, userName: $userName, warnCode: 5001}
+      validate:
+        - eq: ["status_code", $expected_status_code]
+        - eq: [content.code, 200]
+
+- test:
+    name: 下行网络质量差
+    api: api/live/liveMonitor/warn.yml
+    variables:
+      method: $method
+      ContentType: $ContentType
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user()}
+      userName: ${get_user_name($userId)}
+      userDevice: ${get_user_device($userId)}
+      list:
+        - {description: 下行网络质量差, deviceId: $userDevice, userId: $userId, userName: $userName,
+           warnCode: 1009, timestamp: $timeStamp, roomUserScheduleId: 246496}
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]
+
+- test:
+    name: 用户多次重连SOCKET
+    api: api/live/liveMonitor/warn.yml
+    variables:
+      method: $method
+      ContentType: $ContentType
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user()}
+      userName: ${get_user_name($userId)}
+      userDevice: ${get_user_device($userId)}
+      list:
+        - {description: 用户多次重连SOCKET, deviceId: $userDevice, userId: $userId, userName: $userName,
+           warnCode: 3004, timestamp: $timeStamp, roomUserScheduleId: 246496}
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]
+
+- test:
+    name: 连接失败
+    api: api/live/liveMonitor/warn.yml
+    variables:
+      method: $method
+      ContentType: $ContentType
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user()}
+      userName: ${get_user_name($userId)}
+      userDevice: ${get_user_device($userId)}
+      list:
+        - {description: 连接失败, deviceId: $userDevice, userId: $userId, userName: $userName,
+           warnCode: 3001, timestamp: $timeStamp, roomUserScheduleId: 246496}
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]
+
+- test:
+    name: 加入声网频道失败
+    api: api/live/liveMonitor/warn.yml
+    variables:
+      method: $method
+      ContentType: $ContentType
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user()}
+      userName: ${get_user_name($userId)}
+      userDevice: ${get_user_device($userId)}
+      list:
+        - {description: 加入声网频道失败, deviceId: $userDevice, userId: $userId, userName: $userName,
+           warnCode: 4001, timestamp: $timeStamp, roomUserScheduleId: 246496}
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]
+
+- test:
+    name: 指令执行延迟
+    api: api/live/liveMonitor/warn.yml
+    variables:
+      method: $method
+      ContentType: $ContentType
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user()}
+      userName: ${get_user_name($userId)}
+      userDevice: ${get_user_device($userId)}
+      list:
+        - {description: 指令执行延迟, deviceId: $userDevice, userId: $userId, userName: $userName,
+           warnCode: 3002, timestamp: $timeStamp, roomUserScheduleId: 246496}
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]
+
+- test:
+    name: SOCKET连接次数超过3次
+    api: api/live/liveMonitor/warn.yml
+    variables:
+      method: $method
+      ContentType: $ContentType
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user()}
+      userName: ${get_user_name($userId)}
+      userDevice: ${get_user_device($userId)}
+      list:
+        - {description: SOCKET连接次数超过3次, deviceId: $userDevice, userId: $userId, userName: $userName,
+           warnCode: 3003, timestamp: $timeStamp, roomUserScheduleId: 246496}
+    validate:
+      - eq: ["status_code", $expected_status_code]
+      - eq: [content.code, 200]
+
+- test:
+    name: 接口超时
+    api: api/live/liveMonitor/warn.yml
+    variables:
+      method: $method
+      ContentType: $ContentType
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user()}
+      userName: ${get_user_name($userId)}
+      userDevice: ${get_user_device($userId)}
+      list:
+        - {description: 接口超时, deviceId: $userDevice, userId: $userId, userName: $userName,
+           warnCode: 2001, timestamp: $timeStamp, roomUserScheduleId: 246496}
     validate:
       - eq: ["status_code", $expected_status_code]
       - eq: [content.code, 200]

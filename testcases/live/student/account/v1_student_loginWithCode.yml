@@ -2,6 +2,18 @@
     name: 短信验证码登录
 
 - test:
+    name: 未生成验证码
+    api: api/live/student/account/v1_student_loginWithCode.yml
+    variables:
+      account: ${yml(student.account.account1)}
+      code: ${yml(student.account.default_auth_code)}
+      deviceId: ${yml(student.default_device_id)}
+    validate:
+      - eq: [content.code, 604]
+      - eq: [content.msg, 验证码过期或者不存在]
+      - eq: [content.success, false]
+
+- test:
     name: authCode
     testcase: testcases/live/student/account/v1_student_authCode.yml
 
@@ -33,7 +45,7 @@
     name: 不存在的账号
     api: api/live/student/account/v1_student_loginWithCode.yml
     variables:
-      account: 13141599753
+      account: ${yml(student.account.non_exists_account)}
       code: ${yml(student.account.default_auth_code)}
       deviceId: ${yml(student.default_device_id)}
     validate:
@@ -47,18 +59,6 @@
     variables:
       account: ${yml(student.account.account1)}
       code: 111111
-      deviceId: ${yml(student.default_device_id)}
-    validate:
-      - eq: [content.code, 604]
-      - eq: [content.msg, 验证码过期或者不存在]
-      - eq: [content.success, false]
-
-- test:
-    name: 未生成验证码
-    api: api/live/student/account/v1_student_loginWithCode.yml
-    variables:
-      account: ${yml(student.account.account1)}
-      code: ${yml(student.account.default_auth_code)}
       deviceId: ${yml(student.default_device_id)}
     validate:
       - eq: [content.code, 604]

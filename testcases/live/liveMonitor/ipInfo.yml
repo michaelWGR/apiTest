@@ -2,72 +2,85 @@
     name: upload students ip info
 
 - test:
-    name: upload success
-    api: api/live/liveMonitor/ipInfo.yml
-
-- test:
-    name: upolad without reqest body
+    name: upload user ip info
     api: api/live/liveMonitor/ipInfo.yml
     variables:
+      timeStamp: ${cur_time_stamp()}
+      userId: ${get_random_user()}
+      userName: ${get_user_name($userId)}
+      userIp: ${get_user_ip($userId)}
+      userDevice: ${get_user_device($userId)}
       list:
-        - null
-    validate:
-      - eq: [content.code, 200]
-      - eq: [content.msg, 请求处理成功]
-
-- test:
-    name: upolad without optional parameters
-    api: api/live/liveMonitor/ipInfo.yml
-    variables:
-      list:
-        - userId: null
-          deviceId: 111
-          timestamp: 1564104352427
+        - userId: $userId
+          deviceId: $userDevice
+          timestamp: $timeStamp
           ipType: 1
-          ip: "10.10.117.211"
-        - userId: 600019
-          deviceId: null
-          timestamp: 1564104352427
-          ipType: 1
-          ip: "10.10.117.212"
+          ip: $userIp
 
-- test:
-    name: upolad without required parameters
-    api: api/live/liveMonitor/ipInfo.yml
-    variables:
-      code: 400
-      list:
-        - userId: null
-          deviceId: 111
-          timestamp: 1564104352427
-          ipType: 2
-          ip: "10.10.117.211"
-        - userId: 600019
-          deviceId: null
-          timestamp: 1564104352427
-          ipType: 3
-          ip: "10.10.117.212"
+#- test:
+#    name: upolad without reqest body
+#    api: api/live/liveMonitor/ipInfo.yml
+#    variables:
 
-- test:
-    name: request api with error method
-    api: api/live/liveMonitor/ipInfo.yml
-    variables:
-      method: GET
-      expected_status_code: 405
-    validate:
-      - eq: [content.code, 405]
-      - eq: [content.msg, 请求方法不允许]
+#      list:
+#        - null
+#    validate:
+#      - eq: [content.code, 200]
+#      - eq: [content.msg, 请求处理成功]
 
-- test:
-    name: data type error
-    api: api/live/liveMonitor/ipInfo.yml
-    variables:
-      list:
-        - userId: 600017
-          deviceId: !!str 111
-          timestamp: 1564104352427
-          ipType: !!str 1
-          ip: "10.10.117.211"
-    validate:
-      - eq: [content.code, 400]
-      - eq: [content.msg, 参数错误]
+#- test:
+#    name: upolad without optional parameters
+#    api: api/live/liveMonitor/ipInfo.yml
+#    variables:
+#      list:
+#        - userId: null
+#          deviceId: 111
+#          timestamp: 1564104352427
+#          ipType: 1
+#          ip: "10.10.117.211"
+#        - userId: 600019
+#          deviceId: null
+#          timestamp: 1564104352427
+#          ipType: 1
+#          ip: "10.10.117.212"
+#
+#- test:
+#    name: upolad without required parameters
+#    api: api/live/liveMonitor/ipInfo.yml
+#    variables:
+#      code: 400
+#      list:
+#        - userId: null
+#          deviceId: 111
+#          timestamp: 1564104352427
+#          ipType: 2
+#          ip: "10.10.117.211"
+#        - userId: 600019
+#          deviceId: null
+#          timestamp: 1564104352427
+#          ipType: 3
+#          ip: "10.10.117.212"
+#
+#- test:
+#    name: request api with error method
+#    api: api/live/liveMonitor/ipInfo.yml
+#    variables:
+#      method: GET
+#      expected_status_code: 405
+#    validate:
+#      - eq: [content.code, 405]
+#      - eq: [content.msg, 请求方法不允许]
+#
+#- test:
+#    name: data type error
+#    api: api/live/liveMonitor/ipInfo.yml
+#    variables:
+#      list:
+#        - userId: 600017
+#          deviceId: !!str 111
+#          timestamp: 1564104352427
+#          ipType: !!str 1
+#          ip: "10.10.117.211"
+#    validate:
+#      - eq: [content.code, 400]
+#      - eq: [content.msg, 参数错误]

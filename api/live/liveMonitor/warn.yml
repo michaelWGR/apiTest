@@ -6,17 +6,8 @@ variables:
   ContentType: "application/json"
   expected_status_code: 200
   list:
-    - warnCode: 600018
-      userId: "111"
-      userName: 1564104352427
-      deviceId: "222"
-      roomCode: 990588
-      roomUserScheduleId: 26523
-      uid: 123
-      classStartTimestamp: 1563968381085
-      classEndTimestamp: 1563968381085
-      description: "默认注释"
-      timestamp: 1563968381085
+    - {description: 声网掉线onConnectionInterrupted, deviceId: d3469113c076ab7c, userName: test18,
+       warnCode: 4002, userId: 600018, timestamp: 1567826042494, roomUserScheduleId: 246496}
 
 request:
   url: /warn

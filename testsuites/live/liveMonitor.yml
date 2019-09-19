@@ -10,6 +10,12 @@ testcases:
 
   warn:
     testcase: testcases/live/liveMonitor/warn.yml
+    parameters:
+      list: [[{description: 声网掉线onConnectionInterrupted, deviceId: d3469113c076a16c, userName: test16,
+               warnCode: 4002, userId: 600016, timestamp: $timeStamp, roomUserScheduleId: 246496}],
+             [{description: 重连失败！, deviceId: d3469113c076a17c, userName: test17, warnCode: 3001,
+               userId: 600017, timestamp: $timeStamp, roomUserScheduleId: 246496}]
+      ]
 
   dynamic monitor android:
     testcase: testcases/live/liveMonitor/dynamicMonitor_android.yml
