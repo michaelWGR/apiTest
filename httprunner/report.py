@@ -44,17 +44,14 @@ def get_summary(result):
             }
 
     """
-    summary = {
-        "success": result.wasSuccessful(),
-        "stat": {
-            'total': result.testsRun,
-            'failures': len(result.failures),
-            'errors': len(result.errors),
-            'skipped': len(result.skipped),
-            'expectedFailures': len(result.expectedFailures),
-            'unexpectedSuccesses': len(result.unexpectedSuccesses)
-        }
-    }
+    summary = {"success": result.wasSuccessful(), "stat": {
+        'total': result.testsRun,
+        'failures': len(result.failures),
+        'errors': len(result.errors),
+        'skipped': len(result.skipped),
+        'expectedFailures': len(result.expectedFailures),
+        'unexpectedSuccesses': len(result.unexpectedSuccesses)
+    }}
     summary["stat"]["successes"] = summary["stat"]["total"] \
                                    - summary["stat"]["failures"] \
                                    - summary["stat"]["errors"] \

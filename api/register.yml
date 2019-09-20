@@ -1,0 +1,30 @@
+name: 注册CMS账户Rpc接口
+
+variables:
+  accountObj:
+    - class: com.i61.live.hll.vo.RegisterUserRpcVO
+      schoolDistrict: 总部
+      account: 正式课
+      realName: 曾三八
+      username: zengsanjiu
+      stageName: 曾三八
+      cmsDepartment: 笑笑组
+      crmDepartment: null
+      gender: 男
+      graduateSchool: 华农
+      graduateCollege: 数轴
+      jobPhone: '18819258066'
+      role: 班主任
+      jobNumber: '9201709'
+      employeeCatagory: 全职   已转正
+      remark: null
+      headPhoto: https://static.dingtalk.com/media/lADPBE1XYUWXm PNAavNApY_662_427.jpg
+      wechatPhoto: https://static.dingtalk.com/media/lADPBE1XYUWXm PNAavNApY_662_427.jpg
+      attachment: null
+
+request:
+  host: 10.60.7.222
+  port: ${yml(rpc.port)}
+  package: com.i61.live.hll.api.AccountInfoRpcService
+  method: register
+  json: $accountObj

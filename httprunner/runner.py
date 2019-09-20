@@ -186,28 +186,39 @@ class Runner(object):
         try:
             package = parsed_test_request.pop('package')
             method_name = parsed_test_request.pop('method')
-            args: list = parsed_test_request.pop('args')
+            args: list = []
+            if 'param' in parsed_test_request:
+                args = parsed_test_request.pop('param')
+                args.append(0)
+            elif 'json' in parsed_test_request:
+                args = parsed_test_request.pop('json')
+                args.append(1)
         except KeyError:
             raise exceptions.ParamsError("package, method or args missed!")
         # 解析入参
         parsed_args = []
-        for arg in args:
-            arg_type = arg[0]
-            if arg_type == 'int':
-                parsed_args.append(arg[1])
-            elif arg_type == 'str':
-                parsed_args.append(json.dumps(arg[1]))
-            elif arg_type == 'list':
-                tmp_arg = arg.copy()
-                tmp_arg.pop(0)
-                parsed_args.append(tmp_arg)
-            else:
-                raise exceptions.ParamsError('arg type error: %s' % arg_type)
+        arg_type = args.pop()
+        if arg_type == 0:
+            for arg in args:
+                arg_type = arg[0]
+                if arg_type == 'int':
+                    parsed_args.append(arg[1])
+                elif arg_type == 'str':
+                    parsed_args.append(json.dumps(arg[1]))
+                elif arg_type == 'list':
+                    tmp_arg = arg.copy()
+                    tmp_arg.pop(0)
+                    parsed_args.append(tmp_arg)
+                else:
+                    raise exceptions.ParamsError('arg type error: %s' % arg_type)
+        elif arg_type == 1:
+            for obj in args:
+                parsed_args.append(json.dumps(obj))
         # 请求Rpc接口
         conn = DubboTester(host, port)
-        resp_srt = conn.invoke(package, method_name, parsed_args)
-        resp_obj = response.RpcRespObj(resp_srt)
-        print(resp_obj)
+        resp_str = conn.invoke(package, method_name, parsed_args)
+        print(resp_str)
+        resp_obj = response.RpcRespObj(resp_str)
 
         # teardown hooks
         teardown_hooks = test_dict.get("teardown_hooks", [])
@@ -240,7 +251,7 @@ class Runner(object):
 
             # log response
             err_msg += "====== response details ======\n"
-            err_msg += "result json data: {}\n".format(resp_srt)
+            err_msg += "result json data: {}\n".format(resp_str)
             logger.log_error(err_msg)
 
             raise

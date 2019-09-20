@@ -1,14 +1,12 @@
 name: 获取学员课时信息Rpc接口
 
 variables:
-  args: [list, str1, str2, str3]
+  userId: [int, 6000662]
 
 request:
   host: ${yml(rpc.host)}
   port: ${yml(rpc.port)}
-  package: 'com.i61.draw.course.api.TeacherInfoRpcService'
-  method: 'getUserTeacherInfo'
-  args:
-    - $args
-    - [int, 1]
-    - [str, 'this is a string']
+  package: 'com.i61.live.hll.api.HllGetUserCourseHourService'
+  method: 'getUserCourseHour'
+  param:
+    - $userId
