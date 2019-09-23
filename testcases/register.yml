@@ -1,0 +1,34 @@
+- config:
+    name: test register rpc
+
+- test:
+    name: register cms account
+    api: api/register.yml
+    variables:
+      accountObj:
+        - class: com.i61.live.hll.vo.RegisterUserRpcVO
+            schoolDistrict: 总部
+            account: 正式课
+            realName: 曾三八
+            username: zengsanjiu
+            stageName: 曾三八
+            cmsDepartment: 笑笑组
+            crmDepartment: null
+            gender: 男
+            graduateSchool: 华农
+            graduateCollege: 数轴
+            jobPhone: '18819258066'
+            role: 班主任
+            jobNumber: '9201709'
+            employeeCatagory: 全职 - 已转正
+            remark: null
+            headPhoto: https://static.dingtalk.com/media/lADPBE1XYUWXm PNAavNApY_662_427.jpg
+            wechatPhoto: https://static.dingtalk.com/media/lADPBE1XYUWXm PNAavNApY_662_427.jpg
+            attachment: null
+    extract:
+      - data: data
+    validate:
+      - eq: [error, false]
+      - eq: [code, 0]
+      - eq: [msg, ok]
+      - eq: [success, true]

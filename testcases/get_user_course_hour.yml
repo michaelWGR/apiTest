@@ -5,11 +5,11 @@
     name: get user course hour
     api: api/get_user_course_hour.yml
     variables:
-      args: [list, str1, str2, str3]
+      userId: [int, 6000662]
     extract:
       - leftover: giftHourLeftover
       - total: giftHourTotal
-      - xxx: gift.xxx
+      - allJson: 0
     validate:
       - eq: [giftHourLeftover, 3]
       - eq: [giftHourTotal, 3]

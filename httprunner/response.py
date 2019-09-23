@@ -16,28 +16,48 @@ class RpcRespObj(object):
     extracted_variables_mapping = {}
 
     def __init__(self, resp):
-        if isinstance(resp, str):
-            try:
-                self.resp = json.loads(resp)
-            except json.JSONDecodeError:
-                self.resp = []
-                self.resp.append(resp)
-        elif isinstance(resp, int):
-            self.resp = []
-            self.resp.append(resp)
-        elif isinstance(resp, list):
+        # if isinstance(resp, str):
+        #     try:
+        #         self.resp = json.loads(resp)
+        #     except json.JSONDecodeError:
+        #         self.resp = []
+        #         self.resp.append(resp)
+        # elif isinstance(resp, int):
+        #     self.resp = []
+        #     self.resp.append(resp)
+        # elif isinstance(resp, list):
+        #     self.resp = resp
+        try:
+            self.resp = json.loads(resp)
+        except json.JSONDecodeError:
             self.resp = resp
 
     def extract_field(self, field):
         """ extract value from dubbo interface response.
         """
         routes = str(field).split('.')
-        value = None
+        value = self.resp
         for route in routes:
-            if int(route):
-                value = self.resp[int(route)]
-            else:
-                value = self.resp.get(route)
+            try:
+                route = int(route)
+                if isinstance(value, list):
+                    if route > len(list(self.resp)) - 1:
+                        raise KeyError('extract key error: out of index %d in %s' % (route, self.resp))
+                    else:
+                        value = value[route]
+                elif route == 0:
+                    pass
+                else:
+                    raise KeyError('extract key error: index %d not exist in %s' % (route, self.resp))
+            except ValueError:
+                try:
+                    value = value.get(route)
+                except KeyError:
+                    value = None
+                    logger.log_error('extract key error: key %s not exist in %s' % (route, self.resp))
+            except KeyError as error:
+                value = None
+                logger.log_error(error)
         return value
 
     def extract_response(self, extractors):
