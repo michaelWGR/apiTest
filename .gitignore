@@ -6,9 +6,6 @@ Pipfile
 venv
 .env
 Pipfile.lock
-<<<<<<< HEAD
-
 run_all.py
 locustfile.py
-run_all.py
 test/
