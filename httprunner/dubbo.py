@@ -19,15 +19,30 @@ class DubboTester(telnetlib.Telnet):
         self.write(str_.encode() + b"\n")
         return data
 
+    def _parse_list(self, list_data):
+        tmp = ''
+        for param in list_data:
+            if isinstance(param, list):
+                tmp += self._parse_list(param)
+            if isinstance(param, dict):
+                tmp += json.dumps(param) + ','
+            else:
+                tmp += str(param).replace("\'", '"') + ','
+        return tmp[0:-1]
+
+    def _parse_args(self, args):
+        if isinstance(args, str) or isinstance(args, dict):
+            args = json.dumps(args)
+        elif isinstance(args, list):
+            tmp = ''
+            for param in args:
+                tmp += str(param).replace("\'", '"') + ','
+            args = tmp[0:-1]
+        return args
+
     def invoke(self, service_name, method_name, arg):
         # command_str = 'invoke {0}.{1}('.format(service_name, method_name)
-        if isinstance(arg, str) or isinstance(arg, dict):
-            arg = json.dumps(arg)
-        elif isinstance(arg, list):
-            tmp = ''
-            for param in arg:
-                tmp += str(param).replace("\'", '"') + ','
-            arg = tmp[0:-1]
+        arg = self._parse_args(arg)
         command_str = "invoke {0}.{1}({2})".format(service_name, method_name, arg)
         self.command(DubboTester.prompt, command_str)
         data = self.command(DubboTester.prompt, "")
@@ -74,12 +89,18 @@ if __name__ == '__main__':
         "wechatPhoto": "https://static.dingtalk.com/media/lADPBE1XYUWXm-PNAavNApY_662_427.jpg",
         "attachment": None
     }
+    # result = conn.invoke(
+    #     "com.i61.live.hll.api.AccountInfoRpcService",
+    #     "register",
+    #     json_data
+    # )
     result = conn.invoke(
-        "com.i61.live.hll.api.AccountInfoRpcService",
-        "register",
-        json_data
+        "com.i61.draw.course.api.GroupRpcService",
+        "selectGroupStudentDTOByTeacherId",
+        [1, 0, 30]
     )
     # conn.get_method_info()
     # conn.get_method_info('com.i61.live.hll.api.GroupInfoRpcService')
+    result = json.loads(result)
     print(result)
     conn.close()
