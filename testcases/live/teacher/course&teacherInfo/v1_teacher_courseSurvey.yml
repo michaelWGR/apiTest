@@ -1,0 +1,106 @@
+- config:
+    name: 教师课堂反馈
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+- test:
+    name: 获取成功
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurvey.yml
+    variables:
+        Authorization: $token
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - eq: [status_code, 200]
+
+- test:
+    name: token 错误
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurvey.yml
+    variables:
+      deviceId: 123456
+      Authorization: abc
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token 为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurvey.yml
+    variables:
+      deviceId: 123456
+      Authorization: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: classRoomScheduleId为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurvey.yml
+    variables:
+      deviceId: 123456
+      Authorization: $token
+      classRoomScheduleId: null
+    validate:
+      - eq: [status_code, 500]
+
+- test:
+    name: classRoomScheduleId 不存在
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurvey.yml
+    variables:
+      deviceId: 123456
+      Authorization: $token
+      classRoomScheduleId: 666666666
+    validate:
+      - eq: [content.code, 420]
+      - eq: [content.msg, classRoomScheduleId 为666666666的课程不存在]
+      - eq: [content.data, null]
+      - eq: [content.success, False]
+
+- test:
+    name: deviceId 为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurvey.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceId 不正确
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurvey.yml
+    variables:
+      deviceId: 666666
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: classRoomScheduleId、deviceId为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurvey.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+      courseInfoId: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: classRoomScheduleId、deviceId不正确
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurvey.yml
+    variables:
+      deviceId: 666666
+      Authorization: $token
+      classRoomScheduleId: 666666666
+
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+

@@ -1,0 +1,19 @@
+name: get_courseware
+base_url: ${yml(teacher_base_url)}
+variables:
+  expected_status_code: 200
+  deviceId: 123456
+  Authorization: null
+  courseInfoId: 12
+
+request:
+  url: /v1/teacher/courseware
+  method: GET
+  params:
+    deviceId: $deviceId
+    courseInfoId: $courseInfoId
+  headers:
+    Authorization: $Authorization
+
+validate:
+  - eq: ["status_code", $expected_status_code]

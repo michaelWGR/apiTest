@@ -1,0 +1,110 @@
+- config:
+    name: 获取课件
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+- test:
+    name: 获取成功
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    variables:
+        Authorization: $token
+        courseInfoId: 12
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - eq: [status_code, 200]
+
+- test:
+    name: token 错误
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    variables:
+      deviceId: 123456
+      Authorization: abc
+      courseInfoId: 12
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token 为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    variables:
+      deviceId: 123456
+      Authorization: null
+      courseInfoId: 12
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: courseInfoId 为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    variables:
+      deviceId: 123456
+      Authorization: $token
+      courseInfoId: null
+    validate:
+      - eq: [status_code, 500]
+
+- test:
+    name: courseInfoId 不存在
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    variables:
+      deviceId: 123456
+      Authorization: $token
+      courseInfoId: 666666
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.data, []]
+      - eq: [content.success, True]
+
+- test:
+    name: deviceId 为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+      courseInfoId: 12
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceId 不正确
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    variables:
+      deviceId: 666666
+      Authorization: $token
+      courseInfoId: 12
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: courseInfoId、deviceId为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+      courseInfoId: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: courseInfoId、deviceId不正确
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    variables:
+      deviceId: 666666
+      Authorization: $token
+      courseInfoId: 666666
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
