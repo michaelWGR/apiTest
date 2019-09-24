@@ -3,7 +3,7 @@ import os
 import random
 import string
 import time
-
+import math
 import yaml
 
 from common.configDB import MyDB
@@ -73,6 +73,78 @@ def get_draw_money_rules_length(type):
         db.closeDB()
         return len(rulelist)
 
+
+def get_origin_userinfo(dm_dict):
+    db = MyDB()
+    db.connectDB('i61')
+    sql = '''SELECT * FROM usersecurityinfo WHERE Account = {};'''.format(dm_dict['account'])
+    cursor = db.executeSQL(sql)
+    userinfo = db.get_one(cursor)
+    db.closeDB()
+
+    userId = userinfo[0]
+    password = userinfo[2]
+    user_dict = {'userId': userId, 'password': password}
+    return user_dict
+
+
+def update_user_password(dm_dict):
+    md5_account = encrypt_md5(dm_dict['account'])
+    md5_new_pwd = encrypt_md5(encrypt_md5('000000'))
+    temp_pwd = ''
+    for index in range(len(md5_account)):
+        temp_pwd += md5_account[index]
+        temp_pwd += md5_new_pwd[index]
+    encrypt_pwd = encrypt_md5(temp_pwd)
+
+    db = MyDB()
+    db.connectDB('i61')
+    sql = '''UPDATE usersecurityinfo SET Password = {0} WHERE UserId = {1};'''.format(encrypt_pwd, dm_dict['userId'])
+    db.executeSQL(sql)
+    db.closeDB()
+
+
+def rollback_user_password(user_dict):
+    db = MyDB()
+    db.connectDB('i61')
+    sql = '''UPDATE usersecurityinfo SET Password = {0} WHERE UserId = {1};'''.format(user_dict['password'], user_dict['userId'])
+    db.executeSQL(sql)
+    db.closeDB()
+
+
+def get_userId_in_dm_detail(type='max'):
+    #type=max ||min
+    if type != 'max' or type != 'min':
+        return 0
+
+    db = MyDB()
+    db.connectDB('i61-hll-manager')
+    order = 'DESC'
+    if type == 'min':
+        order = 'ASC'
+    sql = '''SELECT user_id,  COUNT(*) FROM dm_change_record GROUP BY user_Id ORDER BY COUNT(*) {};'''.format(order)
+    cursor = db.executeSQL(sql)
+    record = db.get_one(cursor)
+    userId = record[0]
+    page = math.ceil(record[1] / 6)
+
+    db.connectDB('i61')
+    sql = '''SELECT Account FROM userinfo WHERE UserId = {};'''.format(userId)
+    cursor = db.executeSQL(sql)
+    record = db.get_one(cursor)
+    account = record[0]
+    db.closeDB()
+
+    dm_dict = {'account': account, 'page': page}
+    return dm_dict
+
+
+def get_dm_account(dm_dict):
+    return dm_dict['account']
+
+
+def get_dm_account_max_page(dm_dict):
+    return dm_dict['page']
 
 ##################################################################
 # 外呼系统调用方法

@@ -1,0 +1,42 @@
+- config:
+    name: 获取用户的画币收支详情
+    id: get_draw_money_walletDetail
+    variables:
+      dm_dict: ${get_userId_in_dm_detail("max")}
+      orgin_account_dict: ${get_origin_userinfo($dm_dict)}
+      account: ${get_dm_account($dm_dict)}
+      page: ${get_dm_account_max_page($dm_dict)}
+      deviceId: ${gen_random_string(29)}
+      password: ${yml(student.account.password_qy)}
+    setup_hooks:
+      - ${update_user_password($dm_dict)}
+    teardown_hooks:
+      - ${rollback_user_password($origin_account_dict)}
+
+- test:
+    name: 用户登录后退出
+    testcase: testcases/live/student/account/v1_student_logout.yml
+    output:
+      - token
+
+- test:
+    name: 未登录的用户获取画币收支
+    api: api/live/student/drawMoney/v1_student_dm_walletDetail.yml
+    variables:
+      page: 1
+      Authorization: $token
+      deviceId: $deviceId
+      size: 6
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, "accessToken error"]
+
+- test:
+    name:
+
+
+
+
+
+
+

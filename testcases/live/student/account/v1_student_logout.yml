@@ -67,4 +67,3 @@
       - eq: [status_code, 200]
       - eq: [content.code, 200]
       - eq: [content.msg, ok]
-      - eq: [content.success, true]
