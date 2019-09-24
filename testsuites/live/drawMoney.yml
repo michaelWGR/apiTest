@@ -4,3 +4,6 @@ config:
 testcases:
   获取画币商城规则:
     testcase: testcases/live/student/drawMoney/v1_student_dm_rules.yml
+
+  获取画币收支详情:
+    testcase: testcase/live/student/drawMoney/v1_student_dm_walletDetail.yml

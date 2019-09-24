@@ -1,0 +1,24 @@
+name: 获得画币详情
+base_url: ${yml{student.base_url}}
+variables:
+  page: null
+  size: null
+  deviceId: null
+  Authorization: null
+  expected_status_code: 200
+  expected_content_type: "application/json;charset=UTF-8"
+  method: GET
+  more: null
+request:
+  url: /v1/student/dm/walletDetail
+  method: $method
+  params:
+    page: $page
+    deviceId: $deviceId
+    size: $size
+    more: $more
+  headers:
+    Authorization: $Authorization
+validate:
+  - eq: ["status_code", $expected_status_code]
+  - eq: [headers.Content-Type, $expected_content_type]
