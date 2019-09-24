@@ -1,7 +1,7 @@
 name: 获取学员课时信息Rpc接口
 
 variables:
-  userId: [int, 6000662]
+  userId: 6000662
 
 request:
   host: ${yml(rpc.host)}

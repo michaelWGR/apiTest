@@ -175,23 +175,6 @@ class Runner(object):
             parsed_args.append(json.dumps(obj))
         return parsed_args
 
-    @staticmethod
-    def _parse_param(param_data):
-        parsed_args = []
-        for arg in param_data:
-            arg_type = arg[0]
-            if arg_type == 'int':
-                parsed_args.append(arg[1])
-            elif arg_type == 'str':
-                parsed_args.append(json.dumps(arg[1]))
-            elif arg_type == 'list':
-                tmp_arg = arg.copy()
-                tmp_arg.pop(0)
-                parsed_args.append(tmp_arg)
-            else:
-                raise exceptions.ParamsError('arg type error: %s' % arg_type)
-        return parsed_args
-
     def _run_test_dubbo(self, test_dict, parsed_test_request):
         # setup hooks
         setup_hooks = test_dict.get("setup_hooks", [])
@@ -232,7 +215,10 @@ class Runner(object):
         parsed_args = []
         arg_type = args.pop()
         if arg_type == 0:
-            parsed_args = self._parse_param(args)
+            for arg in args:
+                if isinstance(arg, str):
+                    arg = json.dumps(arg)
+                parsed_args.append(arg)
         elif arg_type == 1:
             parsed_args = self._parse_json(args)
         elif arg_type == 2:
@@ -240,8 +226,10 @@ class Runner(object):
             for s_arg in args:
                 s_arg_type = s_arg.pop()
                 if s_arg_type == 0:
-                    for param in self._parse_param(s_arg):
-                        parsed_args.append(param)
+                    for arg in s_arg:
+                        if isinstance(arg, str):
+                            arg = json.dumps(arg)
+                        parsed_args.append(arg)
                 elif s_arg_type == 1:
                     for param in self._parse_json(s_arg):
                         parsed_args.append(param)

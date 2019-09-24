@@ -5,7 +5,7 @@
     name: get user course hour
     api: api/get_user_course_hour.yml
     variables:
-      userId: [int, 6000662]
+      userId: 6000662
     extract:
       - leftover: giftHourLeftover
       - total: giftHourTotal
