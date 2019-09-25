@@ -54,6 +54,6 @@ web_user_id: 6000079
 
 
 rpc:
-  host: '10.60.7.253'
+  host: 10.60.7.253
   port: 20885
   userId: 6000662

@@ -183,6 +183,17 @@ class HttpRunner(object):
         self.exception_stage = "run test suite"
         results = self._run_suite(test_suite)
 
+        # add tag to distinguish this is run http result or run dubbo result
+        # self.exception_stage = "wrap test results"
+        # for item in parsed_testcases[0]['teststeps']:
+        #     if 'teststeps' in item:
+        #         request = item['teststeps'][0]['request']
+        #     else:
+        #         request = item['request']
+        #     if 'host' in request and 'port' in request:
+        #         pass
+        #     print(request)
+
         # aggregate results
         self.exception_stage = "aggregate results"
         self._summary = self._aggregate(results)

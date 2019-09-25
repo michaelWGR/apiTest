@@ -38,7 +38,7 @@ def main():
 
 if __name__ == '__main__':
     # main()
-
+    run('testsuites/live/drawMoney.yml')
     # logger.setup_logger('info')
     for t in range(0, 100):
         for i in range(0, 200):

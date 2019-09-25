@@ -5,7 +5,7 @@
     name: get user course hour
     api: api/get_user_course_hour.yml
     variables:
-      userId: 6000662
+      userId: ${yml(rpc.userId)}
     extract:
       - leftover: giftHourLeftover
       - total: giftHourTotal
