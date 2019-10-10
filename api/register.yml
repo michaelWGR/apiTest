@@ -28,6 +28,3 @@ request:
   package: com.i61.live.hll.api.AccountInfoRpcService
   method: register
   json: $accountObj
-  param:
-    - [int, 1]
-    - [str, test]

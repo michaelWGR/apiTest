@@ -55,8 +55,8 @@ def main():
 if __name__ == '__main__':
     # main()
 
-    logger.setup_logger('info')
-    path = 'api/register.yml'
+    logger.setup_logger('debug')
+    path = 'api/get_user_course_hour.yml'
     # path = 'testcases/get_user_course_hour.yml'
     report_path = run(path, True)
 
