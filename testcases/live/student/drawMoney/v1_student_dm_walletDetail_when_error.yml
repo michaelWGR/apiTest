@@ -1,0 +1,144 @@
+- config:
+    name: 无法正常获取用户的画币收支详情
+    id: get_draw_money_walletDetail
+    variables:
+      dm_dict: ${get_userId_in_dm_detail(1)}
+      origin_account_dict: ${get_origin_userinfo($dm_dict)}
+      account: ${get_dm_account($dm_dict)}
+      p_page: 1
+      device_id: ${gen_random_string(29)}
+      password: ${yml(student.account.default_password)}
+    setup_hooks:
+      - ${update_user_password($dm_dict)}
+    teardown_hooks:
+      - ${rollback_user_password($origin_account_dict)}
+
+- test:
+    name: 不登录查询画币收支（使用随机的deviceId）
+    api: api/live/student/drawMoney/v1_student_dm_walletDetail.yml
+    variables:
+      page: $p_page
+      deviceId: ${gen_random_string(29)}
+      Authorization: null
+      size: 6
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, "accessToken error"]
+
+
+- test:
+    name: 登录
+    variables:
+      deviceId: $device_id
+    testcase: testcases/live/student/account/student_get_token.yml
+    output:
+      - token
+
+- test:
+    name: 错误的方法
+    api: api/live/student/drawMoney/v1_student_dm_walletDetail.yml
+    variables:
+      page: $p_page
+      method: POST
+      Authorization: $token
+      deviceId: $device_id
+      size: 6
+    validate:
+      - eq: [status_code, 405]
+      - eq: [content.code, 405]
+      - eq: [content.msg, "method not allowed"]
+      - eq: [content.success, False]
+
+- test:
+    name: page字段类型错误
+    api: api/live/student/drawMoney/v1_student_dm_walletDetail.yml
+    variables:
+      page: "test"
+      Authorization: $token
+      deviceId: $device_id
+      size: 6
+    validate:
+      - eq: [status_code, 500]
+      - eq: [content.code, 500]
+      - eq: [content.msg, "system error"]
+      - eq: [content.success, False]
+
+- test:
+    name: size字段类型错误
+    api: api/live/student/drawMoney/v1_student_dm_walletDetail.yml
+    variables:
+      page: 1
+      Authorization: $token
+      deviceId: $device_id
+      size: "test"
+    validate:
+      - eq: [status_code, 500]
+      - eq: [content.code, 500]
+      - eq: [content.msg, "system error"]
+      - eq: [content.success, False]
+
+- test:
+    name: page字段超出类型限制
+    api: api/live/student/drawMoney/v1_student_dm_walletDetail.yml
+    variables:
+      page: 2147483648
+      Authorization: $token
+      deviceId: $device_id
+      size: 1
+    validate:
+      - eq: [status_code, 500]
+      - eq: [content.code, 500]
+      - eq: [content.msg, "system error"]
+      - eq: [content.success, False]
+
+- test:
+    name: size字段超出类型限制
+    api: api/live/student/drawMoney/v1_student_dm_walletDetail.yml
+    variables:
+      page: 1
+      Authorization: $token
+      deviceId: $device_id
+      size: 2147483648
+    validate:
+      - eq: [status_code, 500]
+      - eq: [content.code, 500]
+      - eq: [content.msg, "system error"]
+      - eq: [content.success, False]
+
+- test:
+    name: token过期
+    api: api/live/student/drawMoney/v1_student_dm_walletDetail.yml
+    variables:
+      page: 1
+      Authorization: "eyJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoiSkVPWnFsYlhQRGYwM0x2NWVHTnE0SWFBNktkTWpOMEhlY3NGMURYemRTaGQrbzFvQnZXZklpSVhYcjJhTmJjLzRBWGRqbkpOUHVEait3TzZ5QUxiUGhrbWx4MzRySkZXRU5GYUt5bkxkVnYrQlBRMHJ6YmR2d3Vremd2dDJFNk8iLCJleHAiOjE1NjExOTI5MjN9.O5kAnRGwQL9-qmUqIR0VjNlLDaUQbemLa_pZ1xsq9vU"
+      deviceId: $device_id
+      size: 1
+    validate:
+      - eq: [content.code, 701]
+      - eq: [content.msg, "accessToken out of date"]
+
+- test:
+    name: 多余的参数
+    api: api/live/student/drawMoney/v1_student_dm_walletDetail.yml
+    variables:
+      page: $p_page
+      Authorization: $token
+      deviceId: $device_id
+      size: 6
+      more: "test"
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, "ok"]
+      - eq: [content.success, True]
+      - type_match: [content.data.drawMoneyChangeRecords, list]
+
+- test:
+    name: 缺失deviceId
+    api: api/live/student/drawMoney/v1_student_dm_walletDetail.yml
+    variables:
+      page: $p_page
+      Authorization: $token
+      size: 6
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, "accessToken error"]

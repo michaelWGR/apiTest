@@ -1,5 +1,5 @@
 name: 获得画币详情
-base_url: ${yml{student.base_url}}
+base_url: ${yml(student.base_url)}
 variables:
   page: null
   size: null

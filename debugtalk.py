@@ -47,7 +47,7 @@ def hook_print(msg):
 
 #########################################################
 # 学生APP调用方法
-###########################################################
+#########################################################
 def gen_random_string(len=1):
     ran_str = random.sample(string.ascii_letters + string.digits, len)
     str = "API-"
@@ -77,7 +77,7 @@ def get_draw_money_rules_length(type):
 def get_origin_userinfo(dm_dict):
     db = MyDB()
     db.connectDB('i61')
-    sql = '''SELECT * FROM usersecurityinfo WHERE Account = {};'''.format(dm_dict['account'])
+    sql = '''SELECT * FROM usersecurityinfo WHERE UserId = '{}';'''.format(dm_dict['userId'])
     cursor = db.executeSQL(sql)
     userinfo = db.get_one(cursor)
     db.closeDB()
@@ -85,6 +85,7 @@ def get_origin_userinfo(dm_dict):
     userId = userinfo[0]
     password = userinfo[2]
     user_dict = {'userId': userId, 'password': password}
+    # print(user_dict)
     return user_dict
 
 
@@ -93,40 +94,56 @@ def update_user_password(dm_dict):
     md5_new_pwd = encrypt_md5(encrypt_md5('000000'))
     temp_pwd = ''
     for index in range(len(md5_account)):
-        temp_pwd += md5_account[index]
-        temp_pwd += md5_new_pwd[index]
+        temp_int = ord(md5_account[index]) + ord(md5_new_pwd[index])
+        temp_pwd += str(temp_int)
     encrypt_pwd = encrypt_md5(temp_pwd)
 
     db = MyDB()
     db.connectDB('i61')
-    sql = '''UPDATE usersecurityinfo SET Password = {0} WHERE UserId = {1};'''.format(encrypt_pwd, dm_dict['userId'])
+    sql = '''UPDATE usersecurityinfo SET Password = '{0}' WHERE UserId = {1};'''.format(encrypt_pwd, dm_dict['userId'])
     db.executeSQL(sql)
     db.closeDB()
+    # print(dm_dict)
+    # print("update password:" + encrypt_pwd)
 
 
 def rollback_user_password(user_dict):
     db = MyDB()
     db.connectDB('i61')
-    sql = '''UPDATE usersecurityinfo SET Password = {0} WHERE UserId = {1};'''.format(user_dict['password'], user_dict['userId'])
+    sql = '''UPDATE usersecurityinfo SET Password = '{0}' WHERE UserId = {1};'''.format(user_dict['password'], user_dict['userId'])
     db.executeSQL(sql)
     db.closeDB()
+    # print("rollback password:" + user_dict['password'])
 
 
-def get_userId_in_dm_detail(type='max'):
-    #type=max ||min
-    if type != 'max' or type != 'min':
+def get_userId_in_dm_detail(type):
+    # 0=asc;1=desc
+    if type != 0 and type != 1:
         return 0
 
     db = MyDB()
+    db.connectDB('i61')
+    sql = '''SELECT UserId FROM `i61`.usersecurityinfo WHERE state = 1;'''
+    cursor = db.executeSQL(sql)
+    record = db.get_all(cursor)
+    list = '';
+    for uid in record:
+        list += str(uid[0])
+        list += ','
+    list = list[:-1]
+
     db.connectDB('i61-hll-manager')
     order = 'DESC'
-    if type == 'min':
+    if type == 1:
         order = 'ASC'
-    sql = '''SELECT user_id,  COUNT(*) FROM dm_change_record GROUP BY user_Id ORDER BY COUNT(*) {};'''.format(order)
+    sql = '''SELECT user_id,  COUNT(*) FROM dm_change_record where user_id not in ({0}) GROUP BY user_Id ORDER BY COUNT(*) {1} ;'''.format(list, order)
     cursor = db.executeSQL(sql)
     record = db.get_one(cursor)
-    userId = record[0]
-    page = math.ceil(record[1] / 6)
+    userId = 569106
+    page = 1
+    if record is not None:
+      userId = record[0]
+      page = int(math.ceil(record[1] / 6))
 
     db.connectDB('i61')
     sql = '''SELECT Account FROM userinfo WHERE UserId = {};'''.format(userId)
@@ -135,7 +152,7 @@ def get_userId_in_dm_detail(type='max'):
     account = record[0]
     db.closeDB()
 
-    dm_dict = {'account': account, 'page': page}
+    dm_dict = {'account': account, 'userId': userId, 'page': page}
     return dm_dict
 
 
@@ -145,6 +162,10 @@ def get_dm_account(dm_dict):
 
 def get_dm_account_max_page(dm_dict):
     return dm_dict['page']
+
+
+def get_dm_acount_next_page(page):
+    return page + 1
 
 ##################################################################
 # 外呼系统调用方法
@@ -479,4 +500,12 @@ def get_fileName_list():
         fileName = 'test.{}'.format(i)
         fileName_list.append(fileName)
     return fileName_list
+
+if __name__ == '__main__':
+    dm_dict = get_userId_in_dm_detail(0)
+    user_dict = get_origin_userinfo(dm_dict)
+    account = get_dm_account(dm_dict)
+    page = get_dm_account_max_page(dm_dict)
+    update_user_password(dm_dict)
+
 

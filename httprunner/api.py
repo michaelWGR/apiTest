@@ -26,6 +26,7 @@ class HttpRunner(object):
         logger.log_info("HttpRunner version: {}".format(__version__))
 
         self.exception_stage = "initialize HttpRunner()"
+
         kwargs = {
             "failfast": failfast,
             "resultclass": report.HtmlTestResult

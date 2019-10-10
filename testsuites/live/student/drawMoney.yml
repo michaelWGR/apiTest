@@ -5,5 +5,26 @@ testcases:
   获取画币商城规则:
     testcase: testcases/live/student/drawMoney/v1_student_dm_rules.yml
 
-  获取画币收支详情:
-    testcase: testcase/live/student/drawMoney/v1_student_dm_walletDetail.yml
+  获取画币收支第 $p_page 页详情:
+    testcase: testcases/live/student/drawMoney/v1_student_dm_walletDetail_when_ok.yml
+    parameters:
+      p_page: [-1, 0, 1, 2]
+
+  获取画币收支最后一页详情:
+    testcase: testcases/live/student/drawMoney/v1_student_dm_walletDetail_when_ok.yml
+    parameters:
+      p_page: [$max_page]
+
+  获取画币收支最后一页下一页详情:
+    testcase: testcases/live/student/drawMoney/v1_student_dm_walletDetail_when_ok.yml
+    parameters:
+      p_page: [$next_page]
+
+  获取画币收支详情时字段缺失:
+    testcase: testcases/live/student/drawMoney/v1_student_dm_walletDetail_when_ok.yml
+    parameters:
+      p_page: [null, 1]
+      p_size: [null, 6]
+
+  获取画币收支详情时各种异常:
+    testcase: testcases/live/student/drawMoney/v1_student_dm_walletDetail_when_error.yml
