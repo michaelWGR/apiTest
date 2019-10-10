@@ -52,5 +52,5 @@ if __name__ == '__main__':
     #         run('testcases/live/liveMonitor/dynamicMonitor_android.yml')
     #         run('testcases/live/liveMonitor/dynamicMonitor_ios.yml')
     #         run('testcases/live/liveMonitor/warn.yml')
-    path = 'testcases/live/teacher/course&teacherInfo/v1_teacher_courseware.yml'
+    path = 'testsuites/live/student/drawMoney.yml'
     run(path)
