@@ -5,6 +5,18 @@
       - deviceId: ${yml(student.default_device_id)}
 
 - test:
+    name: token错误
+    api: api/live/student/account/v1_student_getAccountName.yml
+    variables:
+      account: $account
+      code: ${yml(student.account.default_auth_code)}
+      token: alsdkjf
+      deviceId: $deviceId
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
     name: 获取token
     testcase: testcases\live\student\account\student_get_token.yml
     variables:
@@ -12,6 +24,7 @@
       deviceId: $deviceId
     output:
       - token
+      -
 - test:
     name: 未获取验证码
     setup_hooks:
@@ -119,17 +132,3 @@
       - eq: [content.code, 604]
       - eq: [content.msg, 验证码错误或超时]
       - eq: [content.success, false]
-
-
-- test:
-    name: 缺少token
-    api: api/live/student/account/v1_student_getAccountName.yml
-    variables:
-      account: $account
-      code: ${yml(student.account.default_auth_code)}
-      token: null
-      deviceId: $deviceId
-    validate:
-      - eq: [content.code, 200]
-      - eq: [content.msg, ok]
-      - eq: [content.success, true]

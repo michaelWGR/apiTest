@@ -1,16 +1,21 @@
-name: 根据手机号码获取账号名称接口
+name: 学生更换账号接口
 base_url: ${yml(student.base_url)}
 
 variables:
   account: ${yml(student.account.account1)}
-  code: ${yml(studetn.account.default_auth_code)}
+  password: ${yml(student.account.default_password)}
+  code: ${yml(student.account.default_auth_code)}
+  token: null
   expected_status_code: 200
 
 request:
-  url: /v1/student/getAccountName
-  method: GET
-  params:
-    account: $account
+  url: /v1/student/changeAccount
+  method: POST
+  headers:
+    Authorization: $token
+  json:
+    newAccount: $account
+    password: $password
     code: $code
 
 validate:
