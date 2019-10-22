@@ -1,0 +1,54 @@
+- config:
+    name: 免验证获取简单学生信息
+    variables:
+      phone: ${yml(student.account.account1)}
+      wrongFormatPhone: 123456
+      wrongTypePhone: aksdfkla
+      nonPhone: ${yml(student.account.non_esists_account)}
+
+- test:
+    name: 获取简单学生信息
+    api: api/live/student/studentInfo/v1_student_simpleUserInfo.yml
+    variables:
+      phone: $phone
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+
+- test:
+    name: 账号不存在
+    api: api/live/student/studentInfo/v1_student_simpleUserInfo.yml
+    variables:
+      phone: $nonPhone
+    validate:
+      - eq: [content.code, 601]
+      - eq: [content.msg, 账户不存在]
+      - eq: [content.success, false]
+
+- test:
+    name: 手机号格式错误
+    api: api/live/student/studentInfo/v1_student_simpleUserInfo.yml
+    variables:
+      phone: $wrongFormatPhone
+    validate:
+      - eq: [content.code, 400]
+      - eq: [content.msg, 参数错误]
+
+- test:
+    name: 手机号数据类型错误
+    api: api/live/student/studentInfo/v1_student_simpleUserInfo.yml
+    variables:
+      phone: $wrongTypePhone
+    validate:
+      - eq: [content.code, 400]
+      - eq: [content.msg, 参数错误]
+
+- test:
+    name: 手机号为空
+    api: api/live/student/studentInfo/v1_student_simpleUserInfo.yml
+    variables:
+      phone: null
+    validate:
+      - eq: [content.code, 400]
+      - eq: [content.msg, 参数错误]

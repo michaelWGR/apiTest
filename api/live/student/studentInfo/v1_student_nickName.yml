@@ -1,0 +1,18 @@
+name: 修改昵称接口
+base_url: ${yml(student.base_url)}
+
+variables:
+  nickName: nickName
+  token: null
+  expected_status_code: 200
+
+request:
+  url: /v1/student/nickName
+  method: POST
+  headers:
+    Authorization: $token
+  json:
+    nickName: $nickName
+
+validate:
+  - eq: ["status_code", $expected_status_code]
