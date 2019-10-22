@@ -1,0 +1,19 @@
+name: v1_common_functionSwitch
+base_url: ${yml(web_base_url)}
+variables:
+    functions: '["web_is_gray"]'
+    version: '1'
+    clientType: 'web'
+    Authorization: '123'
+
+request:
+    url: /v1/common/functionSwitch
+    method: POST
+    data:
+        functions: $functions
+        version: $version
+        clientType: $clientType
+    headers:
+        Authorization: $Authorization
+validate:
+    - eq: [status_code, 200]
