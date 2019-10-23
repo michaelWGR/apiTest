@@ -10,8 +10,8 @@
     api: api/call/checkUpgrade.yml
     variables:
       deviceId: 123
-      version: 1.0.1
-      code: 10002
+      version: 1.0.2
+      code: 10003
     validate:
       - eq: [content.code, 200]
       - eq: [content.msg, ok]

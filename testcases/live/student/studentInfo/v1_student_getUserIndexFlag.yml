@@ -1,0 +1,37 @@
+- config:
+    name: 获取用户课程标识
+
+- test:
+    name: 无效的token
+    api: api/live/student/studentInfo/v1_student_getUserIndexFlag.yml
+    variables:
+      token: asdflajelkf
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token为空
+    api: api/live/student/studentInfo/v1_student_getUserIndexFlag.yml
+    variables:
+      token: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: 获取token
+    testcase: testcases/live/student/account/student_get_token.yml
+    output:
+      - token
+
+- test:
+    name: 获取用户课程标识
+    api: api/live/student/studentInfo/v1_student_getUserIndexFlag.yml
+    variables:
+      token: $token
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+

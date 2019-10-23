@@ -4,10 +4,12 @@
     variables:
       account: ${yml(student.account.account_qy)}
       password: ${yml(student.account.password_qy)}
-      deviceId: ${gen_random_string(29)}
+      device_id: ${gen_random_string(29)}
 
 - test:
     name: 登录
+    variables:
+      deviceId: $device_id
     testcase: testcases/live/student/account/student_get_token.yml
     output:
       - token
@@ -18,7 +20,7 @@
     variables:
       type: 1
       Authorization: $token
-      deviceId: $deviceId
+      deviceId: $device_id
       rules_length: ${get_draw_money_rules_length($type)}
     validate:
       - eq: [content.code, 200]
@@ -32,7 +34,7 @@
     variables:
       type: 2
       Authorization: $token
-      deviceId: $deviceId
+      deviceId: $device_id
       rules_length: ${get_draw_money_rules_length($type)}
     validate:
       - eq: [content.code, 200]
@@ -45,7 +47,7 @@
     api: api/live/student/drawMoney/v1_student_dm_rules.yml
     variables:
       type: 1
-      deviceId: $deviceId
+      deviceId: $device_id
       rules_length: ${get_draw_money_rules_length($type)}
     validate:
       - eq: [content.code, 703]
@@ -57,7 +59,7 @@
     variables:
       type: 1
       Authorization: "123456"
-      deviceId: $deviceId
+      deviceId: $device_id
       rules_length: ${get_draw_money_rules_length($type)}
     validate:
       - eq: [content.code, 703]
@@ -72,17 +74,15 @@
       deviceId: ${gen_random_string(29)}
       rules_length: ${get_draw_money_rules_length($type)}
     validate:
-      - eq: [content.code, 200]
-      - eq: [content.msg, ok]
-      - type_match: [content.data, list]
-      - len_eq: [content.data, $rules_length]
+      - eq: [content.code, 703]
+      - eq: [content.msg, "accessToken error"]
 
 - test:
     name: 不带type
     api: api/live/student/drawMoney/v1_student_dm_rules.yml
     variables:
       Authorization: $token
-      deviceId: $deviceId
+      deviceId: $device_id
       type: null
       rules_length: ${get_draw_money_rules_length($type)}
     validate:
@@ -96,7 +96,7 @@
     variables:
       type: -1
       Authorization: $token
-      deviceId: $deviceId
+      deviceId: $device_id
       rules_length: ${get_draw_money_rules_length($type)}
     validate:
       - eq: [content.code, 200]
@@ -110,7 +110,7 @@
     variables:
       type: 2147483648
       Authorization: $token
-      deviceId: $deviceId
+      deviceId: $device_id
       rules_length: ${get_draw_money_rules_length($type)}
     validate:
       - eq: [status_code, 500]
@@ -123,7 +123,7 @@
     variables:
       type: "test"
       Authorization: $token
-      deviceId: $deviceId
+      deviceId: $device_id
       rules_length: ${get_draw_money_rules_length($type)}
     validate:
       - eq: [status_code, 500]
@@ -136,7 +136,7 @@
     variables:
       type: 1
       Authorization: $token
-      deviceId: $deviceId
+      deviceId: $device_id
       rules_length: ${get_draw_money_rules_length($type)}
       more: "select * from `i61-hll-manager`.draw_money_rule;"
     validate:
@@ -151,7 +151,7 @@
     variables:
       type: 1
       Authorization: $token
-      deviceId: $deviceId
+      deviceId: $device_id
       rules_length: ${get_draw_money_rules_length($type)}
       method: POST
     validate:

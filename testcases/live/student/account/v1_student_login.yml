@@ -44,3 +44,15 @@
       - eq: [content.code, 603]
       - eq: [content.msg, 密码错误]
       - eq: [content.success, false]
+
+- test:
+    name: 账号数据类型错误
+    api: api/live/student/account/v1_student_login.yml
+    variables:
+      account: lasjkdfk
+      password: ${yml(student.account.defalut_password)}
+      devicedId: ${yml(student.default_device_id)}
+    validate:
+      - eq: [content.code, 400]
+      - eq: [content.msg, 参数错误]
+      - eq: [content.success, false]

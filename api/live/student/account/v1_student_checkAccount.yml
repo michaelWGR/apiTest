@@ -1,17 +1,20 @@
-name: 根据手机号码获取账号名称接口
+name: 学生检查账号密码接口
 base_url: ${yml(student.base_url)}
 
 variables:
   account: ${yml(student.account.account1)}
-  code: ${yml(studetn.account.default_auth_code)}
+  password: ${yml(student.account.default_password)}
+  token: null
   expected_status_code: 200
 
 request:
-  url: /v1/student/getAccountName
+  url: /v1/student/checkAccount
   method: GET
+  headers:
+    Authorization: $token
   params:
     account: $account
-    code: $code
+    password: $password
 
 validate:
   - eq: ["status_code", $expected_status_code]

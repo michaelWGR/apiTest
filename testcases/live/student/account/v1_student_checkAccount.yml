@@ -1,0 +1,85 @@
+- config:
+    name: 学生检查账号密码
+    variables:
+      account: ${yml(student.account.account1)}
+      wrongAccount: ${yml(student.account.non_exists_account)}
+      password: ${yml(student.account.default_password)}
+      wrongPassword: alksdjfklas
+
+- test:
+    name: 获取token
+    testcase: testcases/live/student/account/student_get_token.yml
+    output:
+      - token
+      -
+- test:
+    name: 学生检查账号密码
+    api: api/live/student/account/v1_student_checkAccount.yml
+    variables:
+      account: $account
+      password: $password
+      token: $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+
+- test:
+    name: 账号不存在
+    api: api/live/student/account/v1_student_checkAccount.yml
+    variables:
+      account: $wrongAccount
+      password: $password
+      token: $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 601]
+      - eq: [content.msg, 账户不存在]
+
+- test:
+    name: 密码错误
+    api: api/live/student/account/v1_student_checkAccount.yml
+    variables:
+      account: $account
+      password: $wrongPassword
+      token: $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 603]
+      - eq: [content.msg, 密码错误]
+
+- test:
+    name: 手机号为空
+    api: api/live/student/account/v1_student_checkAccount.yml
+    variables:
+      account: null
+      password: $password
+      token: $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 400]
+      - eq: [content.msg, 参数错误]
+
+- test:
+    name: 密码为空
+    api: api/live/student/account/v1_student_checkAccount.yml
+    variables:
+      account: $account
+      password: null
+      token: $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 400]
+      - eq: [content.msg, 参数错误]
+
+- test:
+    name: 手机号数据类型错误
+    api: api/live/student/account/v1_student_checkAccount.yml
+    variables:
+      account: asdfaskljdf
+      password: $password
+      token: $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 400]
+      - eq: [content.msg, 参数错误]

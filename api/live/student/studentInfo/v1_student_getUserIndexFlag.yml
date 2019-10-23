@@ -1,0 +1,15 @@
+name: 获取用户课程标识接口
+base_url: ${yml(student.base_url)}
+
+variables:
+  token: null
+  expected_status_code: 200
+
+request:
+  url: /v1/student/getUserIndexFlag
+  method: GET
+  headers:
+    Authorization: $token
+
+validate:
+  - eq: ["status_code", $expected_status_code]

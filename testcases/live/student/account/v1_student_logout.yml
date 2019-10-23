@@ -4,6 +4,18 @@
       deviceId: ${yml(student.default_device_id)}
 
 - test:
+    name: token为空
+    api: api/live/student/account/v1_student_logout.yml
+    variables:
+      token: null
+      deviceId: $deviceId
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+
+- test:
     name: get token
     testcase: testcases/live/student/account/student_get_token.yml
     output:
@@ -14,18 +26,6 @@
     api: api/live/student/account/v1_student_logout.yml
     variables:
       token: $token
-      deviceId: $deviceId
-    validate:
-      - eq: [status_code, 200]
-      - eq: [content.code, 200]
-      - eq: [content.msg, ok]
-      - eq: [content.success, true]
-
-- test:
-    name: token为空
-    api: api/live/student/account/v1_student_logout.yml
-    variables:
-      token: null
       deviceId: $deviceId
     validate:
       - eq: [status_code, 200]

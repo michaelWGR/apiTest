@@ -28,7 +28,7 @@ student:
     non_exists_account: '99999999999'
     valid_account: '123456'
     account_qy: '14400000001'
-    password_qy: '000000'
+    password_qy: '000001'
 
   # popWindow 相关参数
   popWindow:
@@ -38,8 +38,8 @@ student:
 
 # 直播监控相关参数
 liveMonitor:
-  # base_url: http://10.60.7.72:8898
-  base_url: http://monitor.61info.cn
+  base_url: http://monitor-test.61info.cn
+  # base_url: http://monitor.61info.cn
 
 
 # web端测试账号
@@ -55,6 +55,10 @@ web_user_id: 6000079
 web_account2: '13097301002'
 web_password2: '000000'
 web_user_id2: 6000080
+
+web_teacher_account: 'ceshi200075'
+web_teacher_password: '123456'
+web_teacher_id: '200075'
 
 
 rpc:

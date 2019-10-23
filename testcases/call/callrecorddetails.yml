@@ -102,7 +102,7 @@
       - len_eq: [content.data.recordVOS, 0]
 
 - test:
-    name: get detail with wrong type of studentName
+    name: get detail with wrong type of studentId
     api: api/call/callrecorddetails.yml
     variables:
       deviceId: 123
