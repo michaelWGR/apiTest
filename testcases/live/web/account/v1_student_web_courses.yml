@@ -1,0 +1,79 @@
+- config:
+    name: v1_student_web_courses
+    variables:
+        teacherId: ${yml(web_teacher_id)}
+    setup_hooks:
+        - ${add_room_schedule()}
+    teardown_hooks:
+        - ${delete_room_schedule()}
+
+- test:
+    name: get token
+    testcase: testcases/live/web/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: 请求成功
+    api: api/live/web/account/v1_student_web_courses.yml
+    variables:
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - type_match: [content.data, list]
+        - len_eq: [content.data.0, 4]
+        - eq: [content.data.0.teacher.teacherId, $teacherId]
+        - eq: [content.data.0.courseInfo.courseInfoId, 12]
+
+- test:
+    name: token错误，请求失败
+    api: api/live/web/account/v1_student_web_courses.yml
+    variables:
+        Authorization: 'wrong_token'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: token为空，请求失败
+    api: api/live/web/account/v1_student_web_courses.yml
+    variables:
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: 未开课，请求成功
+    api: api/live/web/account/v1_student_web_courses.yml
+    variables:
+        Authorization: $token
+    setup_hooks:
+        - ${delete_room_schedule()}
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - type_match: [content.data, list]
+        - len_eq: [content.data, 0]
+
+- test:
+    name: 未开课，token错误，请求失败
+    api: api/live/web/account/v1_student_web_courses.yml
+    variables:
+        Authorization: 'wrong_token'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: 未开课，token为空，请求失败
+    api: api/live/web/account/v1_student_web_courses.yml
+    variables:
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+

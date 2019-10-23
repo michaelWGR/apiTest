@@ -1,0 +1,12 @@
+name: v1_student_web_courses
+base_url: ${yml(web_base_url)}
+variables:
+    Authorization: 'token'
+
+request:
+    url: /v1/student/web/courses
+    method: GET
+    headers:
+        Authorization: $Authorization
+validate:
+    - eq: [status_code, 200]

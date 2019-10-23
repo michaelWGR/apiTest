@@ -5,6 +5,9 @@ import string
 import time
 import math
 import yaml
+import requests
+import json
+import time
 
 from common.configDB import MyDB
 
@@ -423,8 +426,94 @@ def init_function_switch_web_config():
     db.executeSQL(sql)
     db.closeDB()
 
+def login_to_liveadmin(username='zhongyanping', password='e10adc3949ba59abbe56e057f20f883e'):
+    # 登录cms系统
+    url = 'http://liveadmin-test.61info.cn/liveadmin-api/account/login'
+    data = {
+        'username': username,
+        'password': password
+    }
+    rp = requests.post(url=url, data=data)
+    rp_dict = json.loads(rp.content)
+    token = rp_dict['data']['token']
+    return token
+
+def search_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id')):
+    # 查找对应id的开课课程
+    id_list = []
+    url = 'http://liveadmin-test.61info.cn/liveadmin-api/class/room/schedule'
+    params = {
+        'page': 1,
+        'size': 10,
+        'studentId': studentId,
+        'teacherId': teacherId,
+        'courseNature': 0,
+        'courseSyncType': -1,
+        'startTime': 0,
+        'endTime': 0,
+        'zhumu': False,
+        'vip': True,
+    }
+    headers = {
+        'Authorization': login_to_liveadmin()
+    }
+    rp = requests.get(url=url, params=params, headers=headers)
+    rp_dict = json.loads(rp.content)
+    if rp_dict['data'] != []:
+        for i in rp_dict['data']['list']:
+            if i['id']:
+                id_list.append(i['id'])
+    return id_list
+
+def delete_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id')):
+    # 删除指定学生id和老师id的所有课程
+    id_list = search_room_schedule(studentId, teacherId)
+    if id_list != []:
+        for id in id_list:
+            url = 'http://liveadmin-test.61info.cn/liveadmin-api/class/room/schedule/delete'
+            headers = {
+                'Authorization': login_to_liveadmin()
+            }
+            data = {
+                'id': id
+            }
+            rp = requests.post(url=url, data=data, headers=headers)
+            print(json.loads(rp.content)['success'])
+
+    else:
+        return
+
+def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id')):
+    # 添加新课程
+    delete_room_schedule()
+
+    url = 'http://liveadmin-test.61info.cn/liveadmin-api/class/room/schedule/add'
+    data = {
+        'courseInfoId': 12,
+        'courseTableId': 4,
+        'courseNature': 0,
+        'teacherId': teacherId,
+        'broadcaseId': 503,
+        'startTime': int(time.time())*1000,
+        'endTime': int(time.time())*1000+60*60*1000,
+        'studentIds[0]': studentId
+    }
+    headers = {
+        'Authorization': login_to_liveadmin()
+    }
+    rp = requests.post(url=url, data=data, headers=headers)
+    print(json.loads(rp.content)['success'])
+
 
 
 if __name__ == '__main__':
     # gen_random_string(1)
-    init_function_switch_web_config()
+    # init_function_switch_web_config()
+    # print(login_to_liveadmin())
+    # id = search_room_schedule()
+    # print(id)
+    # delete_room_schedule()
+    # add_room_schedule()
+    y = yml('web_teacher_id')
+    yml('web_teacher_id')
+    print(type(y))
