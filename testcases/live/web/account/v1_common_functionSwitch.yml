@@ -1,0 +1,199 @@
+- config:
+    name: v1_common_functionSwitch
+    setup_hooks:
+        - ${init_function_switch_web_config()}
+
+- test:
+    name: get token
+    testcase: testcases/live/web/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: 传参正确，请求成功
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: '["web_is_gray"]'
+        version: '1'
+        clientType: 'web'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, dict]
+        - eq: [content.data.web_is_gray, 1]
+        - eq: [content.success, true]
+
+- test:
+    name: functions传递空数组，请求成功
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: '[]'
+        version: '1'
+        clientType: 'web'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, dict]
+        - len_eq: [content.data, 0]
+        - eq: [content.success, true]
+
+- test:
+    name: 传递wrong_functions，请求成功
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: '["wrong_functions"]'
+        version: '1'
+        clientType: 'web'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, dict]
+        - eq: [content.data.wrong_functions, 1]
+        - eq: [content.success, true]
+
+- test:
+    name: functions传递空值，请求失败
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: null
+        version: '1'
+        clientType: 'web'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: version为2，请求失败
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: '["web_is_gray"]'
+        version: '2'
+        clientType: 'web'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: version为abc，请求失败
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: '["web_is_gray"]'
+        version: 'abc'
+        clientType: 'web'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: version为空，请求失败
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: '["web_is_gray"]'
+        version: null
+        clientType: 'web'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: clientType为android，请求成功
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: '["web_is_gray"]'
+        version: '1'
+        clientType: 'android'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, dict]
+        - eq: [content.data.web_is_gray, 1]
+        - eq: [content.success, true]
+
+- test:
+    name: clientType为ios，请求成功
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: '["web_is_gray"]'
+        version: '1'
+        clientType: 'ios'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, dict]
+        - eq: [content.data.web_is_gray, 1]
+        - eq: [content.success, true]
+
+- test:
+    name: clientType为wrong_type，请求失败
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: '["web_is_gray"]'
+        version: '1'
+        clientType: 'wrong_type'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: clientType为null，请求失败
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: '["web_is_gray"]'
+        version: '1'
+        clientType: null
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: Authorization为wrong_token，请求失败
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: '["web_is_gray"]'
+        version: '1'
+        clientType: 'web'
+        Authorization: 'wrong_token'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为null，请求失败
+    api: api/live/web/account/v1_common_functionSwitch.yml
+    variables:
+        functions: '["web_is_gray"]'
+        version: '1'
+        clientType: 'web'
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']

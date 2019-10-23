@@ -5,16 +5,46 @@
     teardown_hooks:
         - ${del_user_msg($user_id)}
 
+#- test:
+#    name: get user info by id
+#    testcase: testcases/call/get_user_info_by_id.yml
+#    output:
+#        - token
+#        - userName1
+#        - userGroup1
+#        - teacherGroup1
+#        - userId1
+#        - userPhoneNumber1
+
 - test:
-    name: get user info by id
-    testcase: testcases/call/get_user_info_by_id.yml
+    name: get token
+    testcase: testcases/call/get_token.yml
     output:
-        - token
-        - userName1
-        - userGroup1
-        - teacherGroup1
-        - userId1
-        - userPhoneNumber1
+      - token
+
+- test:
+    name: get user relation info
+    api: api/call/callRecord.yml
+    variables:
+        deviceId: 123
+        page: 1
+        size: 10
+        Authorization: $token
+        user_id: ${yml(user_id)}
+    teardown_hooks:
+        - ${select_user_info($response, $user_id)}
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - len_eq: [content.data, 1]
+        - eq: [content.data.0.id, $user_id]
+    extract:
+        - userName1: content.data.0.name
+        - userGroup1: content.data.0.group
+        - teacherGroup1: content.data.0.teacherGroup
+        - userId1: content.data.0.id
+        - userPhoneNumber1: content.data.0.phoneNumber
 
 - test:
     name: check fileName

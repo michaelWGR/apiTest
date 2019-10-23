@@ -18,9 +18,8 @@
     variables:
         phoneNum: ${yml(web_account)}
     validate:
-#        - eq: [status_code, 500]
-        - eq: [content.code, 500]
-        - eq: [content.msg, system error]
+        - eq: [content.code, 608]
+        - eq: [content.msg, '获取验证码次数频繁，请稍后再试！']
         - eq: [content.data, null]
         - eq: [content.success, false]
 

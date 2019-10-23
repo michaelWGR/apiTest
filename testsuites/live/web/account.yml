@@ -68,4 +68,7 @@ testcases:
     v1_common_config:
         testcase: testcases/live/web/account/v1_common_config.yml
 
+    v1_common_functionSwitch:
+        testcase: testcases/live/web/account/v1_common_functionSwitch.yml
+
 
