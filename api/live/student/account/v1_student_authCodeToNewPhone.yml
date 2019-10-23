@@ -1,22 +1,20 @@
-name: 根据手机号码获取账号名称接口
+name: 获取验证码（换账号用）
 base_url: ${yml(student.base_url)}
 
 variables:
   account: ${yml(student.account.account1)}
-  code: ${yml(student.account.default_auth_code)}
-  token: null
   deviceId: ${yml(student.default_device_id)}
+  token: null
   expected_status_code: 200
 
 request:
-  url: /v1/student/getAccountName
+  url: /v1/student/authCodeToNewPhone
   method: GET
   headers:
     Authorization: $token
-    deviceId: $deviceId
   params:
-    account: $account
-    code: $code
+    phoneNum: $account
+    deviceid: $deviceId
 
 validate:
   - eq: ["status_code", $expected_status_code]

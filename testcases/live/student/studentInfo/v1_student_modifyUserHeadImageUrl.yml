@@ -1,0 +1,52 @@
+- config:
+    name: 修改用户头像链接
+    variables:
+      url: http://img2.61info.cn/rbkd/20150720/1437380376959.png
+
+- test:
+    name: 无效的token
+    api: api/live/student/studentInfo/v1_student_modifyUserHeadImageUrl.yml
+    variables:
+      token: asdflajelkf
+      url: $url
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token为空
+    api: api/live/student/studentInfo/v1_student_modifyUserHeadImageUrl.yml
+    variables:
+      token: null
+      url: $url
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: 获取token
+    testcase: testcases/live/student/account/student_get_token.yml
+    output:
+      - token
+
+- test:
+    name: 修改用户头像链接
+    api: api/live/student/studentInfo/v1_student_modifyUserHeadImageUrl.yml
+    variables:
+      token: $token
+      url: $url
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+
+- test:
+    name: 链接为空
+    api: api/live/student/studentInfo/v1_student_modifyUserHeadImageUrl.yml
+    variables:
+      token: $token
+      url: null
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]

@@ -1,0 +1,100 @@
+- config:
+    name: 获取验证码（换账号用）
+    variables:
+      account: ${yml(student.account.account1)}
+      wrongAccount: ${yml(student.account.non_exists_account)}
+      deviceId: ${yml(student.default_device_id)}
+      wrongDeviceId: wrongdeviceid1021
+      wrongToken: wrongToken1021
+
+- test:
+    name: token错误
+    api: api/live/student/account/v1_student_authCodeToNewPhone.yml
+    variables:
+      account: $account
+      deviceId: $deviceId
+      token: $wrongToken
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: 获取token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: $account
+      deviceId: $deviceId
+    output:
+      - token
+
+- test:
+    name: 获取验证码（换账号用）
+    api: api/live/student/account/v1_student_authCodeToNewPhone.yml
+    variables:
+      account: $account
+      deviceId: $deviceId
+      token: $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+
+- test:
+    name: 账号与deviceId、token不一致
+    api: api/live/student/account/v1_student_authCodeToNewPhone.yml
+    variables:
+      account: $wrongAccount
+      deviceId: $deviceId
+      token: $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceId与账号、token不一致
+    api: api/live/student/account/v1_student_authCodeToNewPhone.yml
+    variables:
+      account: $account
+      deviceId: $wrongDeviceId
+      token: $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: 缺少手机号参数
+    api: api/live/student/account/v1_student_authCodeToNewPhone.yml
+    variables:
+      account: null
+      deviceId: $deviceId
+      token: $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 400]
+      - eq: [content.msg, 参数错误]
+
+- test:
+    name: 缺少token
+    api: api/live/student/account/v1_student_authCodeToNewPhone.yml
+    variables:
+      account: $account
+      deviceId: $deviceId
+      token: null
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: 缺少deviceId
+    api: api/live/student/account/v1_student_authCodeToNewPhone.yml
+    variables:
+      account: $account
+      token: $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]

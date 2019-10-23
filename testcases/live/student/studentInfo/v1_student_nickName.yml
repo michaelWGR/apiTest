@@ -1,0 +1,54 @@
+- config:
+    name: 修改用户昵称
+    variables:
+      nickName: 新昵称
+
+- test:
+    name: 无效的token
+    api: api/live/student/studentInfo/v1_student_nickName.yml
+    variables:
+      token: asdflajelkf
+      nickName: $nickName
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token为空
+    api: api/live/student/studentInfo/v1_student_nickName.yml
+    variables:
+      token: null
+      nickName: $nickName
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: 获取token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: 13097300100
+    output:
+      - token
+
+- test:
+    name: 修改用户昵称
+    api: api/live/student/studentInfo/v1_student_nickName.yml
+    variables:
+      token: $token
+      nickName: $nickName
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+
+- test:
+    name: 输入昵称为空
+    api: api/live/student/studentInfo/v1_student_nickName.yml
+    variables:
+      token: $token
+      nickName: null
+    validate:
+      - eq: [content.code, 400]
+      - eq: [content.msg, 参数错误]
+      - eq: [content.success, true]
