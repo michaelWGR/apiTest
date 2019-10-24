@@ -35,6 +35,12 @@ student:
     account1: '13097301001'
     default_password: '000000'
 
+  # homework_comment  相关参数
+  comment:
+    account1: '18800000671'
+    default_password: '000671'
+
+
 
 # 直播监控相关参数
 liveMonitor:

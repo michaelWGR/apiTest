@@ -1,0 +1,58 @@
+- config:
+    name: 获取白板路径
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+- test:
+    name: 获取成功
+    api: api/live/teacher/course&teacherInfo/v1_teacher_blackboard.yml
+    variables:
+        Authorization: $token
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data, str]
+- test:
+    name: token 错误
+    api: api/live/teacher/course&teacherInfo/v1_teacher_blackboard.yml
+    variables:
+      deviceId: 123456
+      Authorization: abc
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token 为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_blackboard.yml
+    variables:
+      deviceId: 123456
+      Authorization: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+- test:
+    name: deviceId 为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceId 不正确
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    variables:
+      deviceId: 666666
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+

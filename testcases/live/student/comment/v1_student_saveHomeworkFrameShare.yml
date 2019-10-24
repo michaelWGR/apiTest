@@ -1,0 +1,83 @@
+- config:
+    name: save Homework Frame Share
+    variables:
+      roomUserScheduleId1: "269622"
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: save Homework Frame Share
+    api: api/live/student/comment/v1_student_saveHomeworkFrameShare.yml
+    variables:
+      roomUserScheduleId: $roomUserScheduleId1
+      Authorization: $token
+      deviceId: $true_deviceId
+      frameId: 1
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name:  frameId is random
+    api: api/live/student/comment/v1_student_saveHomeworkFrameShare.yml
+    variables:
+      roomUserScheduleId: $roomUserScheduleId1
+      Authorization: $token
+      deviceId: $true_deviceId
+      frameId: 3
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+
+- test:
+    name: token is null
+    api: api/live/student/comment/v1_student_saveHomeworkFrameShare.yml
+    variables:
+      roomUserScheduleId: $roomUserScheduleId1
+      Authorization: null
+      deviceId: $true_deviceId
+      frameId: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId is null
+    api: api/live/student/comment/v1_student_saveHomeworkFrameShare.yml
+    variables:
+      roomUserScheduleId: $roomUserScheduleId1
+      Authorization: $token
+      deviceId: null
+      frameId: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: roomUserScheduleId is random
+    api: api/live/student/comment/v1_student_saveHomeworkFrameShare.yml
+    variables:
+      roomUserScheduleId: '000000'
+      Authorization: $token
+      deviceId: $true_deviceId
+      frameId: 1
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+

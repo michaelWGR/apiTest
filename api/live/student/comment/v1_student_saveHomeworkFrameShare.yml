@@ -1,0 +1,21 @@
+name: save Homework Frame Share
+base_url: ${yml(student.base_url)}
+variables:
+    roomUserScheduleId: null
+    Authorization: null
+    deviceId: null
+    frameId: null
+    expected_status_code: 200
+request:
+    url: /v1/student/saveHomeworkFrameShare
+    method: post
+    headers:
+        Authorization: $Authorization
+        deviceId: $deviceId
+        ContentType: 'application/x-www-form-urlencoded'
+    data:
+        roomUserScheduleId: $roomUserScheduleId
+        frameId: $frameId
+
+validate:
+    - eq: ["status_code", $expected_status_code]
