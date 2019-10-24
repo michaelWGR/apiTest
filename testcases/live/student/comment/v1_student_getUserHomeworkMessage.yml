@@ -1,0 +1,67 @@
+- config:
+    name: get User Homework Message
+    variables:
+      roomUserScheduleId1: "269622"
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: get User Homework Message
+    api: api/live/student/comment/v1_student_getUserHomeworkMessage.yml
+    variables:
+      roomUserScheduleId: $roomUserScheduleId1
+      Authorization: $token
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+      - type_match: [content.data.courseName, str]
+      - type_match: [content.data.teacherCommentDTO.id, int]
+      - type_match: [content.data.teacherCommentDTO.userHomeworkResourceId, int]
+      - type_match: [content.data.teacherCommentDTO.beautifiedImage.resourceId, str]
+      - type_match: [content.data.teacherCommentDTO.beautifiedImage.urlHost, str]
+      - type_match: [content.data.teacherCommentDTO.beautifiedImage.urlPath, str]
+
+- test:
+    name: token is null
+    api: api/live/student/comment/v1_student_getUserHomeworkMessage.yml
+    variables:
+      roomUserScheduleId: $roomUserScheduleId1
+      Authorization: null
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId is null
+    api: api/live/student/comment/v1_student_getUserHomeworkMessage.yml
+    variables:
+      roomUserScheduleId: $roomUserScheduleId1
+      Authorization: $token
+      deviceId: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: roomUserScheduleId is wrong
+    api: api/live/student/comment/v1_student_getUserHomeworkMessage.yml
+    variables:
+      roomUserScheduleId: '000000'
+      Authorization: $token
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 420]
+      - eq: [content.msg, '课程错误']

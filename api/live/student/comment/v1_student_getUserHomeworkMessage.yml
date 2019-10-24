@@ -1,0 +1,18 @@
+name: getUserHomeworkMessage
+base_url: ${yml(student.base_url)}
+variables:
+    roomUserScheduleId: null
+    Authorization: null
+    deviceId: null
+    expected_status_code: 200
+request:
+    url: /v1/student/getUserHomeworkMessage
+    method: GET
+    headers:
+        Authorization: $Authorization
+        deviceId: $deviceId
+    params:
+        roomUserScheduleId: $roomUserScheduleId
+
+validate:
+    - eq: ["status_code", $expected_status_code]
