@@ -1,0 +1,24 @@
+name: get liveFeedback
+base_url: ${yml(teacher_base_url)}
+variables:
+  expected_status_code: 200
+  #deviceId: 123456
+  Authorization: null
+  clientType: pc
+  computerName: 888-1066
+  teacherId: ${yml(teacher_user_id1)}
+  feedBack: '{"2":0,"3":0,"4":0}'
+
+request:
+  url: /v1/teacher/liveFeedback
+  method: POST
+  data:
+    #deviceId: $deviceId
+    clientType: $clientType
+    computerName: $computerName
+    teacherId: $teacherId
+    feedBack: $feedBack
+  headers:
+    Authorization: $Authorization
+validate:
+  - eq: ["status_code",$expected_status_code]

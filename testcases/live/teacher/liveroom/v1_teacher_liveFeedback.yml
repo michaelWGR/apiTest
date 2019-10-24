@@ -1,0 +1,113 @@
+- config:
+    name: 直播反馈接口
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+- test:
+    name: 正常请求
+    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    variables:
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+- test:
+    name: token错误
+    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    variables:
+        Authorization: abc
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+- test:
+    name: token为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    variables:
+        Authorization: null
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+- test:
+    name: teacherId为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    variables:
+         Authorization: $token
+         teacherId: null
+    validate:
+        - eq: ["status_code",500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+- test:
+    name: teacherId不存在
+    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    variables:
+         Authorization: $token
+         teacherId: a
+    validate:
+        - eq: ["status_code",500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+- test:
+    name: feedBack为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    variables:
+         Authorization: $token
+         feedBack: null
+    validate:
+        - eq: ["status_code",500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+- test:
+    name: feedBack不正确
+    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    variables:
+         Authorization: $token
+         feedBack: abc
+    validate:
+        - eq: ["status_code",500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+- test:
+    name: teacherId、feedBack为空
+    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    variables:
+         Authorization: $token
+         teacherId: null
+         feedBack: null
+    validate:
+        - eq: ["status_code",500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+- test:
+    name: teacherId、feedBack不正确
+    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    variables:
+         Authorization: $token
+         teacherId: a
+         feedBack: abc
+    validate:
+        - eq: ["status_code",500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
