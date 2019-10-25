@@ -3,5 +3,5 @@ config:
 
 testcases:
   recordLiveRoom:
-    testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom
+    testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom.yml
 

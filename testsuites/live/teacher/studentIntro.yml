@@ -3,7 +3,7 @@ config:
 
 testcases:
   answerCC:
-    testcase: testcases/live/teacher/studentIntro/v1_teacher_answerCC
+    testcase: testcases/live/teacher/studentIntro/v1_teacher_answerCC.yml
 
   studentIntro:
-    testcase: testcases/live/teacher/studentIntro/v1_teacher_studentIntro
+    testcase: testcases/live/teacher/studentIntro/v1_teacher_studentIntro.yml
