@@ -13,7 +13,7 @@
 
 - test:
     name: show express detail  successfully
-    api: api\live\student\Express\v1_student_expressDetail.yml
+    api: api/live/student/Express/v1_student_expressDetail.yml
     variables:
       deviceId: $true_deviceId
       Authorization: $token
@@ -25,7 +25,7 @@
       - eq: [status_code, 200]
 - test:
     name: token is null
-    api: api\live\student\Express\v1_student_expressDetail.yml
+    api: api/live/student/Express/v1_student_expressDetail.yml
     variables:
       deviceId: $true_deviceId
       Authorization: null
@@ -36,7 +36,7 @@
 
 - test:
     name: token is wrongtoken
-    api: api\live\student\Express\v1_student_expressDetail.yml
+    api: api/live/student/Express/v1_student_expressDetail.yml
     variables:
       deviceId: $true_deviceId
       Authorization: wrongtoken
@@ -46,7 +46,7 @@
       - eq: [content.msg, 'accessToken error']
 - test:
     name: show express detail failure when deviceid is wrongid
-    api: api\live\student\Express\v1_student_expressDetail.yml
+    api: api/live/student/Express/v1_student_expressDetail.yml
     variables:
       deviceId: wrongid
       Authorization: $token

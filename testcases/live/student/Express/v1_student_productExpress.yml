@@ -18,7 +18,7 @@
 
 - test:
     name: product express successfully when page is 1
-    api: api\live\student\Express\v1_student_productExpress.yml
+    api: api/live/student/Express/v1_student_productExpress.yml
     variables:
       deviceId: $true_deviceId
       Authorization: $token
@@ -36,7 +36,7 @@
 
 - test:
     name: product express successfully when page is 2
-    api: api\live\student\Express\v1_student_productExpress.yml
+    api: api/live/student/Express/v1_student_productExpress.yml
     variables:
       deviceId: $true_deviceId
       Authorization: $token
@@ -49,7 +49,7 @@
 
 - test:
     name: product express successfully when page is 3
-    api: api\live\student\Express\v1_student_productExpress.yml
+    api: api/live/student/Express/v1_student_productExpress.yml
     variables:
       deviceId: $true_deviceId
       Authorization: $token
@@ -62,7 +62,7 @@
 
 - test:
     name: product express failure when deviceid is null
-    api: api\live\student\Express\v1_student_productExpress.yml
+    api: api/live/student/Express/v1_student_productExpress.yml
     variables:
       deviceId: null
       Authorization: $token
@@ -73,7 +73,7 @@
 
 - test:
     name: product express failure when deviceid is wrongid
-    api: api\live\student\Express\v1_student_productExpress.yml
+    api: api/live/student/Express/v1_student_productExpress.yml
     variables:
       deviceId: wrongid
       Authorization: $token
