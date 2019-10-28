@@ -3,30 +3,30 @@ config:
 
 testcases:
   app banner log:
-    testcase: testcases\live\student\popWindow\v1_student_app_banner_log.yml
+    testcase: testcases/live/student/popWindow/v1_student_app_banner_log.yml
 
   app floating log:
-    testcase: testcases\live\student\popWindow\v1_student_app_floating_log.yml
+    testcase: testcases/live/student/popWindow/v1_student_app_floating_log.yml
 
   deliverRemind cityinfoAll:
-    testcase: testcases\live\student\popWindow\v1_student_deliveryRemind_cityInfoAll.yml
+    testcase: testcases/live/student/popWindow/v1_student_deliveryRemind_cityInfoAll.yml
 
   deliveryRemind confirm:
-    testcase: testcases\live\student\popWindow\v1_student_deliveryRemind_confirm.yml
+    testcase: testcases/live/student/popWindow/v1_student_deliveryRemind_confirm.yml
 
   student popWindow:
-    testcase: testcases\live\student\popWindow\v1_student_popWindow.yml
+    testcase: testcases/live/student/popWindow/v1_student_popWindow.yml
 
   popWindow course update:
-    testcase: testcases\live\student\popWindow\v1_student_popWindow_courseUpdate.yml
+    testcase: testcases/live/student/popWindow/v1_student_popWindow_courseUpdate.yml
 
   popWindow course update close:
-    testcase: testcases\live\student\popWindow\v1_student_popWindow_courseUpdate_close.yml
+    testcase: testcases/live/student/popWindow/v1_student_popWindow_courseUpdate_close.yml
 
   popWindow course update detil:
-    testcase: testcases\live\student\popWindow\v1_student_popWindow_courseUpdate_detail.yml
+    testcase: testcases/live/student/popWindow/v1_student_popWindow_courseUpdate_detail.yml
 
   student popWindow_v2:
-    testcase: testcases\live\student\popWindow\v1_student_popWindow_v2.yml
+    testcase: testcases/live/student/popWindow/v1_student_popWindow_v2.yml
 
 

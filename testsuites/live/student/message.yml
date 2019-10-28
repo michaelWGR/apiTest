@@ -3,8 +3,8 @@ config:
 
 testcases:
   leaveRule:
-    testcase: testcases/live/student/message/v1_student_leaveRule
+    testcase: testcases/live/student/message/v1_student_leaveRule.yml
 
   messageUnreadCount:
-    testcase: testcases/live/student/message/v1_student_messageUnreadCount
+    testcase: testcases/live/student/message/v1_student_messageUnreadCount.yml
 

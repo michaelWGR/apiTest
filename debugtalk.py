@@ -422,7 +422,7 @@ def init_function_switch_web_config():
     '''
     db = MyDB()
     db.connectDB('i61-draw-course')
-    sql = '''update `i61-draw-course`.`config_common` set conf_value = '{"web_is_gray":1,"expired":86400}' where conf_key='function_switch_web';'''
+    sql = '''update `i61-draw-course`.`config_common` set conf_value = '{"web_is_gray":2,"expired":86400}' where conf_key='function_switch_web';'''
     db.executeSQL(sql)
     db.closeDB()
 
