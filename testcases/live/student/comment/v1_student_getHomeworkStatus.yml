@@ -1,0 +1,65 @@
+- config:
+    name: 返回作业状态
+    variables:
+      roomUserScheduleId1: "269622"
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: 已点评作业状态，返回成功
+    api: api/live/student/comment/v1_student_getHomeworkStatus.yml
+    variables:
+      roomUserScheduleId: $roomUserScheduleId1
+      Authorization: $token
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+      - type_match: [content.data, int]
+
+- test:
+    name: 错误点评状态返回成功
+    api: api/live/student/comment/v1_student_getHomeworkStatus.yml
+    variables:
+      roomUserScheduleId: 1
+      Authorization: $token
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+      - type_match: [content.data, int]
+
+- test:
+    name: token is null
+    api: api/live/student/comment/v1_student_getHomeworkStatus.yml
+    variables:
+      roomUserScheduleId: $roomUserScheduleId1
+      Authorization: null
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId is null
+    api: api/live/student/comment/v1_student_getHomeworkStatus.yml
+    variables:
+      roomUserScheduleId: $roomUserScheduleId1
+      Authorization: $token
+      deviceId: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
