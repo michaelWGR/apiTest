@@ -1,0 +1,76 @@
+- config:
+    name: 获取画框
+    variables:
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: 成功获取画框
+    api: api/live/student/comment/v1_student_getHomeworkFrame.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      page: 1
+      pageSize: 3
+      type: 1
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+      - type_match: [content.data.0.id, int]
+      - type_match: [content.data.0.name, str]
+      - type_match: [content.data.0.host, str]
+      - type_match: [content.data.0.path, str]
+
+- test:
+    name: 无数据获取成功
+    api: api/live/student/comment/v1_student_getHomeworkFrame.yml
+    variables:
+      roomUserScheduleId: 1
+      Authorization: $token
+      deviceId: $true_deviceId
+      page: 8
+      pageSize: 8
+      type: 1
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+
+- test:
+    name: token is null
+    api: api/live/student/comment/v1_student_getHomeworkFrame.yml
+    variables:
+      page: 1
+      pageSize: 3
+      type: 1
+      Authorization: null
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId is null
+    api: api/live/student/comment/v1_student_getHomeworkFrame.yml
+    variables:
+      page: 1
+      pageSize: 3
+      type: 1
+      Authorization: $token
+      deviceId: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
