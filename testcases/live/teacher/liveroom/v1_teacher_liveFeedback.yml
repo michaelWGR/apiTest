@@ -8,7 +8,7 @@
         - token
 - test:
     name: 正常请求
-    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    api: api/live/teacher/liveroom/v1_teacher_liveFeedback.yml
     variables:
         Authorization: $token
     validate:
@@ -18,7 +18,7 @@
         - eq: [content.success, true]
 - test:
     name: token错误
-    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    api: api/live/teacher/liveroom/v1_teacher_liveFeedback.yml
     variables:
         Authorization: abc
     validate:
@@ -28,7 +28,7 @@
         - eq: [content.success, true]
 - test:
     name: token为空
-    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    api: api/live/teacher/liveroom/v1_teacher_liveFeedback.yml
     variables:
         Authorization: null
     validate:
@@ -38,7 +38,7 @@
         - eq: [content.success, true]
 - test:
     name: teacherId为空
-    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    api: api/live/teacher/liveroom/v1_teacher_liveFeedback.yml
     variables:
          Authorization: $token
          teacherId: null
@@ -50,7 +50,7 @@
         - eq: [content.success, false]
 - test:
     name: teacherId不存在
-    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    api: api/live/teacher/liveroom/v1_teacher_liveFeedback.yml
     variables:
          Authorization: $token
          teacherId: a
@@ -62,7 +62,7 @@
         - eq: [content.success, false]
 - test:
     name: feedBack为空
-    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    api: api/live/teacher/liveroom/v1_teacher_liveFeedback.yml
     variables:
          Authorization: $token
          feedBack: null
@@ -74,7 +74,7 @@
         - eq: [content.success, false]
 - test:
     name: feedBack不正确
-    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    api: api/live/teacher/liveroom/v1_teacher_liveFeedback.yml
     variables:
          Authorization: $token
          feedBack: abc
@@ -86,7 +86,7 @@
         - eq: [content.success, false]
 - test:
     name: teacherId、feedBack为空
-    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    api: api/live/teacher/liveroom/v1_teacher_liveFeedback.yml
     variables:
          Authorization: $token
          teacherId: null
@@ -99,7 +99,7 @@
         - eq: [content.success, false]
 - test:
     name: teacherId、feedBack不正确
-    api: api/live/teacher/course&teacherInfo/v1_teacher_liveFeedback.yml
+    api: api/live/teacher/liveroom/v1_teacher_liveFeedback.yml
     variables:
          Authorization: $token
          teacherId: a

@@ -1,0 +1,22 @@
+- config:
+    name: 获取截屏图片阿里云上传路径
+
+- test:
+    name: 图片文件名正确
+    api: api/live/teacher/screenshot/file_screenShotUploadUrl.yml
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - type_match: [content.data, dict]
+        - eq: [content.success, true]
+
+- test:
+    name: 图片文件名不正确
+    api: api/live/teacher/screenshot/file_screenShotUploadUrl.yml
+    variables:
+        fileName: 1
+    validate:
+        - eq: [content.code, 400]
+        - eq: [content.msg, param error]
+        - eq: [content.data, file name is not an image type]
+        - eq: [content.success, false]

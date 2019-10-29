@@ -1,0 +1,17 @@
+name: 查询截图
+base_url: ${yml(teacher_base_url)}
+variables:
+  expected_status_code: 200
+  deviceId: 123456
+  classRoomScheduleId: 1002424
+  Authorization: null
+request:
+  url: /v1/teacher/getScreenShot
+  method: GET
+  params:
+    deviceId: $deviceId
+    classRoomScheduleId: $classRoomScheduleId
+  headers:
+    Authorization: $Authorization
+validate:
+  - eq: ["status_code", $expected_status_code]
