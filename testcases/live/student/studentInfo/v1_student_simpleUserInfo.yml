@@ -1,16 +1,16 @@
 - config:
     name: 免验证获取简单学生信息
     variables:
-      phone: ${yml(student.account.account1)}
+      true_phone: ${yml(student.account.account1)}
       wrongFormatPhone: 123456
       wrongTypePhone: aksdfkla
-      nonPhone: ${yml(student.account.non_esists_account)}
+      nonPhone: ${yml(student.account.non_exists_account)}
 
 - test:
     name: 获取简单学生信息
     api: api/live/student/studentInfo/v1_student_simpleUserInfo.yml
     variables:
-      phone: $phone
+      phone: $true_phone
     validate:
       - eq: [content.code, 200]
       - eq: [content.msg, ok]

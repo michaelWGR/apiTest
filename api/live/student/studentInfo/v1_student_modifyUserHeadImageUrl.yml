@@ -11,6 +11,7 @@ request:
   method: POST
   headers:
     Authorization: $token
+    deviceId: ${yml(student.default_device_id)}
   json:
     headImageUrl: $url
 

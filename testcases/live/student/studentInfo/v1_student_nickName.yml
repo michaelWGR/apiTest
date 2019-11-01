@@ -2,6 +2,7 @@
     name: 修改用户昵称
     variables:
       nickName: 新昵称
+      true_account: ${yml(student.account.account1)}
 
 - test:
     name: 无效的token
@@ -27,7 +28,7 @@
     name: 获取token
     testcase: testcases/live/student/account/student_get_token.yml
     variables:
-      account: 13097300100
+      account: $true_account
     output:
       - token
 
