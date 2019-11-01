@@ -1,0 +1,22 @@
+name: 获取画作相框
+base_url: ${yml(student.base_url)}
+variables:
+    page: null
+    pageSize: null
+    type: null
+    Authorization: null
+    deviceId: null
+    expected_status_code: 200
+request:
+    url: /v1/student/getHomeworkFrame
+    method: get
+    headers:
+        Authorization: $Authorization
+        deviceId: $deviceId
+    params:
+        page: $page
+        pageSize: $pageSize
+        type: $type
+
+validate:
+    - eq: ["status_code", $expected_status_code]

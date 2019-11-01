@@ -32,13 +32,13 @@ student:
 
   # popWindow 相关参数
   popWindow:
-    account1: '13097301001'
+    account1: '12397301001'
     default_password: '000000'
 
   # homework_comment  相关参数
   comment:
-    account1: '18800000671'
-    default_password: '000671'
+    account1: '12300000671'
+    default_password: '000000'
 
 
 

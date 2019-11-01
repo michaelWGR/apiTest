@@ -1,0 +1,12 @@
+name: get liveFeedback
+base_url: ${yml(teacher_base_url)}
+variables:
+   expected_status_code: 200
+   fileName: '1002424_1571904060676.png'
+request:
+   url: /file/screenShotUploadUrl
+   method: GET
+   params:
+       fileName: $fileName
+validate:
+   - eq: ["status_code",$expected_status_code]

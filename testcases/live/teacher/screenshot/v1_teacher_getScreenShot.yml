@@ -1,0 +1,71 @@
+- config:
+    name: 查询截屏
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+- test:
+    name: 正常请求
+    api: api/live/teacher/screenshot/v1_teacher_getScreenShot.yml
+    variables:
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - type_match: [content.data, dict]
+        - eq: [content.success, true]
+- test:
+    name: token错误
+    api: api/live/teacher/screenshot/v1_teacher_getScreenShot.yml
+    variables:
+        Authorization: '1'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+- test:
+    name: token为空
+    api: api/live/teacher/screenshot/v1_teacher_getScreenShot.yml
+    variables:
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+- test:
+    name: token为空
+    api: api/live/teacher/screenshot/v1_teacher_getScreenShot.yml
+    variables:
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+- test:
+    name: classRoomScheduleId为空
+    api: api/live/teacher/screenshot/v1_teacher_getScreenShot.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: null
+    validate:
+        - eq: [content.code, 400]
+        - eq: [content.msg, param error]
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+- test:
+    name: deviceId为空
+    api: api/live/teacher/screenshot/v1_teacher_getScreenShot.yml
+    variables:
+        Authorization: $token
+        deviceId: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+- test:
+    name: deviceId不正确
+    api: api/live/teacher/screenshot/v1_teacher_getScreenShot.yml
+    variables:
+        Authorization: $token
+        deviceId: 1
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]

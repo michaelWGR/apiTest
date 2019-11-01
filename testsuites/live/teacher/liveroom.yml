@@ -1,0 +1,9 @@
+config:
+  name: liveroom
+
+testcases:
+  直播反馈接口:
+    testcase: testcases/live/teacher/liveroom/v1_teacher_liveFeedback.yml
+
+
+

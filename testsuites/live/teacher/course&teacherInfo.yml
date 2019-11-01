@@ -5,3 +5,32 @@ testcases:
   recordLiveRoom:
     testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_recordLiveRoom.yml
 
+  获取班级学生到课情况:
+    testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_studentTakeClassState.yml
+
+  获取上课学生:
+    testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_student.yml
+
+  获取教师课程信息:
+    testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_courseInfo.yml
+
+  教师课堂反馈:
+    testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_courseSurvey.yml
+
+  获取课件:
+    testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+
+  获取白板路径:
+    testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_blackboard.yml
+
+  教师信息:
+    testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_teacherInfo.yml
+
+
+
+
+
+
+
+
+
