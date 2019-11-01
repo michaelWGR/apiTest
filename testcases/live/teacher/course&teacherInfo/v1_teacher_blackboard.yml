@@ -38,7 +38,7 @@
       - eq: [content.msg, accessToken error]
 - test:
     name: deviceId 为空
-    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    api: api/live/teacher/course&teacherInfo/v1_teacher_blackboard.yml
     variables:
       deviceId: null
       Authorization: $token
@@ -48,7 +48,7 @@
 
 - test:
     name: deviceId 不正确
-    api: api/live/teacher/course&teacherInfo/v1_teacher_courseware.yml
+    api: api/live/teacher/course&teacherInfo/v1_teacher_blackboard.yml
     variables:
       deviceId: 666666
       Authorization: $token
