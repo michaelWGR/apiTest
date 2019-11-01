@@ -12,10 +12,11 @@ class MyDB(object):
         self.db = None
         self.cursor = None
 
-    def connectDB(self, database='i61-hll-manager'):
+    def connectDB(self, database='i61-hll-manager', host='10.60.7.62'):
         '''连接数据库'''
         try:
             self.config['database'] = database
+            self.config['host'] = host
             self.db = pymysql.connect(**self.config)
             self.cursor = self.db.cursor()
             print('Connect DB successfully')
