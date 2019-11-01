@@ -10,6 +10,7 @@ request:
   method: GET
   headers:
     Authorization: $token
+    deviceId: ${yml(student.default_device_id)}
 
 validate:
   - eq: ["status_code", $expected_status_code]
