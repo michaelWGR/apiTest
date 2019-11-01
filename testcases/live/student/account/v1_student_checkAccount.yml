@@ -1,7 +1,7 @@
 - config:
     name: 学生检查账号密码
     variables:
-      account: ${yml(student.account.account1)}
+      true_account: ${yml(student.account.account1)}
       wrongAccount: ${yml(student.account.non_exists_account)}
       password: ${yml(student.account.default_password)}
       wrongPassword: alksdjfklas
@@ -16,8 +16,8 @@
     name: 学生检查账号密码
     api: api/live/student/account/v1_student_checkAccount.yml
     variables:
-      account: $account
-      password: $password
+      account: $true_account
+      password: $true_password
       token: $token
     validate:
       - eq: [status_code, 200]
@@ -29,18 +29,18 @@
     api: api/live/student/account/v1_student_checkAccount.yml
     variables:
       account: $wrongAccount
-      password: $password
+      password: $true_password
       token: $token
     validate:
       - eq: [status_code, 200]
-      - eq: [content.code, 601]
-      - eq: [content.msg, 账户不存在]
+      - eq: [content.code, 607]
+      - eq: [content.msg, 账号与当前账号不一致]
 
 - test:
     name: 密码错误
     api: api/live/student/account/v1_student_checkAccount.yml
     variables:
-      account: $account
+      account: $true_account
       password: $wrongPassword
       token: $token
     validate:
@@ -53,7 +53,7 @@
     api: api/live/student/account/v1_student_checkAccount.yml
     variables:
       account: null
-      password: $password
+      password: $true_password
       token: $token
     validate:
       - eq: [status_code, 200]
@@ -64,7 +64,7 @@
     name: 密码为空
     api: api/live/student/account/v1_student_checkAccount.yml
     variables:
-      account: $account
+      account: $true_account
       password: null
       token: $token
     validate:
@@ -77,9 +77,9 @@
     api: api/live/student/account/v1_student_checkAccount.yml
     variables:
       account: asdfaskljdf
-      password: $password
+      password: $true_password
       token: $token
     validate:
       - eq: [status_code, 200]
-      - eq: [content.code, 400]
-      - eq: [content.msg, 参数错误]
+      - eq: [content.code, 607]
+      - eq: [content.msg, 账号与当前账号不一致]

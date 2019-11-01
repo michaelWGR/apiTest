@@ -1,17 +1,18 @@
 - config:
     name: 根据手机号码获取账号名称
     variables:
-      - account: ${yml(student.account.account1)}
-      - deviceId: ${yml(student.default_device_id)}
+      true_account: ${yml(student.account.account4)}
+      wrong_account: 9999456468
+      true_code: ${yml(student.account.default_auth_code)}
+      wrong_code: 654867
 
 - test:
     name: token错误
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
-      account: $account
-      code: ${yml(student.account.default_auth_code)}
+      account: $true_account
+      code: $true_code
       token: alsdkjf
-      deviceId: $deviceId
     validate:
       - eq: [content.code, 703]
       - eq: [content.msg, accessToken error]
@@ -20,21 +21,18 @@
     name: 获取token
     testcase: testcases\live\student\account\student_get_token.yml
     variables:
-      account: $account
-      deviceId: $deviceId
+      account: $true_account
+      password: ${yml(student.account.default_password)}
     output:
       - token
-      -
+      
 - test:
     name: 未获取验证码
-    setup_hooks:
-      - ${hook_print(Authorization token is :$token)}
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
-      account: $account
-      code: ${yml(student.account.default_auth_code)}
+      account: $true_account
+      code: $true_code
       token: $token
-      deviceId: $deviceId
     validate:
       - eq: [content.code, 604]
       - eq: [content.msg, 验证码错误或超时]
@@ -44,8 +42,7 @@
     name: 短信登录获取验证码
     api: api/live/student/account/v1_student_authCode.yml
     variables:
-      account: $account
-      deviceId: $deviceId
+      account: $true_account
     validate:
       - eq: [status_code, 200]
       - eq: [content.code, 200]
@@ -58,37 +55,21 @@
       - ${hook_print(Authorization token is $token)}
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
-      account: $account
-      code: ${yml(student.account.default_auth_code)}
+      account: $true_account
+      code: $true_code
       token: $token
-      deviceId: $deviceId
     validate:
       - eq: [content.code, 200]
       - eq: [content.msg, ok]
       - eq: [content.success, true]
 
-
-- test:
-    name: 设备id与登录时不一致
-    api: api/live/student/account/v1_student_getAccountName.yml
-    variables:
-      account: $account
-      code: ${yml(student.account.default_auth_code)}
-      token: $token
-      deviceId: 999999
-    validate:
-      - eq: [content.code, 703]
-      - eq: [content.msg, accessToken error]
-      - eq: [content.success, false]
-
 - test:
     name: 缺少必填参数
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
-      account: $account
+      account: $true_account
       code: null
       token: $token
-      deviceId: $deviceId
     validate:
       - eq: [content.code, 400]
       - eq: [content.msg, 参数错误]
@@ -98,10 +79,9 @@
     name: 账号不存在
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
-      account: ${yml(non_exists_account)}
-      code: $account
+      account: $wrong_account
+      code: $true_account
       token: $token
-      deviceId: $deviceId
     validate:
       - eq: [content.code, 601]
       - eq: [content.msg, 该账号不存在]
@@ -111,10 +91,9 @@
     name: 验证码错误
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
-      account: $account
-      code: 018349
+      account: $true_account
+      code: $wrong_code
       token: $token
-      deviceId: $deviceId
     validate:
       - eq: [content.code, 604]
       - eq: [content.msg, 验证码错误或超时]
@@ -124,10 +103,9 @@
     name: 数据类型错误
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
-      account: $account
+      account: $true_account
       code: "wrong type"
       token: $token
-      deviceId: $deviceId
     validate:
       - eq: [content.code, 604]
       - eq: [content.msg, 验证码错误或超时]

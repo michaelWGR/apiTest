@@ -1,5 +1,5 @@
 - config:
-    name: 学生端登录接口
+    name: 学生端登录接口v2
     variables:
       true_account: ${yml(student.account.account1)}
       wrong_account: ${yml(student.account.non_exists_account)}
@@ -8,10 +8,7 @@
 
 - test:
     name: 学生正常登录
-    api: api/live/student/account/v1_student_login.yml
-    variables:
-      account: $true_account
-      password: $true_password
+    api: api/live/student/account/v1_student_loginV2.yml
     validate:
       - eq: [content.code, 200]
       - eq: [content.msg, ok]
@@ -19,7 +16,7 @@
 
 - test:
     name: 缺少必填参数
-    api: api/live/student/account/v1_student_login.yml
+    api: api/live/student/account/v1_student_loginV2.yml
     variables:
       account: null
       password: null
@@ -30,9 +27,9 @@
 
 - test:
     name: 账号不存在
-    api: api/live/student/account/v1_student_login.yml
+    api: api/live/student/account/v1_student_loginV2.yml
     variables:
-      account: wrong_account
+      account: $wrong_account
       password: $true_password
     validate:
       - eq: [content.code, 601]
@@ -41,10 +38,10 @@
 
 - test:
     name: 密码错误
-    api: api/live/student/account/v1_student_login.yml
+    api: api/live/student/account/v1_student_loginV2.yml
     variables:
       account: $true_account
-      password: wrong_password
+      password: $wrong_password
     validate:
       - eq: [content.code, 603]
       - eq: [content.msg, 密码错误]
@@ -52,11 +49,11 @@
 
 - test:
     name: 账号数据类型错误
-    api: api/live/student/account/v1_student_login.yml
+    api: api/live/student/account/v1_student_loginV2.yml
     variables:
       account: lasjkdfk
       password: $true_password
     validate:
-      - eq: [content.code, 601]
-      - eq: [content.msg, 该账号不存在]
+      - eq: [content.code, 400]
+      - eq: [content.msg, 参数错误]
       - eq: [content.success, false]
