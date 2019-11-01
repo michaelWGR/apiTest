@@ -1,17 +1,17 @@
 - config:
-    name: 短信验证码登录
+    name: 短信验证码登录V2
     variables:
-      true_account: ${yml(student.account.account5)}
-      wrong_account: ${yml(student.account.non_exists_account)}
+      true_account: ${yml(student.account.account3)}
       true_code: ${yml(student.account.default_auth_code)}
+      wrong_account: ${yml(student.account.non_exists_account)}
       wrong_code: 111111
 
 - test:
     name: 未生成验证码
-    api: api/live/student/account/v1_student_loginWithCode.yml
+    api: api/live/student/account/v1_student_loginWithCodeV2.yml
     variables:
       account: $true_account
-      code: ${yml(student.account.default_auth_code)}
+      code: $true_code
     validate:
       - eq: [content.code, 604]
       - eq: [content.msg, 验证码错误或超时]
@@ -30,7 +30,7 @@
 
 - test:
     name: 短信验证码登录
-    api: api/live/student/account/v1_student_loginWithCode.yml
+    api: api/live/student/account/v1_student_loginWithCodeV2.yml
     variables:
       account: $true_account
       code: ${yml(student.account.default_auth_code)}
@@ -41,7 +41,7 @@
 
 - test:
     name: 缺少必填参数
-    api: api/live/student/account/v1_student_loginWithCode.yml
+    api: api/live/student/account/v1_student_loginWithCodeV2.yml
     variables:
       account: $true_account
       code: null
@@ -52,7 +52,7 @@
 
 - test:
     name: 不存在的账号
-    api: api/live/student/account/v1_student_loginWithCode.yml
+    api: api/live/student/account/v1_student_loginWithCodeV2.yml
     variables:
       account: $wrong_account
       code: ${yml(student.account.default_auth_code)}
@@ -63,7 +63,7 @@
 
 - test:
     name: 错误的验证码
-    api: api/live/student/account/v1_student_loginWithCode.yml
+    api: api/live/student/account/v1_student_loginWithCodeV2.yml
     variables:
       account: $true_account
       code: $wrong_code

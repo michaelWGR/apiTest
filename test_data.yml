@@ -22,7 +22,16 @@ student:
 
   # 账号相关参数
   account:
-    account1: '18888600018'
+    account1: '12388600018'
+    account2: '13612362598'
+    account3: '13612362596'
+    account4: '12300103006'
+    account5: '13612362551'
+    account6: '13612362552'
+    account7: '13612362553'
+    account8: '13612362554'
+    account9: '13612362555'
+    account10: '13612362556'
     default_password: '000000'
     default_auth_code: '000000'
     non_exists_account: '99999999999'

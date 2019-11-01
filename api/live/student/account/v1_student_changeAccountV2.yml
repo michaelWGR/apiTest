@@ -1,4 +1,4 @@
-name: 学生更换账号接口
+name: 学生更换账号接口V2
 base_url: ${yml(student.base_url)}
 
 variables:
@@ -10,12 +10,11 @@ variables:
   expected_status_code: 200
 
 request:
-  url: /v1/student/changeAccount
+  url: /v1/student/changeAccountV2
   method: POST
   headers:
     Authorization: $token
     deviceId: ${yml(student.default_device_id)}
-    Content-Type: application/x-www-form-urlencoded
   params:
     newAccount: $account
     password: $password_md5

@@ -1,20 +1,20 @@
-name: 获取验证码（换账号用）
+name: 学生登录接口V2
 base_url: ${yml(student.base_url)}
 
 variables:
   account: ${yml(student.account.account1)}
+  password: ${yml(student.account.default_password)}
+  password_md5: ${encrypt_md5($password)}
   deviceId: ${yml(student.default_device_id)}
-  token: null
   expected_status_code: 200
 
 request:
-  url: /v1/student/authCodeToNewPhone
+  url: /v1/student/loginV2
   method: GET
-  headers:
-    Authorization: $token
-    deviceid: $deviceId
   params:
-    phoneNum: $account
+    account: $account
+    password: $password_md5
+    deviceId: $deviceId
 
 validate:
   - eq: ["status_code", $expected_status_code]

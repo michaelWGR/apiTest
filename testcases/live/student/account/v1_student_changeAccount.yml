@@ -1,10 +1,11 @@
 - config:
     name: 学生更换账号
     variables:
-      newAccount: 12300009464
+      curAccount: ${yml(student.account.account6)}
+      newAccount: ${yml(student.account.account7)}
       existsAccount: ${yml(student.account.account1)}
-      password: ${yml(student.account.default_password)}
-      code: ${yml(student.account.default_auth_code)}
+      true_password: ${student.account.default_password}
+      true_code: ${yml(student.account.default_auth_code)}
       wrongTypeAccount: asldfjawefals
       wrongFormatAccount: ${yml(student.account.non_exists_account)}
       wrongPwd: alfealkngaowe
@@ -16,9 +17,9 @@
     name: token错误
     api: api/live/student/account/v1_student_changeAccount.yml
     variables:
-      account: $newAccount
-      password: $password
-      code: $code
+      account: $curAccount
+      password: $true_password
+      code: $true_code
       token: asdfaefaefa
     validate:
       - eq: [status_code, 200]
@@ -28,16 +29,16 @@
 - test:
     name: 获取token
     testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: $curAccount
     output:
       - token
 
 - test:
-    name: 学生更换账号
-    api: api/live/student/account/v1_student_changeAccount.yml
+    name: 获取验证码（换账号用）
+    api: api/live/student/account/v1_student_authCodeToNewPhone.yml
     variables:
       account: $newAccount
-      password: $password
-      code: $code
       token: $token
     validate:
       - eq: [status_code, 200]
@@ -49,8 +50,8 @@
     api: api/live/student/account/v1_student_changeAccount.yml
     variables:
       account: $existsAccount
-      password: $password
-      code: $code
+      password: $true_password
+      code: $true_code
       token: $token
     validate:
       - eq: [status_code, 200]
@@ -62,8 +63,8 @@
     api: api/live/student/account/v1_student_changeAccount.yml
     variables:
       account: $wrongFormatAccount
-      password: $password
-      code: $code
+      password: $true_password
+      code: $true_code
       token: $token
     validate:
       - eq: [status_code, 200]
@@ -75,8 +76,8 @@
     api: api/live/student/account/v1_student_changeAccount.yml
     variables:
       account: $wrongTypeAccount
-      password: $password
-      code: $code
+      password: $true_password
+      code: $true_code
       token: $token
     validate:
       - eq: [status_code, 200]
@@ -87,9 +88,9 @@
     name: 密码错误
     api: api/live/student/account/v1_student_changeAccount.yml
     variables:
-      account: $newAccount
-      password: $wongPassword
-      code: $code
+      account: $curAccount
+      password: $wrongPwd
+      code: $true_code
       token: $token
     validate:
       - eq: [status_code, 200]
@@ -100,48 +101,48 @@
     name: 验证码错误
     api: api/live/student/account/v1_student_changeAccount.yml
     variables:
-      account: $newAccount
-      password: $password
+      account: $curAccount
+      password: $true_password
       code: $wrongCode
       token: $token
     validate:
       - eq: [status_code, 200]
       - eq: [content.code, 604]
-      - eq: [content.msg, 验证码过期或者不存在]
+      - eq: [content.msg, 验证码错误或超时]
 
 - test:
     name: 验证码长度超长
     api: api/live/student/account/v1_student_changeAccount.yml
     variables:
-      account: $newAccount
-      password: $password
+      account: $curAccount
+      password: $true_password
       code: $wrongLengthCode
       token: $token
     validate:
       - eq: [status_code, 200]
       - eq: [content.code, 604]
-      - eq: [content.msg, 验证码过期或者不存在]
+      - eq: [content.msg, 验证码错误或超时]
 
 - test:
     name: 验证码数据类型错误
     api: api/live/student/account/v1_student_changeAccount.yml
     variables:
-      account: $newAccount
-      password: $password
-      code: $wongTypeCode
+      account: $curAccount
+      password: $true_password
+      code: $wrongTypeCode
       token: $token
     validate:
       - eq: [status_code, 200]
       - eq: [content.code, 604]
-      - eq: [content.msg, 验证码过期或者不存在]
+      - eq: [content.msg, 验证码错误或超时]
 
 - test:
     name: 缺少手机号
     api: api/live/student/account/v1_student_changeAccount.yml
     variables:
       account: null
-      password: $password
-      code: $code
+      password: $true_password
+      code: $true_code
       token: $token
     validate:
       - eq: [status_code, 200]
@@ -152,9 +153,9 @@
     name: 缺少密码
     api: api/live/student/account/v1_student_changeAccount.yml
     variables:
-      account: $newAccount
+      account: $curAccount
       password: null
-      code: $code
+      code: $true_code
       token: $token
     validate:
       - eq: [status_code, 200]
@@ -165,14 +166,27 @@
     name: 缺少验证码
     api: api/live/student/account/v1_student_changeAccount.yml
     variables:
-      account: $newAccount
-      password: $password
+      account: $curAccount
+      password: $true_password
       code: null
       token: $token
     validate:
       - eq: [status_code, 200]
       - eq: [content.code, 604]
-      - eq: [content.msg, 验证码过期或者不存在]
+      - eq: [content.msg, 验证码错误或超时]
+
+- test:
+    name: 学生更换账号
+    api: api/live/student/account/v1_student_changeAccount.yml
+    variables:
+      account: $curAccount
+      password: $true_password
+      code: $true_code
+      token: $token
+    validate:
+      - eq: [status_code, 200]
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
 
 - test:
     name: 获取token
@@ -186,9 +200,9 @@
     name: 学生更换账号
     api: api/live/student/account/v1_student_changeAccount.yml
     variables:
-      account: $existsAccount
-      password: $password
-      code: $code
+      account: $newAccount
+      password: $true_password
+      code: $true_code
       token: $token
     validate:
       - eq: [status_code, 200]

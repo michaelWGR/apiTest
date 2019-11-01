@@ -1,0 +1,26 @@
+config:
+  name: student account testsuite
+
+testcases:
+  v1_student_authCode:
+    testcase: 'testcases/live/student/account/v1_student_authCode.yml'
+  v1_student_authCodeToNewPhone:
+    testcase: 'testcases/live/student/account/v1_student_authCodeToNewPhone.yml'
+  v1_student_changeAccount:
+    testcase: 'testcases/live/student/account/v1_student_changeAccount.yml'
+  v1_student_changeAccountV2:
+    testcase: 'testcases/live/student/account/v1_student_changeAccountV2.yml'
+  v1_student_checkAccount:
+    testcase: 'testcases/live/student/account/v1_student_checkAccount.yml'
+  v1_student_getAccountName:
+    testcase: 'testcases/live/student/account/v1_student_getAccountName.yml'
+  v1_student_login:
+    testcase: 'testcases/live/student/account/v1_student_login.yml'
+  v1_student_loginV2:
+    testcase: 'testcases/live/student/account/v1_student_loginV2.yml'
+  v1_student_loginWithCode:
+    testcase: 'testcases/live/student/account/v1_student_loginWithCode.yml'
+  v1_student_loginWithCodeV2:
+    testcase: 'testcases/live/student/account/v1_student_loginWithCodeV2.yml'
+  v1_student_logout:
+    testcase: 'testcases/live/student/account/v1_student_logout.yml'
