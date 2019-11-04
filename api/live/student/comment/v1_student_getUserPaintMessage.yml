@@ -1,0 +1,21 @@
+name: 获取用户画作基本信息
+base_url: ${yml(student.base_url)}
+variables:
+    homeworkId: null
+    type: null
+    Authorization: null
+    deviceId: null
+    expected_status_code: 200
+request:
+    url: /v1/student/getUserPaintMessage
+    method: get
+    headers:
+        Authorization: $Authorization
+        deviceId: $deviceId
+    params:
+        homeworkId: $homeworkId
+        type: $type
+
+
+validate:
+    - eq: ["status_code", $expected_status_code]

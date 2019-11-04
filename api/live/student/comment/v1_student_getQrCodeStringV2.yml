@@ -1,0 +1,17 @@
+name: 新版二维码
+base_url: ${yml(student.base_url)}
+variables:
+    paintMaterialId: null
+    Authorization: null
+    deviceId: null
+    expected_status_code: 200
+request:
+    url: /v1/student/getQrCodeStringV2
+    method: get
+    headers:
+        Authorization: $Authorization
+        deviceId: $deviceId
+    params:
+        paintMaterialId: $paintMaterialId
+validate:
+    - eq: ["status_code", $expected_status_code]
