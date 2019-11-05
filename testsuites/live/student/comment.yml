@@ -1,0 +1,30 @@
+config:
+  name: 点评作业相关
+
+testcases:
+  get homework frame:
+    testcase: testcases/live/student/comment/v1_student_getHomeworkFrame.yml
+
+  get homework status:
+    testcase: testcases/live/student/comment/v1_student_getHomeworkStatus.yml
+
+  get Userhomework message:
+    testcase: testcases/live/student/comment/v1_student_getUserHomeworkMessage.yml
+
+  save Homework Frame share:
+    testcase: testcases/live/student/comment/v1_student_saveHomeworkFrameShare.yml
+
+  get NoFrame Homework List:
+    testcase: testcases/live/student/comment/v1_student_getNoFrameHomeworkList.yml
+
+  get User Paint Message:
+    testcase: testcases/live/student/comment/v1_student_getUserPaintMessage.yml
+
+  get Paint Frame Message:
+    testcase: testcases/live/student/comment/v1_student_getPaintFrameMessage.yml
+
+  get QrCode StringV2:
+    testcase: testcases/live/student/comment/v1_student_getQrCodeStringV2.yml
+
+  save Homework Frame share V2:
+    testcase: testcases/live/student/comment/v1_student_saveHomeworkFrameShareV2.yml
