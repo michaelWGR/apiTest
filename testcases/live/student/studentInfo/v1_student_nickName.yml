@@ -1,15 +1,15 @@
 - config:
     name: 修改用户昵称
     variables:
-      nickName: 新昵称
-      true_account: ${yml(student.account.account1)}
+      account: ${yml(student.studentInfo.editable_account)}
+      newName: 'newNickName'
 
 - test:
     name: 无效的token
     api: api/live/student/studentInfo/v1_student_nickName.yml
     variables:
       token: asdflajelkf
-      nickName: $nickName
+      nickName: $newName
     validate:
       - eq: [content.code, 703]
       - eq: [content.msg, accessToken error]
@@ -19,7 +19,7 @@
     api: api/live/student/studentInfo/v1_student_nickName.yml
     variables:
       token: null
-      nickName: $nickName
+      nickName: $newName
     validate:
       - eq: [content.code, 703]
       - eq: [content.msg, accessToken error]
@@ -28,7 +28,7 @@
     name: 获取token
     testcase: testcases/live/student/account/student_get_token.yml
     variables:
-      account: $true_account
+      account: $account
     output:
       - token
 
@@ -37,7 +37,7 @@
     api: api/live/student/studentInfo/v1_student_nickName.yml
     variables:
       token: $token
-      nickName: $nickName
+      nickName: $newName
     validate:
       - eq: [content.code, 200]
       - eq: [content.msg, ok]

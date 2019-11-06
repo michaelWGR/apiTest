@@ -26,6 +26,7 @@
 - test:
     name: 获取token
     testcase: testcases/live/student/account/student_get_token.yml
+    account: ${yml(student.studentInfo.editable_account)}
     output:
       - token
 
@@ -39,6 +40,7 @@
       - eq: [content.code, 200]
       - eq: [content.msg, ok]
       - eq: [content.success, true]
+      - eq: [content.data, 1]
 
 - test:
     name: 链接为空
@@ -50,3 +52,4 @@
       - eq: [content.code, 200]
       - eq: [content.msg, ok]
       - eq: [content.success, true]
+      - eq: [content.data, 1]

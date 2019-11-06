@@ -1,0 +1,102 @@
+- config:
+    name: save Homework Frame Share V2
+    variables:
+
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: save Homework Frame Share V2
+    api: api/live/student/comment/v1_student_saveHomeworkFrameShareV2.yml
+    variables:
+      homeworkId: 1031
+      type: 1
+      Authorization: $token
+      deviceId: $true_deviceId
+      frameId: 1
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name:  frameId is random
+    api: api/live/student/comment/v1_student_saveHomeworkFrameShareV2.yml
+    variables:
+      homeworkId: 1111
+      Authorization: $token
+      deviceId: $true_deviceId
+      frameId: 3
+      type: 1
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+
+- test:
+    name: token is null
+    api: api/live/student/comment/v1_student_saveHomeworkFrameShareV2.yml
+    variables:
+      homeworkId: 1031
+      Authorization: null
+      deviceId: $true_deviceId
+      frameId: 1
+      type: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId is null
+    api: api/live/student/comment/v1_student_saveHomeworkFrameShareV2.yml
+    variables:
+      homeworkId: 1031
+      Authorization: $token
+      deviceId: null
+      frameId: 1
+      type: 2
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: type is 2
+    api: api/live/student/comment/v1_student_saveHomeworkFrameShareV2.yml
+    variables:
+      homeworkId: 1031
+      Authorization: $token
+      deviceId: $true_deviceId
+      frameId: 1
+      type: 2
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: type is 3
+    api: api/live/student/comment/v1_student_saveHomeworkFrameShareV2.yml
+    variables:
+      homeworkId: 1031
+      Authorization: $token
+      deviceId: $true_deviceId
+      frameId: 1
+      type: 3
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]

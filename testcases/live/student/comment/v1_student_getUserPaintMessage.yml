@@ -1,0 +1,72 @@
+- config:
+    name: 获取用户画作基本信息
+    variables:
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: 成功获取用户画作基本信息
+    api: api/live/student/comment/v1_student_getUserPaintMessage.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      homeworkId: 1031
+      type: 1
+
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+      - eq: [content.data.userHeadImgUrl,null]
+      - type_match: [content.data.nickName, str]
+      - type_match: [content.data.noFrameImageDTO.userHomeworkId, int]
+      - type_match: [content.data.noFrameImageDTO.noFrameImgUrl, str]
+      - type_match: [content.data.noFrameImageDTO.title, str]
+      - type_match: [content.data.sortPaint, int]
+      - type_match: [content.data.userOriginDataDTO.studyDate, int]
+      - type_match: [content.data.userOriginDataDTO.studyCourse, int]
+      - type_match: [content.data.userOriginDataDTO.studyMin, int]
+      - type_match: [content.data.userOriginDataDTO.commitPaint, int]
+      - type_match: [content.data.userOriginDataDTO.trophyCount, int]
+      - type_match: [content.data.userOriginDataDTO.leastLevel4paint, int]
+      - type_match: [content.data.userOriginDataDTO.level5paint, int]
+
+- test:
+    name: 成功获取用户画作基本信息,类型为2时
+    api: api/live/student/comment/v1_student_getUserPaintMessage.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      homeworkId: 1031
+      type: 2
+
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: 成功获取用户画作基本信息,类型为3时
+    api: api/live/student/comment/v1_student_getUserPaintMessage.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      homeworkId: 1031
+      type: 3
+
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
