@@ -1,0 +1,6 @@
+config:
+    name: software_management
+
+testcases:
+    v1_teacher_app_checkUpdate2:
+        testcase: testcases/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
