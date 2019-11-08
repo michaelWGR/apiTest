@@ -1,0 +1,311 @@
+- config:
+    name: v1_teacher_config
+    setup_hooks:
+        - ${insert_config_common_for_record_video()}
+    teardown_hooks:
+        - ${delete_config_common_for_record_video()}
+
+- test:
+    name: get_token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: 参数正确，请求成功
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 3
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 6]
+        - eq: [content.data.0, {'key': 'audioBitsPerSecond2', 'value': '18000'}]
+        - eq: [content.data.1, {'key': 'videoBitsPerSecond2', 'value': '380000'}]
+        - eq: [content.data.2, {'key': 'pcRecordDefaultDirs2', 'value': '["D:/HualalaTest"]'}]
+        - eq: [content.data.3, {'key': 'videoFrameRate2', 'value': '24'}]
+        - eq: [content.data.4, {'key': 'videoSizeRatio2', 'value': '1'}]
+        - eq: [content.data.5, {'key': 'videoWindowScreen2', 'value': 'false'}]
+
+- test:
+    name: type为1，返回参数为空
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 1
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 0]
+
+- test:
+    name: type为2，返回参数为空
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 2
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 0]
+
+- test:
+    name: type为4，返回参数为空
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 4
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 0]
+
+- test:
+    name: type为5，返回参数为空
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 5
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 0]
+
+- test:
+    name: type为6，返回参数为空
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 6
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 0]
+
+- test:
+    name: type为-1，参数错误
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: -1
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 400]
+        - eq: [content.msg, 'param error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: type为abc，请求失败
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 'abc'
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: type为空，请求失败
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: null
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: version为wrong_version，请求成功
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 3
+        version: 'wrong_version'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 6]
+        - eq: [content.data.0, {'key': 'audioBitsPerSecond2', 'value': '18000'}]
+        - eq: [content.data.1, {'key': 'videoBitsPerSecond2', 'value': '380000'}]
+        - eq: [content.data.2, {'key': 'pcRecordDefaultDirs2', 'value': '["D:/HualalaTest"]'}]
+        - eq: [content.data.3, {'key': 'videoFrameRate2', 'value': '24'}]
+        - eq: [content.data.4, {'key': 'videoSizeRatio2', 'value': '1'}]
+        - eq: [content.data.5, {'key': 'videoWindowScreen2', 'value': 'false'}]
+
+- test:
+    name: version为123，请求成功
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 3
+        version: 123
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 6]
+        - eq: [content.data.0, {'key': 'audioBitsPerSecond2', 'value': '18000'}]
+        - eq: [content.data.1, {'key': 'videoBitsPerSecond2', 'value': '380000'}]
+        - eq: [content.data.2, {'key': 'pcRecordDefaultDirs2', 'value': '["D:/HualalaTest"]'}]
+        - eq: [content.data.3, {'key': 'videoFrameRate2', 'value': '24'}]
+        - eq: [content.data.4, {'key': 'videoSizeRatio2', 'value': '1'}]
+        - eq: [content.data.5, {'key': 'videoWindowScreen2', 'value': 'false'}]
+
+- test:
+    name: version为空，请求失败
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 3
+        version: null
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: keys为wrong_key，返回参数为空
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 3
+        version: '4.3.1'
+        keys: 'wrong_key'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 0]
+
+- test:
+    name: keys的分隔符为分号，返回参数为空
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 3
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond;videoBitsPerSecond'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 0]
+
+- test:
+    name: keys为空，请求错误
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 3
+        version: '4.3.1'
+        keys: null
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: deviceid为wrong_id，请求失败
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 3
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: 'wrong_id'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceid为空，请求失败
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 3
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: null
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: authorization为wrong_token，请求失败
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 3
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: 'wrong_token'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: authorization为空，请求失败
+    api: api/live/teacher/software_management/v1_teacher_config.yml
+    variables:
+        type: 3
+        version: '4.3.1'
+        keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+        deviceId: '123456'
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']

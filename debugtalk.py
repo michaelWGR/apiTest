@@ -529,6 +529,44 @@ def delete_app_publish_code999():
     db.executeSQL(sql_delete)
     db.closeDB()
 
+def insert_config_common_for_record_video():
+    # 在config_common表插入教师端录屏的相关参数
+    db = MyDB()
+    db.connectDB(database='i61-draw-course')
+
+    sql_delete = '''DELETE FROM `config_common` WHERE conf_key IN ('audioBitsPerSecond2', 'videoBitsPerSecond2', 'pcRecordDefaultDirs2', 'videoFrameRate2', 'videoSizeRatio2', 'videoWindowScreen2');'''
+    db.executeSQL(sql_delete)
+
+    sql_insert_audioBitsPerSecond2 = '''INSERT INTO `config_common` (`conf_key`, `conf_value`, `type`, `version`, `description`) VALUES('audioBitsPerSecond2','18000','3','1','PC端屏幕录制音频单位设置');'''
+    db.executeSQL(sql_insert_audioBitsPerSecond2)
+
+    sql_insert_pcRecordDefaultDirs2 = '''INSERT INTO `config_common` (`conf_key`, `conf_value`, `type`, `version`, `description`) VALUES('pcRecordDefaultDirs2','[\"D:/HualalaTest\"]','3','1','录屏保存文件支持多文件目录适配，会按优先级和是否有能存储选择');'''
+    db.executeSQL(sql_insert_pcRecordDefaultDirs2)
+
+    sql_insert_videoBitsPerSecond2 = '''INSERT INTO `config_common` (`conf_key`, `conf_value`, `type`, `version`, `description`) VALUES('videoBitsPerSecond2','380000','3','1','PC端屏幕录制视频频单位设置');'''
+    db.executeSQL(sql_insert_videoBitsPerSecond2)
+
+    sql_insert_videoFrameRate2 = '''INSERT INTO `config_common` (`conf_key`, `conf_value`, `type`, `version`, `description`) VALUES('videoFrameRate2','24','3','1','录制视频的帧');'''
+    db.executeSQL(sql_insert_videoFrameRate2)
+
+    sql_insert_videoSizeRatio2 = '''insert into `config_common` (`conf_key`, `conf_value`, `type`, `version`, `description`) values('videoSizeRatio2','1','3','1','录制视频的缩小比');'''
+    db.executeSQL(sql_insert_videoSizeRatio2)
+
+    sql_insert_videoWindowScreen2 = '''INSERT INTO `config_common` (`conf_key`, `conf_value`, `type`, `version`, `description`) VALUES('videoWindowScreen2','false','3','1','窗口录屏参数，只在win7系统有效');'''
+    db.executeSQL(sql_insert_videoWindowScreen2)
+
+    db.closeDB()
+
+def delete_config_common_for_record_video():
+    # 删除教师端录屏的配置数据
+    db = MyDB()
+    db.connectDB(database='i61-draw-course')
+
+    sql_delete = '''DELETE FROM `config_common` WHERE conf_key IN ('audioBitsPerSecond2', 'videoBitsPerSecond2', 'pcRecordDefaultDirs2', 'videoFrameRate2', 'videoSizeRatio2', 'videoWindowScreen2');'''
+    db.executeSQL(sql_delete)
+
+    db.closeDB()
+
 if __name__ == '__main__':
     # gen_random_string(1)
     # init_function_switch_web_config()
@@ -538,5 +576,6 @@ if __name__ == '__main__':
     # delete_room_schedule()
     # add_room_schedule()
     # insert_app_publish_for_windows()
-    delete_app_publish_code999()
-
+    # delete_app_publish_code999()
+    # insert_config_common_for_record_video()
+    delete_config_common_for_record_video()
