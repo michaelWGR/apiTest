@@ -49,6 +49,8 @@ student:
     account1: '12300000671'
     default_password: '000000'
 
+  studentInfo:
+    editable_account: '12397300005'
 
 
 # 直播监控相关参数
