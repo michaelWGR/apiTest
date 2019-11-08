@@ -1,18 +1,20 @@
-name: 返回作业状态
+name: 首页画作列表获取
 base_url: ${yml(student.base_url)}
 variables:
-    roomUserScheduleId: null
+    page: null
+    pageSize: null
     Authorization: null
     deviceId: null
     expected_status_code: 200
 request:
-    url: /v1/student/getHomeworkStatus
+    url: /v1/student/getNoFrameHomeworkList
     method: get
     headers:
         Authorization: $Authorization
         deviceId: $deviceId
     params:
-        roomUserScheduleId: $roomUserScheduleId
+        page: $page
+        pageSize: $pageSize
 
 
 validate:

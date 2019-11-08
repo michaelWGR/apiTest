@@ -1,0 +1,31 @@
+- config:
+    name: 新版二维码
+    variables:
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: 新版二维码获取成功
+    api: api/live/student/comment/v1_student_getQrCodeStringV2.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      paintMaterialId: 1
+
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+      - type_match: [content.data, str]
+
+

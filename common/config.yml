@@ -10,7 +10,7 @@ DATABASE:
 # 邮件信息
 MAIL:
   sender: livetest@ad61v1.com
-  receivers: wangguirong@ad61v1.com
+  receivers: 61zbcs@ad61v1.com
   mail_host: 61s2.ad61v1.com
   mail_pass: livetest
   subject: 【接口测试报告】画啦啦直播接口测试

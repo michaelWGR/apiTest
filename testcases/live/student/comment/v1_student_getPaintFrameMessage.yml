@@ -1,0 +1,35 @@
+- config:
+    name: 获取相框以及基本坐标数据
+    variables:
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: 成功获取相框以及基本坐标数据
+    api: api/live/student/comment/v1_student_getPaintFrameMessage.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+      - type_match: [content.data.0.id, int]
+      - type_match: [content.data.0.serialNumber, int]
+      - type_match: [content.data.0.materialName, str]
+      - type_match: [content.data.0.materialPicUrl, str]
+      - type_match: [content.data.0.labelName, str]
+      - type_match: [content.data.0.paintPosition.xCrood, int]
+      - type_match: [content.data.0.headUrlPosition.yCrood, int]
+      - type_match: [content.data.0.qrCodePosition.height, int]

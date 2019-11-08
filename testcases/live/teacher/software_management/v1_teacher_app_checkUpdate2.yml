@@ -1,0 +1,555 @@
+- config:
+    name: v1_teacher_app_checkUpdate2
+    setup_hooks:
+        - ${insert_app_publish_for_windows()}
+    teardown_hooks:
+        - ${delete_app_publish_code999()}
+
+
+- test:
+    name: 参数正确，请求成功
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: 431
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, 'windows']
+        - eq: [content.data.clientType, 'windows']
+        - eq: [content.data.version, '9.9.9']
+        - eq: [content.data.code, 999]
+        - eq: [content.data.publishPlatform, 3]
+        - eq: [content.data.needForceUpdate, true]
+        - eq: [content.data.needNotifyUser, true]
+        - eq: [content.data.currentLastest, false]
+        - eq: [content.data.downloadUrl, 'http://liveadmin-test.61info.cn/static/download/windows']
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, 'http://liveadmin-test.61info.cn/static/download']
+
+- test:
+    name: platform为ios，返回url为空
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'ios'
+        clientType: 'windows'
+        code: 431
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, null]
+
+- test:
+    name: platform为android，返回url为空
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'android'
+        clientType: 'windows'
+        code: 431
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, null]
+
+- test:
+    name: platform为wrong_platform，返回url为空
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'wrong_platform'
+        clientType: 'windows'
+        code: 431
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, null]
+
+- test:
+    name: platform为123，返回url为空
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 123
+        clientType: 'windows'
+        code: 431
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, null]
+
+- test:
+    name: platform为空，请求失败
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: null
+        clientType: 'windows'
+        code: 431
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: clientType为ios，返回url为空
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'ios'
+        code: 431
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, null]
+
+- test:
+    name: clientType为android，返回url为空
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'android'
+        code: 431
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, null]
+
+- test:
+    name: clientType为wrong_clientType，返回url为空
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'wrong_clientType'
+        code: 431
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, null]
+
+- test:
+    name: clientType为123，返回url为空
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 123
+        code: 431
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, null]
+
+- test:
+    name: clientType为空，请求失败
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: null
+        code: 431
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: code为999，返回currentLastest为true
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: 999
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, 'windows']
+        - eq: [content.data.clientType, 'windows']
+        - eq: [content.data.version, '9.9.9']
+        - eq: [content.data.code, 999]
+        - eq: [content.data.publishPlatform, 3]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, 'http://liveadmin-test.61info.cn/static/download/windows']
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, 'http://liveadmin-test.61info.cn/static/download']
+
+- test:
+    name: code为1000，返回currentLastest为true
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: 1000
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, 'windows']
+        - eq: [content.data.clientType, 'windows']
+        - eq: [content.data.version, '9.9.9']
+        - eq: [content.data.code, 999]
+        - eq: [content.data.publishPlatform, 3]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, 'http://liveadmin-test.61info.cn/static/download/windows']
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, 'http://liveadmin-test.61info.cn/static/download']
+
+- test:
+    name: code为abc，请求失败
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: 'abc'
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: code为空，请求失败
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: null
+        publishPlatform: 3
+        param: '403-35'
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: publishPlatform为-1，返回url为空
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: 431
+        publishPlatform: -1
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, null]
+
+- test:
+    name: publishPlatform为1，返回url为空
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: 431
+        publishPlatform: 1
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, null]
+
+- test:
+    name: publishPlatform为2，返回url为空
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: 431
+        publishPlatform: 2
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, null]
+
+- test:
+    name: publishPlatform为4，返回url为空
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: 431
+        publishPlatform: 4
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, null]
+
+- test:
+    name: publishPlatform为abc,请求失败
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: 431
+        publishPlatform: 'abc'
+        param: '403-35'
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: publishPlatform为空，请求成功
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: 431
+        publishPlatform: null
+        param: '403-35'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, 'windows']
+        - eq: [content.data.clientType, 'windows']
+        - eq: [content.data.version, '9.9.9']
+        - eq: [content.data.code, 999]
+        - eq: [content.data.publishPlatform, 3]
+        - eq: [content.data.needForceUpdate, true]
+        - eq: [content.data.needNotifyUser, true]
+        - eq: [content.data.currentLastest, false]
+        - eq: [content.data.downloadUrl, 'http://liveadmin-test.61info.cn/static/download/windows']
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, 'http://liveadmin-test.61info.cn/static/download']
+
+- test:
+    name: param为abc，请求成功
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: 431
+        publishPlatform: 3
+        param: 'abc'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, 'windows']
+        - eq: [content.data.clientType, 'windows']
+        - eq: [content.data.version, '9.9.9']
+        - eq: [content.data.code, 999]
+        - eq: [content.data.publishPlatform, 3]
+        - eq: [content.data.needForceUpdate, true]
+        - eq: [content.data.needNotifyUser, true]
+        - eq: [content.data.currentLastest, false]
+        - eq: [content.data.downloadUrl, 'http://liveadmin-test.61info.cn/static/download/windows']
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, 'http://liveadmin-test.61info.cn/static/download']
+
+- test:
+    name: param为abc，请求成功
+    api: api/live/teacher/software_management/v1_teacher_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'windows'
+        code: 431
+        publishPlatform: 3
+        param: null
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 12]
+        - eq: [content.data.platform, 'windows']
+        - eq: [content.data.clientType, 'windows']
+        - eq: [content.data.version, '9.9.9']
+        - eq: [content.data.code, 999]
+        - eq: [content.data.publishPlatform, 3]
+        - eq: [content.data.needForceUpdate, true]
+        - eq: [content.data.needNotifyUser, true]
+        - eq: [content.data.currentLastest, false]
+        - eq: [content.data.downloadUrl, 'http://liveadmin-test.61info.cn/static/download/windows']
+        - eq: [content.data.publishDescribe, null]
+        - eq: [content.data.feedUrl, 'http://liveadmin-test.61info.cn/static/download']

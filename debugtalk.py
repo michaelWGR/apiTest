@@ -504,7 +504,68 @@ def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_i
     rp = requests.post(url=url, data=data, headers=headers)
     print(json.loads(rp.content)['success'])
 
+##################################################################
+# 教师pc端调用方法
+##################################################################
+def insert_app_publish_for_windows():
+    # 在app_publish表里插入教师端的更新数据
+    db = MyDB()
+    db.connectDB(database='i61-draw-course')
 
+    sql_delete = '''DELETE FROM `app_publish` WHERE platform='windows' AND client_type='windows' AND CODE=999;'''
+    db.executeSQL(sql_delete)
+
+    sql_insert = '''insert into `app_publish` (platform, client_type, version, code, publish_platform, publish_time, is_need_force_update, is_current_lastest, is_need_notify_user, is_gray_scale, package_size, download_url, qr_code_url) values 
+('windows', 'windows', '9.9.9', 999, 3, '2019-11-06 14:29:27', 1, 1, 1, 0, 2.00, 'http://liveadmin-test.61info.cn/static/download/windows', 'test.png');'''
+    db.executeSQL(sql_insert)
+
+    db.closeDB()
+
+def delete_app_publish_code999():
+    # 删除app_publish新插入数据
+    db = MyDB()
+    db.connectDB(database='i61-draw-course')
+    sql_delete = '''DELETE FROM `app_publish` WHERE platform='windows' AND client_type='windows' AND CODE=999;'''
+    db.executeSQL(sql_delete)
+    db.closeDB()
+
+def insert_config_common_for_record_video():
+    # 在config_common表插入教师端录屏的相关参数
+    db = MyDB()
+    db.connectDB(database='i61-draw-course')
+
+    sql_delete = '''DELETE FROM `config_common` WHERE conf_key IN ('audioBitsPerSecond2', 'videoBitsPerSecond2', 'pcRecordDefaultDirs2', 'videoFrameRate2', 'videoSizeRatio2', 'videoWindowScreen2');'''
+    db.executeSQL(sql_delete)
+
+    sql_insert_audioBitsPerSecond2 = '''INSERT INTO `config_common` (`conf_key`, `conf_value`, `type`, `version`, `description`) VALUES('audioBitsPerSecond2','18000','3','1','PC端屏幕录制音频单位设置');'''
+    db.executeSQL(sql_insert_audioBitsPerSecond2)
+
+    sql_insert_pcRecordDefaultDirs2 = '''INSERT INTO `config_common` (`conf_key`, `conf_value`, `type`, `version`, `description`) VALUES('pcRecordDefaultDirs2','[\"D:/HualalaTest\"]','3','1','录屏保存文件支持多文件目录适配，会按优先级和是否有能存储选择');'''
+    db.executeSQL(sql_insert_pcRecordDefaultDirs2)
+
+    sql_insert_videoBitsPerSecond2 = '''INSERT INTO `config_common` (`conf_key`, `conf_value`, `type`, `version`, `description`) VALUES('videoBitsPerSecond2','380000','3','1','PC端屏幕录制视频频单位设置');'''
+    db.executeSQL(sql_insert_videoBitsPerSecond2)
+
+    sql_insert_videoFrameRate2 = '''INSERT INTO `config_common` (`conf_key`, `conf_value`, `type`, `version`, `description`) VALUES('videoFrameRate2','24','3','1','录制视频的帧');'''
+    db.executeSQL(sql_insert_videoFrameRate2)
+
+    sql_insert_videoSizeRatio2 = '''insert into `config_common` (`conf_key`, `conf_value`, `type`, `version`, `description`) values('videoSizeRatio2','1','3','1','录制视频的缩小比');'''
+    db.executeSQL(sql_insert_videoSizeRatio2)
+
+    sql_insert_videoWindowScreen2 = '''INSERT INTO `config_common` (`conf_key`, `conf_value`, `type`, `version`, `description`) VALUES('videoWindowScreen2','false','3','1','窗口录屏参数，只在win7系统有效');'''
+    db.executeSQL(sql_insert_videoWindowScreen2)
+
+    db.closeDB()
+
+def delete_config_common_for_record_video():
+    # 删除教师端录屏的配置数据
+    db = MyDB()
+    db.connectDB(database='i61-draw-course')
+
+    sql_delete = '''DELETE FROM `config_common` WHERE conf_key IN ('audioBitsPerSecond2', 'videoBitsPerSecond2', 'pcRecordDefaultDirs2', 'videoFrameRate2', 'videoSizeRatio2', 'videoWindowScreen2');'''
+    db.executeSQL(sql_delete)
+
+    db.closeDB()
 
 if __name__ == '__main__':
     # gen_random_string(1)
@@ -514,7 +575,7 @@ if __name__ == '__main__':
     # print(id)
     # delete_room_schedule()
     # add_room_schedule()
-    y = yml('web_teacher_id')
-    yml('web_teacher_id')
-    print(type(y))
-
+    # insert_app_publish_for_windows()
+    # delete_app_publish_code999()
+    # insert_config_common_for_record_video()
+    delete_config_common_for_record_video()

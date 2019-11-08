@@ -1,18 +1,20 @@
-name: 返回作业状态
+name: 获取用户画作基本信息
 base_url: ${yml(student.base_url)}
 variables:
-    roomUserScheduleId: null
+    homeworkId: null
+    type: null
     Authorization: null
     deviceId: null
     expected_status_code: 200
 request:
-    url: /v1/student/getHomeworkStatus
+    url: /v1/student/getUserPaintMessage
     method: get
     headers:
         Authorization: $Authorization
         deviceId: $deviceId
     params:
-        roomUserScheduleId: $roomUserScheduleId
+        homeworkId: $homeworkId
+        type: $type
 
 
 validate:

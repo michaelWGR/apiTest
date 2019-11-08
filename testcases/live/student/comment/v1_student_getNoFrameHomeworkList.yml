@@ -1,0 +1,33 @@
+- config:
+    name: 首页画作列表获取
+    variables:
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: 成功获取首页画作列表
+    api: api/live/student/comment/v1_student_getNoFrameHomeworkList.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      page: 1
+      pageSize: 1
+
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+      - type_match: [content.data.0.userHomeworkId, int]
+      - type_match: [content.data.0.noFrameImgUrl, str]
+      - type_match: [content.data.0.commitTime, int]
+      - type_match: [content.data.0.title, str]

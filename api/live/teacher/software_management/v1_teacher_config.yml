@@ -1,0 +1,21 @@
+name: v1_teacher_config
+base_url: ${yml(teacher_base_url)}
+variables:
+    type: 3
+    version: '4.3.1'
+    keys: 'audioBitsPerSecond2,videoBitsPerSecond2,pcRecordDefaultDirs2,videoFrameRate2,videoSizeRatio2,videoWindowScreen2'
+    deviceId: '123456'
+    Authorization: null
+
+request:
+    url: /v1/teacher/config
+    method: GET
+    params:
+        type: $type
+        version: $version
+        keys: $keys
+        deviceId: $deviceId
+    headers:
+        Authorization: $Authorization
+validate:
+   - eq: [status_code, 200]

@@ -1,0 +1,20 @@
+name: v1_teacher_app_checkUpdate2
+base_url: ${yml(teacher_base_url)}
+variables:
+    platform: 'windows'
+    clientType: 'windows'
+    code: 431
+    publishPlatform: 3
+    param: '403-35'
+
+request:
+   url: /v1/teacher/app/checkUpdate2
+   method: GET
+   params:
+       platform: $platform
+       clientType: $clientType
+       code: $code
+       publishPlatform: $publishPlatform
+       param: $param
+validate:
+   - eq: [status_code, 200]

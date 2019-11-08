@@ -1,19 +1,17 @@
-name: 返回作业状态
+name: 新版二维码
 base_url: ${yml(student.base_url)}
 variables:
-    roomUserScheduleId: null
+    paintMaterialId: null
     Authorization: null
     deviceId: null
     expected_status_code: 200
 request:
-    url: /v1/student/getHomeworkStatus
+    url: /v1/student/getQrCodeStringV2
     method: get
     headers:
         Authorization: $Authorization
         deviceId: $deviceId
     params:
-        roomUserScheduleId: $roomUserScheduleId
-
-
+        paintMaterialId: $paintMaterialId
 validate:
     - eq: ["status_code", $expected_status_code]
