@@ -129,7 +129,7 @@ def get_userId_in_dm_detail(type):
     sql = '''SELECT UserId FROM `i61`.usersecurityinfo WHERE state = 1;'''
     cursor = db.executeSQL(sql)
     record = db.get_all(cursor)
-    list = '';
+    list = ''
     for uid in record:
         list += str(uid[0])
         list += ','
