@@ -1,0 +1,14 @@
+name: view teacher comment
+base_url: ${yml(student.base_url)}
+
+variables:
+  roomUserScheduleId: null
+
+request:
+  url: v1/student/comment
+  method: GET
+  params:
+    roomUserScheduleId: $roomUserScheduleId
+
+validate:
+  - eq: ["status_code", 200]

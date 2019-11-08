@@ -1,0 +1,12 @@
+config:
+    name: student homework testsuites
+
+testcases:
+    v1_student_comment:
+      testcase: 'testcases/live/student/homework/v1_student_comment.yml'
+    v1_student_getHomework:
+      testcase: 'testcases/live/student/homework/v1_student_getHomework.yml'
+    v1_student_getUserWechatShareDraw:
+      testcase: 'testcases/live/student/homework/v1_student_getUserWechatShareDraw.yml'
+    v1_student_uploadHomework2:
+      testcase: 'testcases/live/student/homework/v1_student_uploadHomework2.yml'

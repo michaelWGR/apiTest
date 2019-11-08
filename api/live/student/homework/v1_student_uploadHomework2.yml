@@ -1,0 +1,32 @@
+name: student upload homework
+base_url: ${yml(student.base_url)}
+
+variables:
+  deviceId: ${yml(student.default_device_id)}
+  token: null
+  roomUserScheduleId: null
+  title: null
+  description: null
+  oldPictureIdList: null
+  oldAudioIdList: null
+  pictureList: null
+  audioList: null
+
+request:
+  url: /v1/student/uploadHomework2
+  headers:
+    Authorization: $token
+    deviceId: $deviceId
+  method: POST
+  data:
+    roomUserScheduleId: $roomUserScheduleId
+    title: $title
+    deviceId: $deviceId
+    description: $description
+    oldPictureIdList: $oldPictureIdList
+    oldAudioIdList: $oldAudioIdList
+    pictureList: $pictureList
+    audioList: $audioList
+
+validate:
+  - eq: [status_code, 200]

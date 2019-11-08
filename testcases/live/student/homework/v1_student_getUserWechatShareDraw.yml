@@ -1,0 +1,51 @@
+- config:
+    name: 获取分享画作
+    variables:
+      true_roomUserScheduleId: 242581
+      wrong_roomUserScheduleId: 99999999
+      wrong_type_roomUserScheduleId: abcdefg
+
+- test:
+    name: 获取分享画作
+    api: api/live/student/homework/v1_student_getUserWechatShareDraw.yml
+    variables:
+      roomUserScheduleId: $true_roomUserScheduleId
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.success, true]
+      - type_match: [content.data, dict]
+      - eq: [content.data.roomUserScheduleId, $true_roomUserScheduleId]
+
+- test:
+    name: roomUserScheduleId错误
+    api: api/live/student/homework/v1_student_getUserWechatShareDraw.yml
+    variables:
+      roomUserScheduleId: $wrong_roomUserScheduleId
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.success, true]
+      - type_match: [content.data, dict]
+      - eq: [content.data.roomUserScheduleId, 0]
+
+- test:
+    name: roomUserScheduleId为空
+    api: api/live/student/homework/v1_student_getUserWechatShareDraw.yml
+    variables:
+      roomUserScheduleId: null
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.success, true]
+      - type_match: [content.data, dict]
+      - eq: [content.data.roomUserScheduleId, 0]
+
+
+- test:
+    name: roomUserScheduleId参数类型错误
+    api: api/live/student/homework/v1_student_getUserWechatShareDraw.yml
+    variables:
+      roomUserScheduleId: $wrong_roomUserScheduleId
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.success, true]
+      - type_match: [content.data, dict]
+      - eq: [content.data.roomUserScheduleId, 0]
