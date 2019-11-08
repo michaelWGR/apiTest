@@ -113,7 +113,8 @@ def update_user_password(dm_dict):
 def rollback_user_password(user_dict):
     db = MyDB()
     db.connectDB('i61')
-    sql = '''UPDATE usersecurityinfo SET Password = '{0}' WHERE UserId = {1};'''.format(user_dict['password'], user_dict['userId'])
+    sql = '''UPDATE usersecurityinfo SET Password = '{0}' WHERE UserId = {1};'''.format(user_dict['password'],
+                                                                                        user_dict['userId'])
     db.executeSQL(sql)
     db.closeDB()
     # print("rollback password:" + user_dict['password'])
@@ -139,14 +140,15 @@ def get_userId_in_dm_detail(type):
     order = 'DESC'
     if type == 1:
         order = 'ASC'
-    sql = '''SELECT user_id,  COUNT(*) FROM dm_change_record where user_id not in ({0}) GROUP BY user_Id ORDER BY COUNT(*) {1} ;'''.format(list, order)
+    sql = '''SELECT user_id,  COUNT(*) FROM dm_change_record where user_id not in ({0}) GROUP BY user_Id ORDER BY COUNT(*) {1} ;'''.format(
+        list, order)
     cursor = db.executeSQL(sql)
     record = db.get_one(cursor)
     userId = 569106
     page = 1
     if record is not None:
-      userId = record[0]
-      page = int(math.ceil(record[1] / 6))
+        userId = record[0]
+        page = int(math.ceil(record[1] / 6))
 
     db.connectDB('i61')
     sql = '''SELECT Account FROM userinfo WHERE UserId = {};'''.format(userId)
@@ -169,6 +171,14 @@ def get_dm_account_max_page(dm_dict):
 
 def get_dm_acount_next_page(page):
     return page + 1
+
+
+def parse_resource_list(src_list: list):
+    ids = []
+    for item in src_list:
+        ids.append(item['id'])
+    return str(ids)
+
 
 ##################################################################
 # 外呼系统调用方法
@@ -416,6 +426,7 @@ def delete_config_data():
 
     db.closeDB()
 
+
 def init_function_switch_web_config():
     '''
     初始化function_switch_web的值
@@ -425,6 +436,7 @@ def init_function_switch_web_config():
     sql = '''update `i61-draw-course`.`config_common` set conf_value = '{"web_is_gray":2,"expired":86400}' where conf_key='function_switch_web';'''
     db.executeSQL(sql)
     db.closeDB()
+
 
 def login_to_liveadmin(username='zhongyanping', password='e10adc3949ba59abbe56e057f20f883e'):
     # 登录cms系统
@@ -437,6 +449,7 @@ def login_to_liveadmin(username='zhongyanping', password='e10adc3949ba59abbe56e0
     rp_dict = json.loads(rp.content)
     token = rp_dict['data']['token']
     return token
+
 
 def search_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id')):
     # 查找对应id的开课课程
@@ -465,6 +478,7 @@ def search_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teache
                 id_list.append(i['id'])
     return id_list
 
+
 def delete_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id')):
     # 删除指定学生id和老师id的所有课程
     id_list = search_room_schedule(studentId, teacherId)
@@ -483,6 +497,7 @@ def delete_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teache
     else:
         return
 
+
 def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id')):
     # 添加新课程
     delete_room_schedule()
@@ -494,8 +509,8 @@ def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_i
         'courseNature': 0,
         'teacherId': teacherId,
         'broadcaseId': 503,
-        'startTime': int(time.time())*1000,
-        'endTime': int(time.time())*1000+60*60*1000,
+        'startTime': int(time.time()) * 1000,
+        'endTime': int(time.time()) * 1000 + 60 * 60 * 1000,
         'studentIds[0]': studentId
     }
     headers = {
@@ -503,6 +518,7 @@ def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_i
     }
     rp = requests.post(url=url, data=data, headers=headers)
     print(json.loads(rp.content)['success'])
+
 
 ##################################################################
 # 教师pc端调用方法
@@ -521,6 +537,7 @@ def insert_app_publish_for_windows():
 
     db.closeDB()
 
+
 def delete_app_publish_code999():
     # 删除app_publish新插入数据
     db = MyDB()
@@ -528,6 +545,7 @@ def delete_app_publish_code999():
     sql_delete = '''DELETE FROM `app_publish` WHERE platform='windows' AND client_type='windows' AND CODE=999;'''
     db.executeSQL(sql_delete)
     db.closeDB()
+
 
 def insert_config_common_for_record_video():
     # 在config_common表插入教师端录屏的相关参数
@@ -557,6 +575,7 @@ def insert_config_common_for_record_video():
 
     db.closeDB()
 
+
 def delete_config_common_for_record_video():
     # 删除教师端录屏的配置数据
     db = MyDB()
@@ -566,6 +585,7 @@ def delete_config_common_for_record_video():
     db.executeSQL(sql_delete)
 
     db.closeDB()
+
 
 if __name__ == '__main__':
     # gen_random_string(1)

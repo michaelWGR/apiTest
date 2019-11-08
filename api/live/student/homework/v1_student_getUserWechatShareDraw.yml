@@ -1,0 +1,16 @@
+name: get user wechat share draw
+base_url: ${yml(student.base_url)}
+
+variables:
+  deviceId: ${yml(student.default_device_id)}
+  token: null
+  roomUserScheduleId: null
+
+request:
+  url: v1/student/dm/getUserWechatShareDraw
+  method: GET
+  params:
+    roomUserScheduleId: $roomUserScheduleId
+
+validate:
+  - eq: ["status_code", 200]
