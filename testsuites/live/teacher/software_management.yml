@@ -7,3 +7,6 @@ testcases:
 
     v1_teacher_config:
         testcase: testcases/live/teacher/software_management/v1_teacher_config.yml
+
+    v1_teacher_resourceOperate_operateList:
+        testcase: testcases/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml

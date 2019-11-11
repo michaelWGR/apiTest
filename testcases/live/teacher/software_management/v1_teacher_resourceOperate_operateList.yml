@@ -1,0 +1,257 @@
+- config:
+    name: v1_teacher_resourceOperate_operateList
+
+- test:
+    name: get_token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: 数据正确，请求成功
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":1010593,"operateType":1,"resourceId":3775,"operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: teacherId为abc，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":"abc","tableCourseScheduleId":1010593,"operateType":1,"resourceId":3775,"operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 没有teacherId，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"tableCourseScheduleId":1010593,"operateType":1,"resourceId":3775,"operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: tableCourseScheduleId为abc，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":"abc","operateType":1,"resourceId":3775,"operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 没有tableCourseScheduleId，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"operateType":1,"resourceId":3775,"operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: operateType为abc，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":1010593,"operateType":"abc","resourceId":3775,"operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 没有operateType，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":1010593,"resourceId":3775,"operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: resourceId为abc，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":1010593,"operateType":1,"resourceId":"abc","operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: 没有resourceId，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":1010593,"operateType":1,"operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: operateDataList为abc，请求成功
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":1010593,"operateType":1,"resourceId":3775,"operateDataList":"abc"}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: operateDataList为空list，请求成功
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":1010593,"operateType":1,"resourceId":3775,"operateDataList":[]}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: 没有operateDataList，请求成功
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":1010593,"operateType":1,"resourceId":3775}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: operateList为[]，请求成功
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: operateList为abc，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: 'abc'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: operateList为空，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: null
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: deviceId为wrong_deviceId，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":1010593,"operateType":1,"resourceId":3775,"operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: 'wrong_deviceId'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId为空，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":1010593,"operateType":1,"resourceId":3775,"operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: null
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为wrong_token，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":1010593,"operateType":1,"resourceId":3775,"operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: '123456'
+        Authorization: 'wrong_token'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为空，请求失败
+    api: api/live/teacher/software_management/v1_teacher_resourceOperate_operateList.yml
+    variables:
+        operateList: '[{"teacherId":200075,"tableCourseScheduleId":1010593,"operateType":1,"resourceId":3775,"operateDataList":[{"page":1,"startTimestamp":1573206980822,"endTimestamp":1573206989493}]}]'
+        deviceId: '123456'
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']

@@ -1,0 +1,17 @@
+name: v1_teacher_resourceOperate_operateList
+base_url: ${yml(teacher_base_url)}
+variables:
+    operateList: '[]'
+    deviceId: '123456'
+    Authorization: null
+
+request:
+    url: /v1/teacher/resourceOperate/operateList
+    method: POST
+    data:
+        operateList: $operateList
+        deviceId: $deviceId
+    headers:
+        Authorization: $Authorization
+validate:
+   - eq: [status_code, 200]
