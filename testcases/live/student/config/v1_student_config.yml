@@ -1,0 +1,57 @@
+- config:
+    name: 学生配置
+    variables:
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: 获取学生配置
+    api: api/live/student/config/v1_student_config.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      keys: 1
+      type: 1
+      version: 3.0.0
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: 获取学生配置2
+    api: api/live/student/config/v1_student_config.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      keys: 1
+      type: 4
+      version: 3.0.0
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: deviceid is wrong
+    api: api/live/student/config/v1_student_config.yml
+    variables:
+      Authorization: $token
+      deviceId: wrong
+      keys: 1
+      type: 4
+      version: 3.0.0
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]

@@ -1,0 +1,22 @@
+name: student config
+base_url: ${yml(student.base_url)}
+variables:
+    Authorization: null
+    deviceId: null
+    keys: null
+    type: null
+    version: null
+    expected_status_code: 200
+request:
+    url: /v1/student/config
+    method: post
+    headers:
+        Authorization: $Authorization
+        deviceId: $deviceId
+        ContentType: 'application/x-www-form-urlencoded'
+    data:
+        keys: $keys
+        type: $type
+        version: $version
+validate:
+    - eq: ["status_code", $expected_status_code]

@@ -1,0 +1,16 @@
+name: reset Download Control
+base_url: ${yml(student.base_url)}
+variables:
+    Authorization: null
+    deviceId: null
+    expected_status_code: 200
+request:
+    url: /v1/student/config/resetDownloadControl
+    method: post
+    headers:
+        Authorization: $Authorization
+        ContentType: 'application/x-www-form-urlencoded'
+    data:
+        deviceId: $deviceId
+validate:
+    - eq: ["status_code", $expected_status_code]

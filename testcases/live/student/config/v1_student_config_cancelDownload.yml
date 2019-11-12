@@ -1,0 +1,36 @@
+- config:
+    name: 取消用户下载资源
+    variables:
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: 成功取消用户下载资源
+    api: api/live/student/config/v1_student_config_cancelDownload.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: deviceid is wrong
+    api: api/live/student/config/v1_student_config_cancelDownload.yml
+    variables:
+      Authorization: $token
+      deviceId: wrong
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]

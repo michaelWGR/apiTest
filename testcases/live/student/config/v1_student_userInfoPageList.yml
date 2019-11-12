@@ -1,0 +1,40 @@
+- config:
+    name: “我的” 列表
+    variables:
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: 成功获得“我的” 列表数据
+    api: api/live/student/config/v1_student_userInfoPageList.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+      - type_match: [content.data.0.title, str]
+      - type_match: [content.data.0.index, int]
+      - type_match: [content.data.0.url, str]
+      - type_match: [content.data.1.title, str]
+
+- test:
+    name: deviceid is wrong
+    api: api/live/student/config/v1_student_userInfoPageList.yml
+    variables:
+      Authorization: $token
+      deviceId: wrong
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]

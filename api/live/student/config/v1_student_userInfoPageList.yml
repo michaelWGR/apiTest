@@ -1,0 +1,14 @@
+name: userInfo Page List
+base_url: ${yml(student.base_url)}
+variables:
+    Authorization: null
+    deviceId: null
+    expected_status_code: 200
+request:
+    url: /v1/student/userInfoPageList
+    method: get
+    headers:
+        Authorization: $Authorization
+        deviceId: $deviceId
+validate:
+    - eq: ["status_code", $expected_status_code]

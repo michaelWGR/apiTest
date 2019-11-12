@@ -1,0 +1,15 @@
+config:
+  name: 配置
+
+testcases:
+  student config:
+    testcase: testcases/live/student/config/v1_student_config.yml
+
+  Download cancel:
+    testcase: testcases/live/student/config/v1_student_config_cancelDownload.yml
+
+  reset Download Control:
+    testcase: testcases/live/student/config/v1_student_config_resetDownloadControl.yml
+
+  userInfo Page List:
+    testcase: testcases/live/student/config/v1_student_userInfoPageList.yml
