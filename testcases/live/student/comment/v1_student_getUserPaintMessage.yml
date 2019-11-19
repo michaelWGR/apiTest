@@ -71,3 +71,42 @@
       - eq: [content.success, true]
       - eq: [status_code, 200]
 
+
+- test:
+    name: token is null
+    api: api/live/student/comment/v1_student_getUserPaintMessage.yml
+    variables:
+      Authorization: null
+      deviceId: $true_deviceId
+      homeworkId: 1031
+      type: 1
+
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceid is null
+    api: api/live/student/comment/v1_student_getUserPaintMessage.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+      homeworkId: 1031
+      type: 1
+
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceid is wrongid
+    api: api/live/student/comment/v1_student_getUserPaintMessage.yml
+    variables:
+      Authorization: $token
+      deviceId: 1234#%*U*fa
+      homeworkId: 1031
+      type: 1
+
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']

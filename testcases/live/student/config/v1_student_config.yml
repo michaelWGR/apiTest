@@ -44,11 +44,52 @@
       - eq: [status_code, 200]
 
 - test:
+    name: 获取学生配置3
+    api: api/live/student/config/v1_student_config.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      keys: -1
+      type: -99
+      version: 3.0.0
+    validate:
+      - eq: [content.code, 400]
+      - eq: [content.msg, param error]
+      - eq: [content.success, False]
+      - eq: [status_code, 200]
+
+- test:
     name: deviceid is wrong
     api: api/live/student/config/v1_student_config.yml
     variables:
       Authorization: $token
       deviceId: wrong
+      keys: 1
+      type: 4
+      version: 3.0.0
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceid is 123#$%
+    api: api/live/student/config/v1_student_config.yml
+    variables:
+      Authorization: $token
+      deviceId: 123#$%
+      keys: 1
+      type: 4
+      version: 3.0.0
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceid is null
+    api: api/live/student/config/v1_student_config.yml
+    variables:
+      Authorization: $token
+      deviceId: null
       keys: 1
       type: 4
       version: 3.0.0

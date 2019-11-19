@@ -48,7 +48,6 @@
       - eq: [content.success, true]
       - eq: [status_code, 200]
 
-
 - test:
     name: token is null
     api: api/live/student/comment/v1_student_getHomeworkFrame.yml
@@ -71,6 +70,32 @@
       type: 1
       Authorization: $token
       deviceId: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId is wrongid
+    api: api/live/student/comment/v1_student_getHomeworkFrame.yml
+    variables:
+      page: 1
+      pageSize: 3
+      type: 1
+      Authorization: $token
+      deviceId: wrongid
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId is 123#%%
+    api: api/live/student/comment/v1_student_getHomeworkFrame.yml
+    variables:
+      page: 1
+      pageSize: 3
+      type: 1
+      Authorization: $token
+      deviceId: 123#%%
     validate:
       - eq: [content.code, 703]
       - eq: [content.msg, 'accessToken error']

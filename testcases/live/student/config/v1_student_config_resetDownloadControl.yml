@@ -34,3 +34,23 @@
     validate:
       - eq: [content.code, 703]
       - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceid is 123!##$%
+    api: api/live/student/config/v1_student_config_resetDownloadControl.yml
+    variables:
+      Authorization: $token
+      deviceId: 123!##$%
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceid is null
+    api: api/live/student/config/v1_student_config_resetDownloadControl.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]

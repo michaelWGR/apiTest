@@ -63,3 +63,14 @@
     validate:
       - eq: [content.code, 703]
       - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId is wrongid
+    api: api/live/student/comment/v1_student_getHomeworkStatus.yml
+    variables:
+      roomUserScheduleId: $roomUserScheduleId1
+      Authorization: $token
+      deviceId: wrongid
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']

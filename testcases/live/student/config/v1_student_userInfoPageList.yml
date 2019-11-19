@@ -38,3 +38,23 @@
     validate:
       - eq: [content.code, 703]
       - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceid is 1234@#$%
+    api: api/live/student/config/v1_student_userInfoPageList.yml
+    variables:
+      Authorization: $token
+      deviceId: 1234@#$%
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceid is null
+    api: api/live/student/config/v1_student_userInfoPageList.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
