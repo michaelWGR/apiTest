@@ -27,17 +27,6 @@
       - eq: [content.success, false]
 
 - test:
-    name: roomUserScheduleId为空
-    api: api/live/student/homework/v1_student_comment.yml
-    variables:
-      roomUserScheduleId: null
-    validate:
-      - eq: [content.code, 400]
-      - eq: [content.msg, 参数错误]
-      - eq: [content.success, false]
-
-
-- test:
     name: roomUserScheduleId参数类型错误
     api: api/live/student/homework/v1_student_comment.yml
     variables:
