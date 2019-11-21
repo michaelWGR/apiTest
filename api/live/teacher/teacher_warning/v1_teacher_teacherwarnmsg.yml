@@ -1,0 +1,30 @@
+name: v1_teacher_teacherwarnmsg
+base_url: ${yml(teacher_base_url)}
+variables:
+    classRoomScheduleId: 1014962
+    teacherId: 200075
+    teacherName: 200075
+    uId: 3000
+    studentName: '测试学员6000079'
+    classContent: '小心有刺20190924'
+    roomId: 129988
+    msg: '孩子离开窗口'
+    deviceId: '123456'
+    Authorization: null
+request:
+    url: /v1/teacher/teacherwarnmsg
+    method: POST
+    data:
+        classRoomScheduleId: $classRoomScheduleId
+        teacherId: $teacherId
+        teacherName: $teacherName
+        uId: $uId
+        studentName: $studentName
+        classContent: $classContent
+        roomId: $roomId
+        msg: $msg
+        deviceId: $deviceId
+    headers:
+        Authorization: $Authorization
+validate:
+    - eq: ["status_code", 200]

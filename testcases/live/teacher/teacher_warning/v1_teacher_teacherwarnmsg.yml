@@ -1,0 +1,626 @@
+- config:
+    name: v1_teacher_teacherwarnmsg
+    variables:
+        true_teacher_user_id: ${yml(teacher_user_id1)}
+        true_teacher_device_id: ${yml(teacher_device_id)}
+
+- test:
+    name: 初始化教室开课数据
+    testcase: testcases/live/teacher/teacher_warning/get_warnmsg_param.yml
+    output:
+        - true_classRoomScheduleId
+        - true_teacherName
+        - true_uId
+        - true_studentName
+        - true_classContent
+        - true_roomId
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: 参数正确，请求成功
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: classRoomScheduleId为123，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: 123
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 420]
+        - eq: [content.msg, '该课程状态信息不存在，发送失败']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: classRoomScheduleId为wrong_id，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: 'wrong_id'
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: classRoomScheduleId为空，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: null
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: teacherId为123，请求成功
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: 123
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: teacherId为wrong_id，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: 'wrong_id'
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: teacherId为空，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: null
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: teacherName为123，请求成功
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: 123
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: teacherName为wrong_name，请求成功
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: 'wrong_name'
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: teacherName为空，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: null
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: uId为123，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: 123
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 420]
+        - eq: [content.msg, '该房间用户信息不存在，发送失败']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: uId为wrong_id，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: 'wrong_id'
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: uId为空，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: null
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: studentName为123，请求成功
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: 123
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: studentName为wrong_name，请求成功
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: 'wrong_name'
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: studentName为空，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: null
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: classContent为123，请求成功
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: 123
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: classContent为wrong_content，请求成功
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: 'wrong_content'
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: classContent为空，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: null
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: roomId为123，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: 123
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 420]
+        - eq: [content.msg, '该房间用户信息不存在，发送失败']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: roomId为123，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: 'wrong_id'
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: roomId为空，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: null
+        msg: '孩子离开窗口'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: msg为123，请求成功
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: 123
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: msg为wrong_msg，请求成功
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: 'wrong_msg'
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, null]
+        - eq: [content.success, true]
+
+- test:
+    name: msg为空，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: null
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: deviceId为123，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: 123
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId为wrong_id，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: 'wrong_id'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId为空，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: null
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为wrong_token，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: '123456'
+        Authorization: 'wrong_token'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为空，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+    variables:
+        classRoomScheduleId: $true_classRoomScheduleId
+        teacherId: $true_teacher_user_id
+        teacherName: $true_teacherName
+        uId: $true_uId
+        studentName: $true_studentName
+        classContent: $true_classContent
+        roomId: $true_roomId
+        msg: '孩子离开窗口'
+        deviceId: '123456'
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+
