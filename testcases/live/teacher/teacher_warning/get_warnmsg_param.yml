@@ -1,0 +1,88 @@
+- config:
+    name: get_warnmsg_param
+    setup_hooks:
+        - ${add_room_schedule()}
+
+- test:
+    name: web get_token
+    testcase: testcases/live/web/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: get courseInfo of web student
+    api: api/live/web/account/v1_student_web_courses.yml
+    variables:
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+    extract:
+        - roomCode: content.data.0.userCourseInfo.channel
+        - roomUserScheduleId: content.data.0.userCourseInfo.roomUserScheduleId
+
+- test:
+    name: web join live room
+    base_url: ${yml(web_base_url)}
+    request:
+        url: /v1/student/joinLiveRoomV3
+        method: POST
+        data:
+            roomCode: $roomCode
+            roomUserScheduleId: $roomUserScheduleId
+            joinType: 4
+        headers:
+            Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+    extract:
+        - uId: content.data.user.uid
+        - studentName: content.data.user.nickname
+
+
+- test:
+    name: teacher get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: get teacher courseInfo
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseInfo.yml
+    variables:
+        deviceId: 123456
+        Authorization: $token
+        days: 1
+    validate:
+        - eq: [content.code, 200]
+    extract:
+        - roomCode: content.data.0.channel
+        - classRoomScheduleId: content.data.0.classRoomScheduleId
+
+- test:
+    name: teacher join live room
+    base_url: ${yml(teacher_base_url)}
+    request:
+        url: /v1/teacher/joinLiveRoom
+        method: POST
+        data:
+            roomCode: $roomCode
+            classRoomScheduleId: $classRoomScheduleId
+            joinType: 3
+            deviceId: 123456
+        headers:
+            Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+    extract:
+        - teacherName: content.data.user.nickname
+        - roomId: content.data.room.roomId
+        - classContent: content.data.room.className
+
+
+
+
+
+
+
+
+

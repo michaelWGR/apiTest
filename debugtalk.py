@@ -8,6 +8,7 @@ import yaml
 import requests
 import json
 import time
+import redis
 
 from common.configDB import MyDB
 
@@ -451,9 +452,11 @@ def login_to_liveadmin(username='zhongyanping', password='e10adc3949ba59abbe56e0
     return token
 
 
-def search_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id')):
+def search_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id'), token=login_to_liveadmin()):
     # 查找对应id的开课课程
     id_list = []
+    courseScheduleInfoId_list = []
+    roomCode_list = []
     url = 'http://liveadmin-test.61info.cn/liveadmin-api/class/room/schedule'
     params = {
         'page': 1,
@@ -468,7 +471,7 @@ def search_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teache
         'vip': True,
     }
     headers = {
-        'Authorization': login_to_liveadmin()
+        'Authorization': token
     }
     rp = requests.get(url=url, params=params, headers=headers)
     rp_dict = json.loads(rp.content)
@@ -476,17 +479,20 @@ def search_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teache
         for i in rp_dict['data']['list']:
             if i['id']:
                 id_list.append(i['id'])
-    return id_list
+                courseScheduleInfoId_list.append(i['courseScheduleInfoId'])
+                roomCode_list.append(i['roomCode'])
+
+    return {'id_list': id_list, 'courseScheduleInfoId_list': courseScheduleInfoId_list, 'roomCode_list': roomCode_list}
 
 
-def delete_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id')):
+def delete_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id'), token=login_to_liveadmin()):
     # 删除指定学生id和老师id的所有课程
-    id_list = search_room_schedule(studentId, teacherId)
+    id_list = search_room_schedule(studentId, teacherId)['id_list']
     if id_list != []:
         for id in id_list:
             url = 'http://liveadmin-test.61info.cn/liveadmin-api/class/room/schedule/delete'
             headers = {
-                'Authorization': login_to_liveadmin()
+                'Authorization': token
             }
             data = {
                 'id': id
@@ -498,7 +504,7 @@ def delete_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teache
         return
 
 
-def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id')):
+def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id'), token=login_to_liveadmin()):
     # 添加新课程
     delete_room_schedule()
 
@@ -514,10 +520,21 @@ def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_i
         'studentIds[0]': studentId
     }
     headers = {
-        'Authorization': login_to_liveadmin()
+        'Authorization': token
     }
     rp = requests.post(url=url, data=data, headers=headers)
     print(json.loads(rp.content)['success'])
+    print(json.loads(rp.content))
+
+def get_value_by_redis(key='web_account_17397301080'):
+    # 获取redis的验证码
+    pool = redis.ConnectionPool(host='10.60.7.253', port=6379, decode_responses=True, db=0)
+    r = redis.Redis(connection_pool=pool)
+    value = r.lindex(key, 0)
+    if value == None:
+        return 'null'
+    else:
+        return value.strip('"')
 
 
 ##################################################################
@@ -591,11 +608,12 @@ if __name__ == '__main__':
     # gen_random_string(1)
     # init_function_switch_web_config()
     # print(login_to_liveadmin())
-    # id = search_room_schedule()
-    # print(id)
+    id = search_room_schedule(studentId=None)
+    print(id)
+
     # delete_room_schedule()
     # add_room_schedule()
     # insert_app_publish_for_windows()
     # delete_app_publish_code999()
     # insert_config_common_for_record_video()
-    delete_config_common_for_record_video()
+    # delete_config_common_for_record_video()

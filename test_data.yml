@@ -73,6 +73,11 @@ web_account2: '12397301002'
 web_password2: '000000'
 web_user_id2: 6000080
 
+## web学生账号3
+web_account3: '17397301080'
+web_password3: '000000'
+web_user_id3: 6000158
+
 web_teacher_account: 'ceshi200075'
 web_teacher_password: '123456'
 web_teacher_id: 200075

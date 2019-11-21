@@ -5,7 +5,7 @@
     name: 发送成功
     api: api/live/web/account/v1_student_web_authCode.yml
     variables:
-        phoneNum: ${yml(web_account)}
+        phoneNum: ${yml(web_account3)}
     validate:
         - eq: [content.code, 200]
         - eq: [content.msg, ok]
@@ -16,7 +16,7 @@
     name: 1分钟内重复发送，发送失败
     api: api/live/web/account/v1_student_web_authCode.yml
     variables:
-        phoneNum: ${yml(web_account)}
+        phoneNum: ${yml(web_account3)}
     validate:
         - eq: [content.code, 608]
         - eq: [content.msg, '获取验证码次数频繁，请稍后再试！']
@@ -80,7 +80,7 @@
         - eq: [content.success, false]
 
 - test:
-    name: 号码为特殊字符，发送失败
+    name: 号码为12位字符，发送失败
     api: api/live/web/account/v1_student_web_authCode.yml
     variables:
         phoneNum: '130973010012'
