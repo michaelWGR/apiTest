@@ -524,7 +524,34 @@ def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_i
     }
     rp = requests.post(url=url, data=data, headers=headers)
     print(json.loads(rp.content)['success'])
-    print(json.loads(rp.content))
+    # print(json.loads(rp.content))
+
+def add_room_schedule_by_student_list(studentId_list, teacherId=yml('web_teacher_id'), token=login_to_liveadmin()):
+    # 添加新课程，学生id为列表
+    for id in studentId_list:
+        delete_room_schedule(studentId=id, teacherId=teacherId)
+
+    url = 'http://liveadmin-test.61info.cn/liveadmin-api/class/room/schedule/add'
+    data = {
+        'courseInfoId': 12,
+        'courseTableId': 4,
+        'courseNature': 0,
+        'teacherId': teacherId,
+        'broadcaseId': 503,
+        'startTime': int(time.time()) * 1000,
+        'endTime': int(time.time()) * 1000 + 60 * 60 * 1000,
+    }
+    headers = {
+        'Authorization': token
+    }
+
+    count = 0
+    for id in studentId_list:
+        data['studentIds[{}]'.format(count)] = id
+        count += 1
+
+    rp = requests.post(url=url, data=data, headers=headers)
+    print(json.loads(rp.content)['success'])
 
 def get_value_by_redis(key='web_account_17397301080'):
     # 获取redis的验证码
@@ -612,7 +639,8 @@ if __name__ == '__main__':
     # print(id)
 
     # delete_room_schedule()
-    add_room_schedule(teacherId=200076)
+    # add_room_schedule(teacherId=200076)
+    add_room_schedule_by_student_list([6000079,6000080], 200076)
     # insert_app_publish_for_windows()
     # delete_app_publish_code999()
     # insert_config_common_for_record_video()
