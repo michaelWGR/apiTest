@@ -1,0 +1,112 @@
+- config:
+    name: 提交班级学生到课情况
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+- test:
+      name: 获取成功
+      api: api/live/teacher/course&teacherInfo/v1_teacher_commitStudentTakeClassState.yml
+      variables:
+          Authorization: $token
+          deviceId: '123456'
+          classRoomScheduleId: 1014877
+          roomUserScheduleIdList: '[317060]'
+      validate:
+         - eq: [content.code, 200]
+         - eq: [content.msg, ok]
+         - eq: [content.success, true]
+         - eq: [content.data, null]
+- test:
+      name: token为空
+      api: api/live/teacher/course&teacherInfo/v1_teacher_commitStudentTakeClassState.yml
+      variables:
+          Authorization: null
+          deviceId: '123456'
+          classRoomScheduleId: 1014877
+          roomUserScheduleIdList: '[317060]'
+      validate:
+          - eq: [content.code, 703]
+          - eq: [content.msg, accessToken error]
+- test:
+      name: token错误
+      api: api/live/teacher/course&teacherInfo/v1_teacher_commitStudentTakeClassState.yml
+      variables:
+          Authorization: abc
+          deviceId: '123456'
+          classRoomScheduleId: 1014877
+          roomUserScheduleIdList: '[317060]'
+      validate:
+          - eq: [content.code, 703]
+          - eq: [content.msg, accessToken error]
+- test:
+      name: deviceId为空
+      api: api/live/teacher/course&teacherInfo/v1_teacher_commitStudentTakeClassState.yml
+      variables:
+          Authorization: $token
+          deviceId: null
+          classRoomScheduleId: 1014877
+          roomUserScheduleIdList: '[317060]'
+      validate:
+          - eq: [content.code, 703]
+          - eq: [content.msg, accessToken error]
+- test:
+      name: deviceId错误
+      api: api/live/teacher/course&teacherInfo/v1_teacher_commitStudentTakeClassState.yml
+      variables:
+          Authorization: $token
+          deviceId: 'abc'
+          classRoomScheduleId: 1014877
+          roomUserScheduleIdList: '[317060]'
+      validate:
+          - eq: [content.code, 703]
+          - eq: [content.msg, accessToken error]
+- test:
+      name: classRoomScheduleId为空
+      api: api/live/teacher/course&teacherInfo/v1_teacher_commitStudentTakeClassState.yml
+      variables:
+          Authorization: $token
+          deviceId: '123456'
+          classRoomScheduleId: null
+          roomUserScheduleIdList: '[317060]'
+      validate:
+          - eq: [status_code, 500]
+          - eq: [content.code, 500]
+          - eq: [content.msg, system error]
+          - eq: [content.success, false]
+          - eq: [content.data, null]
+- test:
+      name: classRoomScheduleId不正确
+      api: api/live/teacher/course&teacherInfo/v1_teacher_commitStudentTakeClassState.yml
+      variables:
+          Authorization: $token
+          deviceId: '123456'
+          classRoomScheduleId: abc
+          roomUserScheduleIdList: '[317060]'
+      validate:
+          - eq: [status_code, 500]
+          - eq: [content.code, 500]
+          - eq: [content.msg, system error]
+          - eq: [content.success, false]
+          - eq: [content.data, null]
+- test:
+      name: roomUserScheduleIdList不正确
+      api: api/live/teacher/course&teacherInfo/v1_teacher_commitStudentTakeClassState.yml
+      variables:
+          Authorization: $token
+          deviceId: '123456'
+          answer: null
+          classRoomScheduleId: 1014877
+          roomUserScheduleIdList: 'abc'
+      validate:
+          - eq: [status_code, 500]
+          - eq: [content.code, 500]
+          - eq: [content.msg, system error]
+          - eq: [content.success, false]
+          - eq: [content.data, null]
+
+
+
+

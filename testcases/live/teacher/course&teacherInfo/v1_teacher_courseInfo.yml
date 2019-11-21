@@ -1,5 +1,8 @@
 - config:
     name: get courseinfo
+    setup_hooks:
+      - ${delete_room_schedule(studentId=None)}
+      - ${add_room_schedule(studentId=600018)}
 
 - test:
     name: get token
