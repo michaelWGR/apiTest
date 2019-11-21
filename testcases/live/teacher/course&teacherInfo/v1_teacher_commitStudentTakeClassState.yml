@@ -18,7 +18,7 @@
          - eq: [content.code, 200]
          - eq: [content.msg, ok]
          - eq: [content.success, true]
-         - eq: [content.data, null]
+         - type_match: [content.data, dict]
 - test:
       name: token为空
       api: api/live/teacher/course&teacherInfo/v1_teacher_commitStudentTakeClassState.yml
