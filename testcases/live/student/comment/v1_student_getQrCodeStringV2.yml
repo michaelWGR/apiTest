@@ -28,4 +28,55 @@
       - eq: [status_code, 200]
       - type_match: [content.data, str]
 
+- test:
+    name: 新版二维码获取成功2
+    api: api/live/student/comment/v1_student_getQrCodeStringV2.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      paintMaterialId: 5
+
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+      - type_match: [content.data, str]
+
+- test:
+    name: token is null
+    api: api/live/student/comment/v1_student_getQrCodeStringV2.yml
+    variables:
+      Authorization: null
+      deviceId: $true_deviceId
+      paintMaterialId: 5
+
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceid is null
+    api: api/live/student/comment/v1_student_getQrCodeStringV2.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+      paintMaterialId: 5
+
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceid is wrongid
+    api: api/live/student/comment/v1_student_getQrCodeStringV2.yml
+    variables:
+      Authorization: $token
+      deviceId: wrongid1234#%%
+      paintMaterialId: 5
+
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
 

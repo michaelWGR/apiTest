@@ -33,3 +33,34 @@
       - type_match: [content.data.0.paintPosition.xCrood, int]
       - type_match: [content.data.0.headUrlPosition.yCrood, int]
       - type_match: [content.data.0.qrCodePosition.height, int]
+
+
+- test:
+    name: token is null
+    api: api/live/student/comment/v1_student_getPaintFrameMessage.yml
+    variables:
+      Authorization: null
+      deviceId: $true_deviceId
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceid is null
+    api: api/live/student/comment/v1_student_getPaintFrameMessage.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceid is wrongid
+    api: api/live/student/comment/v1_student_getPaintFrameMessage.yml
+    variables:
+      Authorization: $token
+      deviceId: 123#$%%
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, 'accessToken error']

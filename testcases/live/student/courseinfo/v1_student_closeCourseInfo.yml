@@ -1,0 +1,100 @@
+- config:
+    name: 学生已上课信息
+    variables:
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: 成功列车学生已上课信息
+    api: api/live/student/courseinfo/v1_student_closeCourseInfo.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      page: 1
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+      - type_match: [content.data.0.roomUserScheduleId,int]
+      - type_match: [content.data.0.teacherId,int]
+      - type_match: [content.data.0.teacherName,str]
+      - type_match: [content.data.0.teacherAvatar,str]
+      - type_match: [content.data.0.courseInfoId,int]
+      - type_match: [content.data.0.courseName,str]
+      - type_match: [content.data.0.courseTypeInt,int]
+      - type_match: [content.data.0.courseLevel,int]
+      - type_match: [content.data.0.monthDay,str]
+      - eq: [content.data.0.courseRecord.hasPrepareClass,false]
+      - eq: [content.data.0.courseRecord.hasTakeClass,true]
+      - type_match: [content.data.0.courseRecord.homeworkStatus,int]
+
+
+- test:
+    name: data is null when page is 100
+    api: api/live/student/courseinfo/v1_student_closeCourseInfo.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      page: 100
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: token is null
+    api: api/live/student/courseinfo/v1_student_closeCourseInfo.yml
+    variables:
+      Authorization: null
+      deviceId: $true_deviceId
+      page: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceid is null
+    api: api/live/student/courseinfo/v1_student_closeCourseInfo.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+      page: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceid is wrongid
+    api: api/live/student/courseinfo/v1_student_closeCourseInfo.yml
+    variables:
+      Authorization: $token
+      deviceId: wrongid
+      page: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceid is special word
+    api: api/live/student/courseinfo/v1_student_closeCourseInfo.yml
+    variables:
+      Authorization: $token
+      deviceId: 122#@#
+      page: 1
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+
+
