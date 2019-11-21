@@ -1,0 +1,110 @@
+- config:
+    name: 教师提交课堂反馈
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+- test:
+      name: 提交成功
+      api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurveyAnswer.yml
+      variables:
+          Authorization: $token
+          deviceId: 123456
+          answer: '{"surveyId":9,"userId":600018,"userTableCourseScheduleId":10198336,"courseInfoId":11,"teacherId":200075,"answerMap":{"62":{"optionAnswer":[102],"textAnswer":"","type":1},"64":{"optionAnswer":[102],"textAnswer":"","type":1},"67":{"optionAnswer":[103],"textAnswer":"","type":1},"69":{"optionAnswer":[108],"textAnswer":"","type":1},"74":{"optionAnswer":[103],"textAnswer":"","type":1},"75":{"optionAnswer":[106],"textAnswer":"","type":1},"76":{"optionAnswer":[23],"textAnswer":"","type":1},"77":{"optionAnswer":[],"textAnswer":"22","type":3},"78":{"optionAnswer":[114],"textAnswer":"","type":1}}}'
+      validate:
+         - eq: [content.code, 200]
+         - eq: [content.msg, ok]
+         - eq: [content.success, true]
+         - eq: [content.data, null]
+- test:
+      name: token为空
+      api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurveyAnswer.yml
+      variables:
+          Authorization: null
+          deviceId: 123456
+          answer: '{"surveyId":9,"userId":600018,"userTableCourseScheduleId":10198336,"courseInfoId":11,"teacherId":200075,"answerMap":{"62":{"optionAnswer":[102],"textAnswer":"","type":1},"64":{"optionAnswer":[102],"textAnswer":"","type":1},"67":{"optionAnswer":[103],"textAnswer":"","type":1},"69":{"optionAnswer":[108],"textAnswer":"","type":1},"74":{"optionAnswer":[103],"textAnswer":"","type":1},"75":{"optionAnswer":[106],"textAnswer":"","type":1},"76":{"optionAnswer":[23],"textAnswer":"","type":1},"77":{"optionAnswer":[],"textAnswer":"22","type":3},"78":{"optionAnswer":[114],"textAnswer":"","type":1}}}'
+      validate:
+          - eq: [content.code, 703]
+          - eq: [content.msg, accessToken error]
+- test:
+      name: token错误
+      api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurveyAnswer.yml
+      variables:
+          Authorization: abc
+          deviceId: 123456
+          answer: '{"surveyId":9,"userId":600018,"userTableCourseScheduleId":10198336,"courseInfoId":11,"teacherId":200075,"answerMap":{"62":{"optionAnswer":[102],"textAnswer":"","type":1},"64":{"optionAnswer":[102],"textAnswer":"","type":1},"67":{"optionAnswer":[103],"textAnswer":"","type":1},"69":{"optionAnswer":[108],"textAnswer":"","type":1},"74":{"optionAnswer":[103],"textAnswer":"","type":1},"75":{"optionAnswer":[106],"textAnswer":"","type":1},"76":{"optionAnswer":[23],"textAnswer":"","type":1},"77":{"optionAnswer":[],"textAnswer":"22","type":3},"78":{"optionAnswer":[114],"textAnswer":"","type":1}}}'
+      validate:
+          - eq: [content.code, 703]
+          - eq: [content.msg, accessToken error]
+- test:
+      name: deviceId为空
+      api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurveyAnswer.yml
+      variables:
+          Authorization: $token
+          deviceId: null
+          answer: '{"surveyId":9,"userId":600018,"userTableCourseScheduleId":10198336,"courseInfoId":11,"teacherId":200075,"answerMap":{"62":{"optionAnswer":[102],"textAnswer":"","type":1},"64":{"optionAnswer":[102],"textAnswer":"","type":1},"67":{"optionAnswer":[103],"textAnswer":"","type":1},"69":{"optionAnswer":[108],"textAnswer":"","type":1},"74":{"optionAnswer":[103],"textAnswer":"","type":1},"75":{"optionAnswer":[106],"textAnswer":"","type":1},"76":{"optionAnswer":[23],"textAnswer":"","type":1},"77":{"optionAnswer":[],"textAnswer":"22","type":3},"78":{"optionAnswer":[114],"textAnswer":"","type":1}}}'
+      validate:
+          - eq: [content.code, 703]
+          - eq: [content.msg, accessToken error]
+- test:
+      name: deviceId错误
+      api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurveyAnswer.yml
+      variables:
+          Authorization: $token
+          deviceId: abc
+          answer: '{"surveyId":9,"userId":600018,"userTableCourseScheduleId":10198336,"courseInfoId":11,"teacherId":200075,"answerMap":{"62":{"optionAnswer":[102],"textAnswer":"","type":1},"64":{"optionAnswer":[102],"textAnswer":"","type":1},"67":{"optionAnswer":[103],"textAnswer":"","type":1},"69":{"optionAnswer":[108],"textAnswer":"","type":1},"74":{"optionAnswer":[103],"textAnswer":"","type":1},"75":{"optionAnswer":[106],"textAnswer":"","type":1},"76":{"optionAnswer":[23],"textAnswer":"","type":1},"77":{"optionAnswer":[],"textAnswer":"22","type":3},"78":{"optionAnswer":[114],"textAnswer":"","type":1}}}'
+      validate:
+          - eq: [content.code, 703]
+          - eq: [content.msg, accessToken error]
+
+- test:
+      name: answer为空
+      api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurveyAnswer.yml
+      variables:
+          Authorization: $token
+          deviceId: 123456
+          answer: null
+      validate:
+          - eq: [status_code, 500]
+          - eq: [content.code, 500]
+          - eq: [content.msg, system error]
+          - eq: [content.success, false]
+          - eq: [content.data, null]
+- test:
+      name: answer不正确
+      api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurveyAnswer.yml
+      variables:
+          Authorization: $token
+          deviceId: 123456
+          answer: null
+      validate:
+          - eq: [status_code, 500]
+          - eq: [content.code, 500]
+          - eq: [content.msg, system error]
+          - eq: [content.success, false]
+          - eq: [content.data, null]
+- test:
+      name: deviceId、answer为空
+      api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurveyAnswer.yml
+      variables:
+          Authorization: $token
+          deviceId: null
+          answer: null
+      validate:
+          - eq: [content.code, 703]
+          - eq: [content.msg, accessToken error]
+- test:
+      name: deviceId、answer不正确
+      api: api/live/teacher/course&teacherInfo/v1_teacher_courseSurveyAnswer.yml
+      variables:
+          Authorization: $token
+          deviceId: abc
+          answer: 1
+      validate:
+          - eq: [content.code, 703]
+          - eq: [content.msg, accessToken error]
+
+
+

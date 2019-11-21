@@ -506,7 +506,7 @@ def delete_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teache
 
 def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id'), token=login_to_liveadmin()):
     # 添加新课程
-    delete_room_schedule()
+    delete_room_schedule(studentId=studentId, teacherId=teacherId)
 
     url = 'http://liveadmin-test.61info.cn/liveadmin-api/class/room/schedule/add'
     data = {

@@ -1,0 +1,20 @@
+name: 提交班级学生到课情况
+base_url: ${yml(teacher_base_url)}
+variables:
+  expected_status_code: 200
+  deviceId: '123456'
+  Authorization: null
+  classRoomScheduleId: null
+  roomUserScheduleIdList: null
+
+request:
+  url: /v1/teacher/commitStudentTakeClassState
+  method: POST
+  data:
+    classRoomScheduleId: $classRoomScheduleId
+    roomUserScheduleIdList: $roomUserScheduleIdList
+  headers:
+    Authorization: $Authorization
+    deviceId: $deviceId
+validate:
+  - eq: ["status_code", $expected_status_code]

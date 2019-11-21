@@ -1,5 +1,8 @@
 - config:
     name: get courseinfo
+    setup_hooks:
+      - ${delete_room_schedule(studentId=None)}
+      - ${add_room_schedule(studentId=600018)}
 
 - test:
     name: get token
@@ -16,6 +19,26 @@
          - eq: [content.code, 200]
          - eq: [content.msg, ok]
          - eq: [content.success, true]
+         - type_match: [content.data.0.classRoomScheduleId,int]
+         - type_match: [content.data.0.tableCourseScheduleId,int]
+         - type_match: [content.data.0.courseInfoId,int]
+         - type_match: [content.data.0.courseName,str]
+         - type_match: [content.data.0.courseType,str]
+         - type_match: [content.data.0.courseNature,int]
+         - type_match: [content.data.0.courseLevel,int]
+         - type_match: [content.data.0.courseStage,int]
+         - type_match: [content.data.0.startTime,int]
+         - type_match: [content.data.0.endTime,int]
+         - type_match: [content.data.0.broadcastId,int]
+         - type_match: [content.data.0.channel,str]
+         - type_match: [content.data.0.status,int]
+         - type_match: [content.data.0.type,int]
+         - eq: [content.data.0.finishSurvey,False]
+         - eq: [content.data.0.hasReadAllStudentIntro,True]
+         - type_match: [content.data.0.broadcastLocation,str]
+
+
+
 - test:
     name: token error with empty deviceId
     api: api/live/teacher/course&teacherInfo/v1_teacher_courseInfo.yml
