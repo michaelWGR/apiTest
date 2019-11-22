@@ -1,0 +1,9 @@
+config:
+    name: teacher_warning
+
+testcases:
+    v1_teacher_teacherwarnmsg:
+        testcase: testcases/live/teacher/teacher_warning/v1_teacher_teacherwarnmsg.yml
+
+    v1_teacher_getwarnlist:
+        testcase: testcases/live/teacher/teacher_warning/v1_teacher_getwarnlist.yml

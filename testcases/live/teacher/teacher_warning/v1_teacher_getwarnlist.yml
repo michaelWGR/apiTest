@@ -1,0 +1,64 @@
+- config:
+    name: v1_teacher_getwarnlist
+    variables:
+        true_teacher_device_id: ${yml(teacher_device_id)}
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: 参数正确，请求成功
+    api: api/live/teacher/teacher_warning/v1_teacher_getwarnlist.yml
+    variables:
+        deviceId: $true_teacher_device_id
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - type_match: [content.data, list]
+        - eq: [content.data.0.key, 'teacher_send_warn']
+        - type_match: [content.data.0.value, str]
+
+- test:
+    name: deviceId为wrong_id，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_getwarnlist.yml
+    variables:
+        deviceId: 'wrong_id'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId为空，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_getwarnlist.yml
+    variables:
+        deviceId: null
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为wrong_token，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_getwarnlist.yml
+    variables:
+        deviceId: $true_teacher_device_id
+        Authorization: 'wrong_token'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为空，请求失败
+    api: api/live/teacher/teacher_warning/v1_teacher_getwarnlist.yml
+    variables:
+        deviceId: $true_teacher_device_id
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
