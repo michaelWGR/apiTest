@@ -26,6 +26,12 @@ testcases:
   教师信息:
     testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_teacherInfo.yml
 
+  老师提交课堂反馈:
+    testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_courseSurveyAnswer.yml
+
+  提交班级学生到课情况:
+    testcase: testcases/live/teacher/course&teacherInfo/v1_teacher_commitStudentTakeClassState.yml
+
 
 
 

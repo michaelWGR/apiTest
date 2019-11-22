@@ -1,6 +1,13 @@
 - config:
     name: 教师课堂反馈
 
+
+- test:
+    name: 初始化教室开课数据
+    testcase: testcases/live/teacher/course&teacherInfo/get_classRoomScheduleId.yml
+    output:
+        - true_classRoomScheduleId
+
 - test:
     name: get token
     testcase: testcases/live/teacher/account/get_token.yml
@@ -12,6 +19,7 @@
     variables:
         Authorization: $token
         deviceId: 123456
+        classRoomScheduleId: $true_classRoomScheduleId
     validate:
         - eq: [content.code, 200]
         - eq: [content.msg, ok]
