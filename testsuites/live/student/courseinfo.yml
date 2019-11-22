@@ -1,0 +1,6 @@
+config:
+  name: 课程信息
+
+testcases:
+  close courseinfo:
+    testcase: testcases/live/student/courseinfo/v1_student_closeCourseInfo.yml
