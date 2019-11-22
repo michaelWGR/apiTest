@@ -1,0 +1,19 @@
+- config:
+    name: 获取classRoomScheduleId
+    setup_hooks:
+      - ${delete_room_schedule(studentId=None)}
+      - ${add_room_schedule(studentId=600018)}
+
+- test:
+    name: get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+- test:
+      name: get successful
+      api: api/live/teacher/course&teacherInfo/v1_teacher_courseInfo.yml
+      variables:
+          Authorization: $token
+          deviceId: 123456
+      extract:
+          true_classRoomScheduleId: content.data.0.classRoomScheduleId
