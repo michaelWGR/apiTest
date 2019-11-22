@@ -1,5 +1,7 @@
 - config:
     name: upload msg with audio
+    variables:
+      user_id: ${yml(user_id)}
     teardown_hooks:
         - ${del_user_msg($user_id)}
 
