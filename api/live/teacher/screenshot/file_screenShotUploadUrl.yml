@@ -2,7 +2,7 @@ name: 获取上传路径
 base_url: ${yml(teacher_base_url)}
 variables:
    expected_status_code: 200
-   fileName: '1002424_1571904060676.png'
+   fileName: 'screenshot.png'
 request:
    url: /file/screenShotUploadUrl
    method: GET
