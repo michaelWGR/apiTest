@@ -1,18 +1,28 @@
 # 数据库
 DATABASE:
+  # 数据库地址
   host: 10.60.7.62
+  # 用户名
   user: root
+  # 用户密码
   password: dbtest
 #  port: 8080
+  # 连接的数据库名
   database: i61-hll-manager
 
 
 # 邮件信息
 MAIL:
+  # 发送人邮箱，只能为1个
   sender: livetest@ad61v1.com
+  # 接收人邮箱，可以为多个，用‘;’分隔
   receivers: 61zbcs@ad61v1.com
+  # 邮箱的host
   mail_host: 61s2.ad61v1.com
+  # 发送人邮箱的密码
   mail_pass: livetest
+  # 邮件的标题
   subject: 【接口测试报告】画啦啦直播接口测试
+  # 邮件的内容
   content: 完成测试，请接收附件报告
 
