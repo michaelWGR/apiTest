@@ -1,8 +1,8 @@
 - config:
     name: 获取验证码（换账号用）
     variables:
-      curAccount: ${yml(student.account.account4)}
-      newAccount: ${yml(student.account.account10)}
+      curAccount: ${yml(student.account.auth_code_to_new_phone_account1)}
+      newAccount: ${yml(student.account.auth_code_to_new_phone_account2)}
       wrongAccount: ${yml(student.account.non_exists_account)}
       wrongDeviceId: wrongdeviceid1021
       wrongToken: wrongToken1021
@@ -47,14 +47,3 @@
       - eq: [status_code, 200]
       - eq: [content.code, 608]
       - eq: [content.msg, 获取验证码次数频繁，请稍后再试！]
-
-- test:
-    name: 缺少手机号参数
-    api: api/live/student/account/v1_student_authCodeToNewPhone.yml
-    variables:
-      account: null
-      token: $token
-    validate:
-      - eq: [status_code, 200]
-      - eq: [content.code, 400]
-      - eq: [content.msg, 参数错误]

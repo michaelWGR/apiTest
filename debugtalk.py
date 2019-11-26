@@ -1,16 +1,18 @@
 import hashlib
+import json
+import math
 import os
 import random
 import string
 import time
-import math
-import yaml
-import requests
-import json
-import time
-import redis
 
+import redis
+import requests
+import yaml
+
+from common import redis_util
 from common.configDB import MyDB
+from httprunner.logger import log_info
 
 parent_dir = os.path.dirname(os.path.realpath(__file__))
 test_data_path = os.path.join(parent_dir, 'test_data.yml')
@@ -52,6 +54,40 @@ def hook_print(msg):
 #########################################################
 # 学生APP调用方法
 #########################################################
+def get_auth_code(key):
+    """
+    从Redis获取验证码
+    :param key: 手机号
+    :return: 验证码
+    """
+    data = redis_util.get_list(key)
+    if data:
+        code = data[0].replace('"', '')
+        log_info('%s的验证码：%s' % (key, code))
+    else:
+        code = '000000'
+        log_info('没有获取到%s的验证码，返回000000' % key)
+    return code
+
+
+def get_change_phone(type=1):
+    """
+    用于changeAccount接口获取新旧手机号
+    :param type: 0：旧手机号|1：新手机号
+    :return: 返回对应type的手机号
+    """
+    phone1 = yml('student.account.change_account_account1')
+    phone2 = yml('student.account.change_account_account2')
+    db = MyDB()
+    db.connectDB('i61')
+    cursor = db.executeSQL('select UserId from userinfo where Account="%s"' % phone1)
+    if db.get_one(cursor):
+        phone = (phone1, phone2)
+    else:
+        phone = (phone2, phone1)
+    return phone[type]
+
+
 def gen_random_string(len=1):
     ran_str = random.sample(string.ascii_letters + string.digits, len)
     str = "API-"
@@ -526,6 +562,7 @@ def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_i
     print(json.loads(rp.content)['success'])
     # print(json.loads(rp.content))
 
+
 def add_room_schedule_by_student_list(studentId_list, teacherId=yml('web_teacher_id'), token=login_to_liveadmin()):
     # 添加新课程，学生id为列表
     for id in studentId_list:
@@ -552,6 +589,7 @@ def add_room_schedule_by_student_list(studentId_list, teacherId=yml('web_teacher
 
     rp = requests.post(url=url, data=data, headers=headers)
     print(json.loads(rp.content)['success'])
+
 
 def get_value_by_redis(key='web_account_17397301080'):
     # 获取redis的验证码
@@ -640,7 +678,7 @@ if __name__ == '__main__':
 
     # delete_room_schedule()
     # add_room_schedule(teacherId=200076)
-    add_room_schedule_by_student_list([6000079,6000080], 200076)
+    add_room_schedule_by_student_list([6000079, 6000080], 200076)
     # insert_app_publish_for_windows()
     # delete_app_publish_code999()
     # insert_config_common_for_record_video()

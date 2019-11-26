@@ -3,7 +3,7 @@
     variables:
       true_account: ${yml(student.account.account1)}
       wrongAccount: ${yml(student.account.non_exists_account)}
-      password: ${yml(student.account.default_password)}
+      true_password: ${yml(student.account.default_password)}
       wrongPassword: alksdjfklas
 
 - test:
@@ -47,30 +47,6 @@
       - eq: [status_code, 200]
       - eq: [content.code, 603]
       - eq: [content.msg, 密码错误]
-
-- test:
-    name: 手机号为空
-    api: api/live/student/account/v1_student_checkAccount.yml
-    variables:
-      account: null
-      password: $true_password
-      token: $token
-    validate:
-      - eq: [status_code, 200]
-      - eq: [content.code, 400]
-      - eq: [content.msg, 参数错误]
-
-- test:
-    name: 密码为空
-    api: api/live/student/account/v1_student_checkAccount.yml
-    variables:
-      account: $true_account
-      password: null
-      token: $token
-    validate:
-      - eq: [status_code, 200]
-      - eq: [content.code, 400]
-      - eq: [content.msg, 参数错误]
 
 - test:
     name: 手机号数据类型错误
