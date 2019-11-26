@@ -1,0 +1,17 @@
+name: finish Prepare Class
+base_url: ${yml(student.base_url)}
+variables:
+    Authorization: null
+    deviceId: null
+    roomUserScheduleId: null
+    expected_status_code: 200
+request:
+    url: /v1/student/finishPrepareClass
+    method: get
+    headers:
+        Authorization: $Authorization
+        deviceId: $deviceId
+    params:
+        roomUserScheduleId: $roomUserScheduleId
+validate:
+    - eq: ["status_code", $expected_status_code]

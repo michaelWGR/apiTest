@@ -1,0 +1,74 @@
+- config:
+    name: 学生已完成预习
+    variables:
+      true_deviceId: '123456'
+
+- test:
+    name: get token
+    testcase: testcases/live/student/account/student_get_token.yml
+    variables:
+      account: ${yml(student.comment.account1)}
+      password: ${yml(student.comment.default_password)}
+
+    output:
+      - token
+
+- test:
+    name: 学生已完成预习
+    api: api/live/student/courseinfo/v1_student_finishPrepareClass.yml
+    variables:
+      Authorization: $token
+      deviceId: $true_deviceId
+      roomUserScheduleId: 269622
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - eq: [status_code, 200]
+
+- test:
+    name: token is null
+    api: api/live/student/courseinfo/v1_student_finishPrepareClass.yml
+    variables:
+      Authorization: null
+      deviceId: $true_deviceId
+      roomUserScheduleId: 269622
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceid is null
+    api: api/live/student/courseinfo/v1_student_finishPrepareClass.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+      roomUserScheduleId: 269622
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceid is wrongid
+    api: api/live/student/courseinfo/v1_student_finishPrepareClass.yml
+    variables:
+      Authorization: $token
+      deviceId: wrongid
+      roomUserScheduleId: 269622
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceid is special word
+    api: api/live/student/courseinfo/v1_student_finishPrepareClass.yml
+    variables:
+      Authorization: $token
+      deviceId: 122#@#
+      roomUserScheduleId: 269622
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+
+
