@@ -1,0 +1,168 @@
+- config:
+    name: 添加截图
+
+- test:
+    name: 初始化开课数据
+    testcase: testcases/live/teacher/course&teacherInfo/get_classRoomScheduleId.yml
+    output:
+      - true_classRoomScheduleId
+
+- test:
+    name: 获取截图访问地址
+    testcase: testcases/live/teacher/screenshot/file_screenShotUploadUrl.yml
+    output:
+      - true_fileUrl
+- test:
+    name: 获取token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+- test:
+    name: 获取成功
+    api: api/live/teacher/screenshot/v1_teacher_addScreenShot.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        url: $true_fileUrl
+        type: 1
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data.screenShotTotalNumber,int]
+        - type_match: [content.data.screenShotNumber,int]
+        - type_match: [content.data.screenShotResources.0.id,int]
+        - type_match: [content.data.screenShotResources.0.url,str]
+        - type_match: [content.data.screenShotResources.0.type,int]
+- test:
+    name: token错误
+    api: api/live/teacher/screenshot/v1_teacher_addScreenShot.yml
+    variables:
+        Authorization: abc
+        classRoomScheduleId: $true_classRoomScheduleId
+        url: $true_fileUrl
+        type: 1
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+- test:
+    name: token为空
+    api: api/live/teacher/screenshot/v1_teacher_addScreenShot.yml
+    variables:
+        Authorization: null
+        classRoomScheduleId: $true_classRoomScheduleId
+        url: $true_fileUrl
+        type: 1
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+- test:
+    name: classRoomScheduleId为空
+    api: api/live/teacher/screenshot/v1_teacher_addScreenShot.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: null
+        url: $true_fileUrl
+        type: 1
+        deviceId: 123456
+    validate:
+        - eq: [status_code, 405]
+        - eq: [content.code, 400]
+        - eq: [content.msg, param error]
+        - type_match: [content.data,str]
+        - eq: [content.success, false]
+- test:
+    name: classRoomScheduleId不正确
+    api: api/live/teacher/screenshot/v1_teacher_addScreenShot.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: abc
+        url: $true_fileUrl
+        type: 1
+        deviceId: 123456
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data,null]
+        - eq: [content.success, false]
+- test:
+    name: url为空
+    api: api/live/teacher/screenshot/v1_teacher_addScreenShot.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        url: null
+        type: 1
+        deviceId: 123456
+    validate:
+        - eq: [status_code, 405]
+        - eq: [content.code, 400]
+        - eq: [content.msg, param error]
+        - type_match: [content.data,str]
+        - eq: [content.success, false]
+- test:
+    name: url不正确
+    api: api/live/teacher/screenshot/v1_teacher_addScreenShot.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        url: a
+        type: 1
+        deviceId: 123456
+    validate:
+        - eq: [status_code, 405]
+        - eq: [content.code, 400]
+        - eq: [content.msg, param error]
+        - type_match: [content.data,str]
+        - eq: [content.success, false]
+- test:
+    name: type不正确
+    api: api/live/teacher/screenshot/v1_teacher_addScreenShot.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: abc
+        url: $true_fileUrl
+        type: 1
+        deviceId: 123456
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data,null]
+        - eq: [content.success, false]
+- test:
+    name: deviceId为空
+    api: api/live/teacher/screenshot/v1_teacher_addScreenShot.yml
+    variables:
+        Authorization: null
+        classRoomScheduleId: $true_classRoomScheduleId
+        url: $true_fileUrl
+        type: 1
+        deviceId: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+- test:
+    name: deviceId不正确
+    api: api/live/teacher/screenshot/v1_teacher_addScreenShot.yml
+    variables:
+        Authorization: null
+        classRoomScheduleId: $true_classRoomScheduleId
+        url: $true_fileUrl
+        type: 1
+        deviceId: abc
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+
+
+
+
+
+
+

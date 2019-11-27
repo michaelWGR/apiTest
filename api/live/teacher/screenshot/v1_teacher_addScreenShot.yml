@@ -1,0 +1,22 @@
+name: 添加截图
+base_url: ${yml(teacher_base_url)}
+variables:
+   expected_status_code: 200
+   Authorization: null
+   classRoomScheduleId: null
+   url: null
+   type: null
+   deviceId: null
+request:
+   url: /v1/teacher/addScreenShot
+   method: POST
+   data:
+     classRoomScheduleId: $classRoomScheduleId
+     url: $url
+     type: $type
+     deviceId: $deviceId
+   headers:
+     Authorization: $Authorization
+
+validate:
+   - eq: ["status_code",$expected_status_code]
