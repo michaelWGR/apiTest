@@ -39,17 +39,6 @@
       - eq: [content.success, true]
 
 - test:
-    name: 不存在的账号
-    api: api/live/student/account/v1_student_loginWithCodeV2.yml
-    variables:
-      account: $wrong_account
-      code: ${get_auth_code($wrong_account)}
-    validate:
-      - eq: [content.code, 601]
-      - eq: [content.msg, 该账号不存在]
-      - eq: [content.success, false]
-
-- test:
     name: 错误的验证码
     api: api/live/student/account/v1_student_loginWithCodeV2.yml
     variables:

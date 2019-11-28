@@ -18,6 +18,7 @@ def run(path, log_level="INFO", log_file=None):
     report_path = runner.run(path)
     return report_path
 
+
 def del_html():
     '''
     删除html报告
@@ -28,13 +29,14 @@ def del_html():
             f_path = os.path.join(report_dir, f)
             os.remove(f_path)
 
+
 def main():
     '''
     执行所用测试用例，并发送报告
     '''
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--path', required=True, help='执行的用例文件路径')
-    args =parser.parse_args()
+    args = parser.parse_args()
 
     path = args.path
     log_path = os.path.join(report_dir, 'api.log')

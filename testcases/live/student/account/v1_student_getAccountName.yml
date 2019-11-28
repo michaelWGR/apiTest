@@ -63,15 +63,15 @@
       - eq: [content.success, true]
 
 - test:
-    name: 账号不存在
+    name: 错误账号
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
       account: $wrong_account
       code: ${get_auth_code($wrong_account)}
       token: $token
     validate:
-      - eq: [content.code, 601]
-      - eq: [content.msg, 该账号不存在]
+      - eq: [content.code, 604]
+      - eq: [content.msg, 验证码错误或超时]
       - eq: [content.success, false]
 
 - test:
