@@ -8,7 +8,7 @@ testcases:
       testcase: 'testcases/live/student/studentInfo/v1_student_modifyUserHeadImageUrl.yml'
     v1_student_nickName:
       testcase: 'testcases/live/student/studentInfo/v1_student_nickName.yml'
-    v1_student_simpleUserInfo:
-      testcase: 'testcases/live/student/studentInfo/v1_student_simpleUserInfo.yml'
+#    v1_student_simpleUserInfo:
+#      testcase: 'testcases/live/student/studentInfo/v1_student_simpleUserInfo.yml'
     v1_student_userinfo:
       testcase: 'testcases/live/student/studentInfo/v1_student_userinfo.yml'

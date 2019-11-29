@@ -1,9 +1,10 @@
 - config:
-    name: 学生上传作业
+    name: 学生上传作业2
     variables:
-      true_roomUserScheduleId: '268870'
+      true_roomUserScheduleId: '317985'
+      already_commented_scheduleId: '316931'
       wrong_roomUserScheduleId: '989441111'
-      not_empty_title: 上传作业接口2
+      not_empty_title: 接口测试用请勿点评
       not_empty_description: 测试作业上传接口2
       not_empty_pictureList: '[{"url":"https://hualala-live.oss-cn-shenzhen.aliyuncs.com/student_homework/picture/20191108/d4c02819-f5f3-4952-9dc4-a19da69dd75d.jpg"}]'
       wrong_pictureList: '[{"url":"https://hualala-live.oss-cn-shenzhen.aliyuncs.com/student_homework/picture/20191108/d4c02819-f5f3-4952-9dc4-123456789456.jpg"}]'
@@ -29,7 +30,7 @@
     name: get token
     testcase: testcases/live/student/account/student_get_token.yml
     variables:
-      account: '12388600010'
+      account: '12300020046'
     output:
       - token
 
@@ -130,6 +131,23 @@
     validate:
       - eq: [content.code, 420]
       - eq: [content.msg, 作业上传保存失败]
+      - eq: [content.success, false]
+
+- test:
+    name: 已点评的作业重新上传
+    api: api/live/student/homework/v1_student_uploadHomework2.yml
+    variables:
+      token: $token
+      roomUserScheduleId: $already_commented_scheduleId
+      title: $not_empty_title
+      description: $not_empty_description
+      oldPictureIdList: ${parse_resource_list($oldPictureList)}
+      oldAudioIdList: ${parse_resource_list($oldAudioList)}
+      pictureList: $not_empty_pictureList
+      audioList: $not_empty_audioList
+    validate:
+      - eq: [content.code, 420]
+      - eq: [content.msg, '作业已经被点评,不可修改']
       - eq: [content.success, false]
 
 - test:

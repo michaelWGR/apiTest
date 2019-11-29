@@ -2,7 +2,8 @@
     name: 学生完成作业
     variables:
       true_deviceId: '123456'
-
+    setup_hooks:
+      - ${init_room_user_schedule_data()}
 - test:
     name: get token
     testcase: testcases/live/student/account/student_get_token.yml
