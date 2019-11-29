@@ -1,0 +1,339 @@
+- config:
+    name: v1_teacher_configClient
+
+- test:
+    name: get_token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+      - token
+
+- test:
+    name: 请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: name为wrong_name，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"wrong_name","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: 不传name，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: account为wrong_account，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"wrong_account","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: 不传account，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: networkLevel为2，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":2,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: networkLevel为3，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":3,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: networkLevel为string，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":"string","currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: 不传networkLevel，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: currentNetworkConfig为1，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":1,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: 不传currentNetworkConfig，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: userId为wrong_id，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":"wrong_id","index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: 不传userId，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+        
+- test:
+    name: 不传index，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+
+- test:
+    name: 不传key，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+
+- test:
+    name: 不传roomId，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"level":1}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 400]
+        - eq: [content.msg, 'param error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: level为2，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":2}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+
+- test:
+    name: level为3，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":3}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+
+- test:
+    name: level为4，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":4}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+
+- test:
+    name: 不传level，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085}]'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.data, true]
+        - eq: [content.success, true]
+
+- test:
+    name: data为wrong_data,请求失败
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: 'wrong_data'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 400]
+        - eq: [content.msg, 'param error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: data为空,请求失败
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: null
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: deviceId为wrong_id，请求失败
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: 'wrong_id'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId为空，请求失败
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: null
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为wrong_token，请求失败
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: 'wrong_token'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为空，请求失败
+    api: api/live/teacher/liveroom/v1_teacher_configClient.yml
+    variables:
+        data: '[{"name":"测试学员6000079","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+        deviceId: '123456'
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']

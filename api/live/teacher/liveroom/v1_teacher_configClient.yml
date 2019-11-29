@@ -1,0 +1,18 @@
+name: v1_teacher_configClient
+base_url: ${yml(teacher_base_url)}
+variables:
+  deviceId: '123456'
+  Authorization: null
+  data: '[{"name":"测试学员6000079
+        ","account":"12397301001","networkLevel":1,"currentNetworkConfig":3,"userId":6000079,"index":1,"key":0,"roomId":130085,"level":1}]'
+
+request:
+  url: /v1/teacher/configClient
+  method: POST
+  data:
+    data: $data
+    deviceId: $deviceId
+  headers:
+    Authorization: $Authorization
+validate:
+  - eq: ["status_code", 200]
