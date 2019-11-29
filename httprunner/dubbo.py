@@ -1,34 +1,28 @@
+#! /usr/bin/python3
 import socket
 import telnetlib
 import json
 
-
 class DubboTester(telnetlib.Telnet):
     prompt = 'dubbo>'
     coding = 'utf-8'
+    host = ''
+    port = ''
+    service_dict = {}
 
     def __init__(self, host=None, port=0, timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
-        try:
-            super().__init__(host, port, timeout)
-            self.write(b'\n')
-        except Exception as e:
-            print(e)
+        super().__init__(host, port, timeout)
+        self.write(b'\n')
+        self.host = host
+        self.port = port
+        for service in self._get_service_list():
+            service_name = service.split('.')[-1]
+            self.service_dict[service_name] = service
 
     def command(self, flag, str_=""):
         data = self.read_until(flag.encode())
         self.write(str_.encode() + b"\n")
         return data
-
-    def _parse_list(self, list_data):
-        tmp = ''
-        for param in list_data:
-            if isinstance(param, list):
-                tmp += self._parse_list(param)
-            if isinstance(param, dict):
-                tmp += json.dumps(param) + ','
-            else:
-                tmp += str(param).replace("\'", '"') + ','
-        return tmp[0:-1]
 
     def _parse_args(self, args):
         if isinstance(args, str) or isinstance(args, dict):
@@ -36,13 +30,16 @@ class DubboTester(telnetlib.Telnet):
         elif isinstance(args, list):
             tmp = ''
             for param in args:
-                tmp += str(param).replace("\'", '"') + ','
+                tmp += json.dumps(param) + ','
             args = tmp[0:-1]
         return args
 
-    def invoke(self, service_name, method_name, arg):
+    def invoke(self, service_name, method_name, arg, parse=True):
         # command_str = 'invoke {0}.{1}('.format(service_name, method_name)
-        arg = self._parse_args(arg)
+        if parse:
+            arg = self._parse_args(arg)
+        if '.' not in service_name:
+            service_name = self.service_dict[service_name]
         command_str = "invoke {0}.{1}({2})".format(service_name, method_name, arg)
         self.command(DubboTester.prompt, command_str)
         data = self.command(DubboTester.prompt, "")
@@ -56,51 +53,69 @@ class DubboTester(telnetlib.Telnet):
         data = data.decode(DubboTester.coding, errors='ignore').split('\n')
         return data
 
-    def get_method_info(self, package=None):
-        input_type, output_type = None, None
-        command_str = 'ls'
-        if package is not None:
-            command_str += ' -l %s' % package
-        methods_list: list = self.do(command_str)
-        methods_list.pop()
-        return input_type, output_type
+    def _get_service_list(self):
+        service_list = self.do('ls')
+        service_list.pop()
+        result = []
+        for service in service_list:
+            result.append(service[:-1])
+        return result
+
+    def _get_method_list(self, service_name, detail=False):
+        if '.' not in service_name:
+            service_name = self.service_dict[service_name]
+        if detail:
+            method_list = self.do('ls -l %s' % service_name)
+        else:
+            method_list = self.do('ls %s' % service_name)
+        method_list.pop()
+        result = []
+        for method in method_list:
+            result.append(method[:-1])
+        return result
+
+    def print_method_list(self, package=None):
+        if package:
+            title = '* 服务%s的方法列表：' % package.split('.')[-1]
+            result = self._get_method_list(package, True)
+        else:
+            title = '* %s:%s 的服务列表：' % (self.host, self.port)
+            result = self.service_dict.values()
+        print('=' * 80)
+        print(title)
+        print('-' * 80)
+        for item in result:
+            print('*', item)
+        print('=' * 80)
 
 
 if __name__ == '__main__':
-    conn = DubboTester('10.60.7.222', 20885)
-    json_data = {
-        "class": "com.i61.live.hll.vo.RegisterUserRpcVO",
-        "schoolDistrict": "总部",
-        "account": "正式课",
-        "realName": "曾三十",
-        "username": "zengsanshi",
-        "stageName": "曾三十",
-        "cmsDepartment": "笑笑组",
-        "crmDepartment": None,
-        "gender": "男",
-        "graduateSchool": "华农",
-        "graduateCollege": "数轴",
-        "jobPhone": "18819258064",
-        "role": "班主任",
-        "jobNumber": "9201707",
-        "employeeCatagory": "全职 - 已转正",
-        "remark": None,
-        "headPhoto": "https: //static.dingtalk.com/media/lAHPBE1XYUWXIY_M8Mzw_240_240.gif",
-        "wechatPhoto": "https://static.dingtalk.com/media/lADPBE1XYUWXm-PNAavNApY_662_427.jpg",
-        "attachment": None
-    }
-    # result = conn.invoke(
-    #     "com.i61.live.hll.api.AccountInfoRpcService",
-    #     "register",
-    #     json_data
-    # )
-    result = conn.invoke(
-        "com.i61.draw.course.api.GroupRpcService",
-        "selectGroupStudentDTOByTeacherId",
-        [1, 0, 30]
-    )
-    # conn.get_method_info()
-    # conn.get_method_info('com.i61.live.hll.api.GroupInfoRpcService')
-    result = json.loads(result)
-    print(result)
-    conn.close()
+    try:
+        # telnet连接服务器
+        conn = DubboTester('10.60.7.222', 20885)
+
+        # 查看服务列表
+        conn.print_method_list()
+
+        # 查看服务的方法详情列表
+        conn.print_method_list('HllGetUserCourseHourService')
+
+        # 调用接口
+        result = ''
+        service = "HllGetUserCourseHourService"
+        method = "getUserCourseInfoDetail"
+        params = [600010, True, True, 1, 10]
+
+        result = conn.invoke(service, method, params)
+
+        # 打印结果
+        print('执行结果：')
+        print(json.loads(result))
+
+        # 关闭连接
+        conn.close()
+    except TimeoutError:
+        print('连接超时，请检查ip和端口!')
+    except json.JSONDecodeError:
+        # 解析json失败，打印原始输出
+        print(result)

@@ -1,0 +1,22 @@
+name: 教师加人房间
+base_url: ${yml(teacher_base_url)}
+variables:
+   expected_status_code: 200
+   Authorization: null
+   classRoomScheduleId: null
+   roomCode: null
+   joinType: null
+   deviceId: null
+request:
+   url: /v1/teacher/joinLiveRoom
+   method: POST
+   data:
+     classRoomScheduleId: $classRoomScheduleId
+     roomCode: $roomCode
+     joinType: $joinType
+     deviceId: $deviceId
+   headers:
+     Authorization: $Authorization
+
+validate:
+   - eq: ["status_code",$expected_status_code]

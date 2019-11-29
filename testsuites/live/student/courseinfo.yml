@@ -4,3 +4,12 @@ config:
 testcases:
   close courseinfo:
     testcase: testcases/live/student/courseinfo/v1_student_closeCourseInfo.yml
+
+  finish Homework:
+    testcase: testcases/live/student/courseinfo/v1_student_finishHomework.yml
+
+  finish Prepare Class:
+    testcase: testcases/live/student/courseinfo/v1_student_finishPrepareClass.yml
+
+  apply Msg:
+    testcase: testcases/live/student/courseinfo/v1_student_applyMsg.yml

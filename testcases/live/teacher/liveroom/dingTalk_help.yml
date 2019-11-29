@@ -1,0 +1,49 @@
+- config:
+    name: 钉钉求助
+
+- test:
+    name: 获取成功
+    api: api/live/teacher/liveroom/dingTalk_help.yml
+    variables:
+        teacherName: '乌托邦'
+        roomNumber: '天辉910'
+        type: 1
+        description: '没有什么问题'
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - eq: [content.data, null]
+
+- test:
+    name: teacherName为空
+    api: api/live/teacher/liveroom/dingTalk_help.yml
+    variables:
+        teacherName: null
+        roomNumber: '天辉910'
+        type: 1
+        description: '没有什么问题'
+        deviceId: 123456
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data,null]
+        - eq: [content.success, false]
+
+- test:
+    name: roomNumber为空
+    api: api/live/teacher/liveroom/dingTalk_help.yml
+    variables:
+        teacherName: '乌托邦'
+        roomNumber: null
+        type: 1
+        description: '没有什么问题'
+        deviceId: 123456
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data,null]
+        - eq: [content.success, false]

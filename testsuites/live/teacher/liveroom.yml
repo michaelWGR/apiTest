@@ -8,3 +8,14 @@ testcases:
   v1_teacher_configClient:
     testcase: testcases/live/teacher/liveroom/v1_teacher_configClient.yml
 
+  dingTalk_help:
+    testcase: testcases/live/teacher/liveroom/dingTalk_help.yml
+
+  v1_teacher_joinLiveRoom:
+    testcase: testcases/live/teacher/liveroom/v1_teacher_joinLiveRoom.yml
+
+
+  v1_teacher_finishLiveClass:
+    testcase: testcases/live/teacher/liveroom/v1_teacher_finishLiveClass.yml
+
+

@@ -1,10 +1,9 @@
 - config:
     name: 学生更换账号V2
     variables:
-      newAccount: ${yml(student.account.account8)}
-      oldAccount: ${yml(student.account.account9)}
+      newAccount: ${yml(student.account.change_account_v2_account2)}
+      oldAccount: ${yml(student.account.change_account_v2_account1)}
       pwd: ${yml(student.account.default_password)}
-      true_code: ${yml(student.account.default_auth_code)}
       wrongPwd: alfealkngaowe
       wrongTypeCode: alskjfelij
       wrongCode: 110120
@@ -35,7 +34,7 @@
     variables:
       account: $newAccount
       password: $wrongPwd
-      code: $true_code
+      code: ${get_auth_code($newAccount)}
       token: $token
     validate:
       - eq: [status_code, 200]
@@ -82,51 +81,12 @@
       - eq: [content.msg, 验证码错误或超时]
 
 - test:
-    name: 缺少手机号
-    api: api/live/student/account/v1_student_changeAccountV2.yml
-    variables:
-      account: null
-      password: $pwd
-      code: $true_code
-      token: $token
-    validate:
-      - eq: [status_code, 200]
-      - eq: [content.code, 400]
-      - eq: [content.msg, 参数错误]
-
-- test:
-    name: 缺少密码
-    api: api/live/student/account/v1_student_changeAccountV2.yml
-    variables:
-      account: $newAccount
-      password: null
-      code: $true_code
-      token: $token
-    validate:
-      - eq: [status_code, 200]
-      - eq: [content.code, 400]
-      - eq: [content.msg, 参数错误]
-
-- test:
-    name: 缺少验证码
-    api: api/live/student/account/v1_student_changeAccountV2.yml
-    variables:
-      account: $newAccount
-      password: $pwd
-      code: null
-      token: $token
-    validate:
-      - eq: [status_code, 200]
-      - eq: [content.code, 604]
-      - eq: [content.msg, 验证码过期或者不存在]
-
-- test:
     name: 学生更换账号1
     api: api/live/student/account/v1_student_changeAccountV2.yml
     variables:
       account: $newAccount
       password: $pwd
-      code: $true_code
+      code: ${get_auth_code($newAccount)}
       token: $token
     validate:
       - eq: [status_code, 200]
@@ -158,7 +118,7 @@
     variables:
       account: $oldAccount
       password: $pwd
-      code: $true_code
+      code: ${get_auth_code($oldAccount)}
       token: $token
     validate:
       - eq: [status_code, 200]

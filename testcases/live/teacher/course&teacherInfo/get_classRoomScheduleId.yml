@@ -17,3 +17,4 @@
           deviceId: 123456
       extract:
           true_classRoomScheduleId: content.data.0.classRoomScheduleId
+          true_roomCode: content.data.0.channel

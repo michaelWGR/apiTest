@@ -18,17 +18,6 @@
       - eq: [content.success, true]
 
 - test:
-    name: 缺少必填参数
-    api: api/live/student/account/v1_student_login.yml
-    variables:
-      account: null
-      password: null
-    validate:
-      - eq: [content.code, 400]
-      - eq: [content.msg, 参数错误]
-      - eq: [content.success, false]
-
-- test:
     name: 账号不存在
     api: api/live/student/account/v1_student_login.yml
     variables:

@@ -1,0 +1,25 @@
+- config:
+    name: 获取房间id
+
+- test:
+    name: 初始化开课数据
+    testcase: testcases/live/teacher/course&teacherInfo/get_classRoomScheduleId.yml
+    output:
+      - true_classRoomScheduleId
+      - true_roomCode
+- test:
+    name: 获取token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+      - token
+- test:
+    name: 获取成功
+    api: api/live/teacher/liveroom/v1_teacher_joinLiveRoom.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        roomCode: $true_roomCode
+        joinType: 3
+        deviceId: 123456
+    extract:
+      true_roomId: content.data.room.roomId

@@ -1,9 +1,8 @@
 - config:
     name: 根据手机号码获取账号名称
     variables:
-      true_account: ${yml(student.account.account4)}
+      true_account: ${yml(student.account.get_account_name_account)}
       wrong_account: 9999456468
-      true_code: ${yml(student.account.default_auth_code)}
       wrong_code: 654867
 
 - test:
@@ -11,7 +10,7 @@
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
       account: $true_account
-      code: $true_code
+      code: ${get_auth_code($true_account)}
       token: alsdkjf
     validate:
       - eq: [content.code, 703]
@@ -31,7 +30,7 @@
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
       account: $true_account
-      code: $true_code
+      code: ${get_auth_code($true_account)}
       token: $token
     validate:
       - eq: [content.code, 604]
@@ -56,7 +55,7 @@
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
       account: $true_account
-      code: $true_code
+      code: ${get_auth_code($true_account)}
       token: $token
     validate:
       - eq: [content.code, 200]
@@ -64,27 +63,15 @@
       - eq: [content.success, true]
 
 - test:
-    name: 缺少必填参数
-    api: api/live/student/account/v1_student_getAccountName.yml
-    variables:
-      account: $true_account
-      code: null
-      token: $token
-    validate:
-      - eq: [content.code, 400]
-      - eq: [content.msg, 参数错误]
-      - eq: [content.success, false]
-
-- test:
-    name: 账号不存在
+    name: 错误账号
     api: api/live/student/account/v1_student_getAccountName.yml
     variables:
       account: $wrong_account
-      code: $true_account
+      code: ${get_auth_code($wrong_account)}
       token: $token
     validate:
-      - eq: [content.code, 601]
-      - eq: [content.msg, 该账号不存在]
+      - eq: [content.code, 604]
+      - eq: [content.msg, 验证码错误或超时]
       - eq: [content.success, false]
 
 - test:
