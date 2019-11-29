@@ -1,5 +1,5 @@
 - config:
-    name: 教师加人房间
+    name: 结束课程
 
 - test:
     name: 获取roomId、classRoomScheduleId
