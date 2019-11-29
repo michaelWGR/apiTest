@@ -420,7 +420,7 @@ def delete_apply_delivery_info_data():
     db.executeSQL(delete_apply_delivery_data)
     db.closeDB()
 ################################################################
-# 学生appp完成预习检验调用方法
+# 学生app完成预习检验调用方法
 ##################################################################
 def init_room_user_schedule_data():
     '''
