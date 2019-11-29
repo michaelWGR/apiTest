@@ -1,0 +1,20 @@
+name: 结束课程
+base_url: ${yml(teacher_base_url)}
+variables:
+   expected_status_code: 200
+   Authorization: null
+   roomId: null
+   deviceId: null
+   classRoomScheduleId: null
+request:
+   url: /v1/teacher/finishLiveClass
+   method: POST
+   data:
+     roomId: $roomId
+     deviceId: $deviceId
+     classRoomScheduleId: $classRoomScheduleId
+   headers:
+     Authorization: $Authorization
+
+validate:
+   - eq: ["status_code",$expected_status_code]

@@ -1,0 +1,114 @@
+- config:
+    name: 教师加人房间
+
+- test:
+    name: 获取roomId、classRoomScheduleId
+    testcase: testcases/live/teacher/liveroom/get_roomId.yml
+    output:
+      - true_roomId
+      - true_classRoomScheduleId
+- test:
+    name: 获取token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+      - token
+- test:
+    name: 请求成功
+    api: api/live/teacher/liveroom/v1_teacher_finishLiveClass.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        deviceId: 123456
+        roomId: $true_roomId
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - eq: [content.data, null]
+- test:
+    name: token错误
+    api: api/live/teacher/liveroom/v1_teacher_finishLiveClass.yml
+    variables:
+        Authorization: abc
+        classRoomScheduleId: $true_classRoomScheduleId
+        deviceId: 123456
+        roomId: $true_roomId
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+- test:
+    name: token为空
+    api: api/live/teacher/liveroom/v1_teacher_finishLiveClass.yml
+    variables:
+        Authorization: null
+        classRoomScheduleId: $true_classRoomScheduleId
+        deviceId: 123456
+        roomId: $true_roomId
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+- test:
+    name: deviceId为空
+    api: api/live/teacher/liveroom/v1_teacher_finishLiveClass.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        deviceId: null
+        roomId: $true_roomId
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceId不正确
+    api: api/live/teacher/liveroom/v1_teacher_finishLiveClass.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        deviceId: abc
+        roomId: $true_roomId
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+- test:
+    name: roomId为空
+    api: api/live/teacher/liveroom/v1_teacher_finishLiveClass.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        deviceId: 123456
+        roomId: null
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data,null]
+        - eq: [content.success, false]
+- test:
+    name: classRoomScheduleId为空
+    api: api/live/teacher/liveroom/v1_teacher_finishLiveClass.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: null
+        deviceId: 123456
+        roomId: $true_roomId
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data,null]
+        - eq: [content.success, false]
+- test:
+    name: classRoomScheduleId不正确
+    api: api/live/teacher/liveroom/v1_teacher_finishLiveClass.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: 1
+        deviceId: 123456
+        roomId: $true_roomId
+    validate:
+        - eq: [status_code, 200]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data,null]
+        - eq: [content.success, false]

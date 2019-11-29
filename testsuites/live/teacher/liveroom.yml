@@ -5,5 +5,14 @@ testcases:
   直播反馈接口:
     testcase: testcases/live/teacher/liveroom/v1_teacher_liveFeedback.yml
 
+  dingTalk_help:
+    testcase: testcases/live/teacher/liveroom/dingTalk_help.yml
+
+  v1_teacher_joinLiveRoom:
+    testcase: testcases/live/teacher/liveroom/v1_teacher_joinLiveRoom.yml
+
+
+  v1_teacher_finishLiveClass:
+    testcase: testcases/live/teacher/liveroom/v1_teacher_finishLiveClass.yml
 
 

@@ -1,0 +1,168 @@
+- config:
+    name: 教师加人房间
+
+- test:
+    name: 初始化开课数据
+    testcase: testcases/live/teacher/course&teacherInfo/get_classRoomScheduleId.yml
+    output:
+      - true_classRoomScheduleId
+      - true_roomCode
+- test:
+    name: 获取token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+      - token
+- test:
+    name: 获取成功
+    api: api/live/teacher/liveroom/v1_teacher_joinLiveRoom.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        roomCode: $true_roomCode
+        joinType: 3
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data.user.account,str]
+        - type_match: [content.data.user.nickname,str]
+        - type_match: [content.data.user.uid,int]
+        - type_match: [content.data.user.role,int]
+        - type_match: [content.data.user.roleName,str]
+        - type_match: [content.data.user.agoraAccessToken,str]
+        - type_match: [content.data.user.shareBoardUid,int]
+        - type_match: [content.data.user.shareBoardAgoraAccessToken,str]
+        - type_match: [content.data.room.roomId,int]
+        - type_match: [content.data.room.roomCode,str]
+        - type_match: [content.data.room.className,str]
+        - type_match: [content.data.room.classStartTime,str]
+        - type_match: [content.data.room.classEndTime,str]
+        - type_match: [content.data.room.teacherUid,int]
+        - type_match: [content.data.room.teacherName,str]
+        - type_match: [content.data.room.userList,list]
+        - type_match: [content.data.room.roomVar,dict]
+        - type_match: [content.data.socketServer.host,str]
+        - type_match: [content.data.socketServer.socketPort,int]
+        - type_match: [content.data.socketServer.webSocketPort,int]
+
+- test:
+    name: token错误
+    api: api/live/teacher/liveroom/v1_teacher_joinLiveRoom.yml
+    variables:
+        Authorization: abc
+        classRoomScheduleId: $true_classRoomScheduleId
+        roomCode: $true_roomCode
+        joinType: 3
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: token为空
+    api: api/live/teacher/liveroom/v1_teacher_joinLiveRoom.yml
+    variables:
+        Authorization: null
+        classRoomScheduleId: $true_classRoomScheduleId
+        roomCode: $true_roomCode
+        joinType: 3
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: roomCode为空
+    api: api/live/teacher/liveroom/v1_teacher_joinLiveRoom.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        roomCode: null
+        joinType: 3
+        deviceId: 123456
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data,null]
+        - eq: [content.success, false]
+
+- test:
+    name: classRoomScheduleId为空
+    api: api/live/teacher/liveroom/v1_teacher_joinLiveRoom.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: null
+        roomCode: $true_roomCode
+        joinType: 3
+        deviceId: 123456
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data,null]
+        - eq: [content.success, false]
+
+- test:
+    name: classRoomScheduleId不正确
+    api: api/live/teacher/liveroom/v1_teacher_joinLiveRoom.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: abc
+        roomCode: $true_roomCode
+        joinType: 3
+        deviceId: 123456
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data,null]
+        - eq: [content.success, false]
+
+- test:
+    name: joinType不正确
+    api: api/live/teacher/liveroom/v1_teacher_joinLiveRoom.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        roomCode: $true_roomCode
+        joinType: a
+        deviceId: 123456
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.data,null]
+        - eq: [content.success, false]
+
+- test:
+    name: deviceId为空
+    api: api/live/teacher/liveroom/v1_teacher_joinLiveRoom.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        roomCode: $true_roomCode
+        joinType: 3
+        deviceId: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceId不正确
+    api: api/live/teacher/liveroom/v1_teacher_joinLiveRoom.yml
+    variables:
+        Authorization: $token
+        classRoomScheduleId: $true_classRoomScheduleId
+        roomCode: $true_roomCode
+        joinType: 3
+        deviceId: abc
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+
+
+
+
