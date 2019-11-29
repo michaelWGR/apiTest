@@ -14,7 +14,7 @@
       - token
 
 - test:
-    name: 成功列车学生已上课信息
+    name: 成功列出学生已上课信息
     api: api/live/student/courseinfo/v1_student_closeCourseInfo.yml
     variables:
       Authorization: $token
