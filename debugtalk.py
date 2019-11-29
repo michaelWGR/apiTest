@@ -393,7 +393,9 @@ def sum_two(first, second):
     if num > 100:
         num = 100
     return str(num)
-
+################################################################
+# 收货提醒功能
+##################################################################
 
 def init_apply_delivery_info_data():
     '''
@@ -416,6 +418,20 @@ def delete_apply_delivery_info_data():
     db.connectDB('i61-hll-manager')
     delete_apply_delivery_data = '''delete from apply_delivery_info where user_id=6000079;'''
     db.executeSQL(delete_apply_delivery_data)
+    db.closeDB()
+################################################################
+# 学生appp完成预习检验调用方法
+##################################################################
+def init_room_user_schedule_data():
+    '''
+    在room_user_schedule里新增一条初始化数据
+    '''
+    db = MyDB()
+    db.connectDB('i61-draw-course')
+    delete_room_user_schedule_data = '''delete from room_user_schedule where id=269622;'''
+    db.executeSQL(delete_room_user_schedule_data)
+    insert_room_user_schedule_data = '''INSERT INTO `i61-draw-course`.`room_user_schedule` (`id`, `class_room_schedule_id`, `user_course_info_id`, `student_id`, `class_start_time`, `class_end_time`, `status`, `follow_status`, `gmt_create`, `gmt_modify`) VALUES ('269622', '1001906', '10148858', '6000671', '2019-10-21 14:15:00', '2019-10-21 15:15:00', '2', '0', '2019-10-21 11:11:51', '2019-10-21 11:11:51');'''
+    db.executeSQL(insert_room_user_schedule_data)
     db.closeDB()
 
 
