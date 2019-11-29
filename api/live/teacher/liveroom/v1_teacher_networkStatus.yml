@@ -1,0 +1,16 @@
+name: v1_teacher_networkStatus
+base_url: ${yml(teacher_base_url)}
+variables:
+    roomId: '130085'
+    deviceId: '123456'
+    Authorization: null
+request:
+    url: /v1/teacher/networkStatus
+    method: GET
+    params:
+        roomId: $roomId
+        deviceId: $deviceId
+    headers:
+        Authorization: $Authorization
+validate:
+    - eq: [status_code, 200]

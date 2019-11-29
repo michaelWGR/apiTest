@@ -18,4 +18,5 @@ testcases:
   v1_teacher_finishLiveClass:
     testcase: testcases/live/teacher/liveroom/v1_teacher_finishLiveClass.yml
 
-
+  v1_teacher_networkStatus:
+    testcase: testcases/live/teacher/liveroom/v1_teacher_networkStatus.yml

@@ -1,0 +1,114 @@
+- config:
+    name: v1_teacher_networkStatus
+    
+- test:
+    name: 教师进入直播间
+    testcase: testcases/live/teacher/liveroom/teacher_join_live_room.yml
+    output:
+        - true_roomId
+
+- test:
+    name: teacher get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: 参数正确，请求成功
+    api: api/live/teacher/liveroom/v1_teacher_networkStatus.yml
+    variables:
+        roomId: $true_roomId
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - type_match: [content.data, list]
+        - eq: [content.success, true]
+
+- test:
+    name: roomId为123456，请求失败
+    api: api/live/teacher/liveroom/v1_teacher_networkStatus.yml
+    variables:
+        roomId: 123456
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+        
+- test:
+    name: roomId为wrong_id，请求失败
+    api: api/live/teacher/liveroom/v1_teacher_networkStatus.yml
+    variables:
+        roomId: 'wrong_id'
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+        
+- test:
+    name: roomId为空，请求失败
+    api: api/live/teacher/liveroom/v1_teacher_networkStatus.yml
+    variables:
+        roomId: null
+        deviceId: '123456'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+        
+- test:
+    name: deviceId为wrong_id，请求失败
+    api: api/live/teacher/liveroom/v1_teacher_networkStatus.yml
+    variables:
+        roomId: $true_roomId
+        deviceId: 'wrong_id'
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: deviceId为空，请求失败
+    api: api/live/teacher/liveroom/v1_teacher_networkStatus.yml
+    variables:
+        roomId: $true_roomId
+        deviceId: null
+        Authorization: $token
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为wrong_token，请求失败
+    api: api/live/teacher/liveroom/v1_teacher_networkStatus.yml
+    variables:
+        roomId: $true_roomId
+        deviceId: '123456'
+        Authorization: 'wrong_token'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为空，请求失败
+    api: api/live/teacher/liveroom/v1_teacher_networkStatus.yml
+    variables:
+        roomId: $true_roomId
+        deviceId: '123456'
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+

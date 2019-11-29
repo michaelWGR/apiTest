@@ -1,0 +1,42 @@
+- config:
+    name: teacher_join_live_room
+    setup_hooks:
+        - ${add_room_schedule()}
+        
+- test:
+    name: teacher get token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+        - token
+
+- test:
+    name: get teacher courseInfo
+    api: api/live/teacher/course&teacherInfo/v1_teacher_courseInfo.yml
+    variables:
+        deviceId: 123456
+        Authorization: $token
+        days: 1
+    validate:
+        - eq: [content.code, 200]
+    extract:
+        - roomCode: content.data.0.channel
+        - true_classRoomScheduleId: content.data.0.classRoomScheduleId
+
+- test:
+    name: teacher join live room
+    base_url: ${yml(teacher_base_url)}
+    request:
+        url: /v1/teacher/joinLiveRoom
+        method: POST
+        data:
+            roomCode: $roomCode
+            classRoomScheduleId: $true_classRoomScheduleId
+            joinType: 3
+            deviceId: 123456
+        headers:
+            Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+    extract:
+        - true_roomId: content.data.user.roomId
