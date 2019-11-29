@@ -50,6 +50,12 @@ def encrypt_md5(data):
 def hook_print(msg):
     print(msg)
 
+def open_file(file_path):
+    # 以二进制格式读取文件
+    with open(file_path, 'rb') as f:
+        data = f.read()
+    return data
+
 
 #########################################################
 # 学生APP调用方法
@@ -694,8 +700,10 @@ if __name__ == '__main__':
 
     # delete_room_schedule()
     # add_room_schedule(teacherId=200076)
-    add_room_schedule_by_student_list([6000079, 6000080], 200076)
+    # add_room_schedule_by_student_list([6000079,6000080], 200076)
     # insert_app_publish_for_windows()
     # delete_app_publish_code999()
     # insert_config_common_for_record_video()
     # delete_config_common_for_record_video()
+    f = open_file('files/live/teacher/screenshot.png')
+    print(f)

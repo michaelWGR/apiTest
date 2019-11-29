@@ -1,0 +1,24 @@
+name: 钉钉求助
+base_url: ${yml(teacher_base_url)}
+variables:
+   expected_status_code: 200
+   Authorization: null
+   teacherName: null
+   roomNumber: null
+   type: null
+   deviceId: null
+   description: null
+request:
+   url: /dingTalk/help
+   method: POST
+   data:
+     teacherName: $teacherName
+     roomNumber: $roomNumber
+     type: $type
+     deviceId: $deviceId
+     description: $description
+   headers:
+     Authorization: $Authorization
+
+validate:
+   - eq: ["status_code",$expected_status_code]

@@ -8,4 +8,7 @@ testcases:
   获取截屏图片阿里云上传路径:
     testcase: testcases/live/teacher/screenshot/file_screenShotUploadUrl.yml
 
+  v1_teacher_addScreenShot:
+    testcase: testcases/live/teacher/screenshot/v1_teacher_addScreenShot.yml
+
 
