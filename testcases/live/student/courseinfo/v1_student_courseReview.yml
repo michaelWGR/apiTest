@@ -1,5 +1,5 @@
 - config:
-    name: 学生课前预习
+    name: 学生课后巩固
 
 
 - test:
@@ -19,7 +19,7 @@
         - token
 - test:
     name: 请求成功
-    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    api: api/live/student/courseinfo/v1_student_courseReview.yml
     variables:
       Authorization: $token
       deviceId: '123456'
@@ -28,17 +28,19 @@
         - eq: [content.code, 200]
         - eq: [content.msg, ok]
         - eq: [content.success, true]
-        - type_match: [content.data.coverImg, str]
-        - type_match: [content.data.majorMessage, str]
-        - type_match: [content.data.videos, list]
+        - eq: [content.data.needCreateWork, true]
+        - type_match: [content.data.createWork, str]
+        - eq: [content.data.needParentWork, false]
+        - type_match: [content.data.parentWork, str]
+        - type_match: [content.data.majorVideos, list]
+        - type_match: [content.data.createDemoVideos, list]
         - type_match: [content.data.paintToolImgs, list]
         - type_match: [content.data.paperImgs, list]
-        - type_match: [content.data.courseForecasts.0.content, str]
-        - type_match: [content.data.courseForecasts.0.picture, str]
+        - type_match: [content.data.demoImgs, list]
 
 - test:
     name: token为空
-    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    api: api/live/student/courseinfo/v1_student_courseReview.yml
     variables:
       Authorization: null
       deviceId: '123456'
@@ -48,7 +50,7 @@
       - eq: [content.msg, accessToken error]
 - test:
     name: token错误
-    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    api: api/live/student/courseinfo/v1_student_courseReview.yml
     variables:
       Authorization: abc
       deviceId: '123456'
@@ -58,7 +60,7 @@
       - eq: [content.msg, accessToken error]
 - test:
     name: deviceId为空
-    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    api: api/live/student/courseinfo/v1_student_courseReview.yml
     variables:
       Authorization: $token
       deviceId: null
@@ -68,7 +70,7 @@
       - eq: [content.msg, accessToken error]
 - test:
     name: deviceId不正确
-    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    api: api/live/student/courseinfo/v1_student_courseReview.yml
     variables:
       Authorization: $token
       deviceId: abc
@@ -78,7 +80,7 @@
       - eq: [content.msg, accessToken error]
 - test:
     name: courseInfoId为空
-    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    api: api/live/student/courseinfo/v1_student_courseReview.yml
     variables:
       Authorization: $token
       deviceId: '123456'
@@ -91,7 +93,7 @@
         - eq: [content.data, null]
 - test:
     name: courseInfoId不正确
-    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    api: api/live/student/courseinfo/v1_student_courseReview.yml
     variables:
       Authorization: $token
       deviceId: '123456'
