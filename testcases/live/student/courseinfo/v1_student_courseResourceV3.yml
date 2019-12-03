@@ -1,0 +1,117 @@
+- config:
+    name: 返回即将上课的课件
+
+
+- test:
+    name: 获取courseInfoId
+    testcase: testcases/live/student/courseinfo/get_student_courseInfo.yml
+    output:
+      - true_courseInfoId
+
+- test:
+    name: get token
+    variables:
+        account: ${yml(web_account)}
+        deviceId: ${yml(student.default_device_id)}
+        password: ${yml(student.account.default_password)}
+    testcase: testcases/live/student/account/student_get_token.yml
+    output:
+        - token
+- test:
+    name: 请求成功
+    api: api/live/student/courseinfo/v1_student_courseResourceV3.yml
+    variables:
+      Authorization: $token
+      deviceId: '123456'
+      courseInfoId: ${int_to_str($true_courseInfoId)}
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data.courseInfoId, int]
+        - type_match: [content.data.startTime, int]
+        - type_match: [content.data.endTime, int]
+        - type_match: [content.data.courseReource.0.resourceId, int]
+        - type_match: [content.data.courseReource.0.fileName, str]
+        - type_match: [content.data.courseReource.0.fileType, int]
+        - type_match: [content.data.courseReource.0.resourceUrl, str]
+        - type_match: [content.data.courseReource.0.downloadUrl, str]
+        - type_match: [content.data.courseReource.0.originHost, str]
+        - eq: [content.data.courseReource.0.accelerateHost, null]
+        - type_match: [content.data.courseReource.0.hash, str]
+        - type_match: [content.data.courseReource.0.fileSize, int]
+        - eq: [content.data.courseReource.0.hasZip, false]
+- test:
+    name: token为空
+    api: api/live/student/courseinfo/v1_student_courseResourceV3.yml
+    variables:
+      Authorization: null
+      deviceId: '123456'
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+- test:
+    name: token错误
+    api: api/live/student/courseinfo/v1_student_courseResourceV3.yml
+    variables:
+      Authorization: abc
+      deviceId: '123456'
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+- test:
+    name: deviceId为空
+    api: api/live/student/courseinfo/v1_student_courseResourceV3.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+- test:
+    name: deviceId不正确
+    api: api/live/student/courseinfo/v1_student_courseResourceV3.yml
+    variables:
+      Authorization: $token
+      deviceId: abc
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+- test:
+    name: courseInfoId为空
+    api: api/live/student/courseinfo/v1_student_courseResourceV3.yml
+    variables:
+      Authorization: $token
+      deviceId: '123456'
+      courseInfoId: null
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data.courseInfoId, int]
+        - type_match: [content.data.startTime, int]
+        - type_match: [content.data.endTime, int]
+        - type_match: [content.data.courseReource.0.resourceId, int]
+        - type_match: [content.data.courseReource.0.fileName, str]
+        - type_match: [content.data.courseReource.0.fileType, int]
+        - type_match: [content.data.courseReource.0.resourceUrl, str]
+        - type_match: [content.data.courseReource.0.downloadUrl, str]
+        - type_match: [content.data.courseReource.0.originHost, str]
+        - eq: [content.data.courseReource.0.accelerateHost, null]
+        - type_match: [content.data.courseReource.0.hash, str]
+        - type_match: [content.data.courseReource.0.fileSize, int]
+        - eq: [content.data.courseReource.0.hasZip, false]
+- test:
+    name: courseInfoId不正确
+    api: api/live/student/courseinfo/v1_student_courseResourceV3.yml
+    variables:
+      Authorization: $token
+      deviceId: '123456'
+      courseInfoId: abc
+    validate:
+        - eq: [status_code,500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.success, false]
+        - eq: [content.data, null]
+

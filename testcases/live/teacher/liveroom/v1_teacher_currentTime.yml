@@ -1,0 +1,62 @@
+- config:
+    name: 获取系统时间
+
+- test:
+    name: 获取token
+    testcase: testcases/live/teacher/account/get_token.yml
+    output:
+      - token
+- test:
+    name: deviceId不正确
+    api: api/live/teacher/liveroom/v1_teacher_currentTime.yml
+    variables:
+        Authorization: $token
+        deviceId: abc
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+- test:
+    name: 请求成功
+    api: api/live/teacher/liveroom/v1_teacher_currentTime.yml
+    variables:
+        Authorization: $token
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data,int]
+- test:
+    name: token为空
+    api: api/live/teacher/liveroom/v1_teacher_currentTime.yml
+    variables:
+        Authorization: null
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+- test:
+    name: token不正确
+    api: api/live/teacher/liveroom/v1_teacher_currentTime.yml
+    variables:
+        Authorization: abc
+        deviceId: 123456
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceId为空
+    api: api/live/teacher/liveroom/v1_teacher_currentTime.yml
+    variables:
+        Authorization: $token
+        deviceId: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, accessToken error]
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+name: 学生首页课程信息
+base_url: ${yml(student.base_url)}
+variables:
+    Authorization: null
+    deviceId: null
+    expected_status_code: 200
+request:
+    url: /v1/student/courseInfo
+    method: get
+    headers:
+        Authorization: $Authorization
+        deviceId: $deviceId
+validate:
+    - eq: ["status_code", $expected_status_code]

@@ -60,6 +60,11 @@ def open_file(file_path):
 #########################################################
 # 学生APP调用方法
 #########################################################
+def int_to_str(data):
+    if data:
+        to_str = str(data)
+        return to_str
+
 def get_auth_code(key):
     """
     从Redis获取验证码

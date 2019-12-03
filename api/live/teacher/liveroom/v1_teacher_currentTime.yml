@@ -1,0 +1,16 @@
+name: 获取系统时间
+base_url: ${yml(teacher_base_url)}
+variables:
+   expected_status_code: 200
+   Authorization: null
+   deviceId: null
+request:
+   url: /v1/teacher/currentTime
+   method: POST
+   data:
+     deviceId: $deviceId
+   headers:
+     Authorization: $Authorization
+
+validate:
+   - eq: ["status_code",$expected_status_code]
