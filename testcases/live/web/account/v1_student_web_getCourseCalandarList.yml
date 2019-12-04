@@ -1,0 +1,54 @@
+- config:
+    name: v1_student_web_getCourseCalandarList
+    setup_hooks:
+        - ${delete_room_schedule(teacherId=None)}
+        - ${add_room_schedule()}
+        
+- test:
+    name: get_token
+    testcase: testcases/live/web/account/get_token.yml
+    output:
+        - token
+        
+- test:
+    name: 参数正确，请求成功
+    api: api/live/web/account/v1_student_web_getCourseCalandarList.yml
+    variables:
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - len_eq: [content.data, 1]
+        - eq: [content.success, true]
+    
+- test:
+    name: Authorization为wrong_token，请求失败
+    api: api/live/web/account/v1_student_web_getCourseCalandarList.yml
+    variables:
+        Authorization: 'wrong_token'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为空，请求失败
+    api: api/live/web/account/v1_student_web_getCourseCalandarList.yml
+    variables:
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: 未开课，数据为空
+    api: api/live/web/account/v1_student_web_getCourseCalandarList.yml
+    variables:
+        Authorization: $token
+    setup_hooks:
+        - ${delete_room_schedule(teacherId=None)}
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - len_eq: [content.data, 0]
+        - eq: [content.success, true]
+

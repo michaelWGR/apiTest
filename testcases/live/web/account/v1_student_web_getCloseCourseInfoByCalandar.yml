@@ -1,0 +1,117 @@
+- config:
+    name: v1_student_web_getCloseCourseInfoByCalandar
+    variables:
+        current_time: ${get_current_time()}
+        teacherId: ${yml(web_teacher_id)}
+    setup_hooks:
+        - ${add_room_schedule()}
+        
+- test:
+    name: get_token
+    testcase: testcases/live/web/account/get_token.yml
+    output:
+        - token
+        
+- test:
+    name: 参数正确，请求成功
+    api: api/live/web/account/v1_student_web_getCloseCourseInfoByCalandar.yml
+    variables:
+        time: $current_time
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.0.teacherId, $teacherId]
+        - len_eq: [content.data.0, 23]
+        - type_match: [content.data.0.roomUserScheduleId, int]
+        - type_match: [content.data.0.teacherName, str]
+        - type_match: [content.data.0.courseName, str]
+        - type_match: [content.data.0.channel, str]
+        - type_match: [content.data.0.courseRecord, dict]
+        - type_match: [content.data.0.serviceTimestamp, int]
+        
+- test:
+    name: time过长，数据为空
+    api: api/live/web/account/v1_student_web_getCloseCourseInfoByCalandar.yml
+    variables:
+        time: 1575366329118123
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - len_eq: [content.data, 0]
+        - eq: [content.success, true]
+        
+- test:
+    name: time过短，数据为空
+    api: api/live/web/account/v1_student_web_getCloseCourseInfoByCalandar.yml
+    variables:
+        time: 123
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - len_eq: [content.data, 0]
+        - eq: [content.success, true]
+        
+- test:
+    name: time为wrong_time，请求失败
+    api: api/live/web/account/v1_student_web_getCloseCourseInfoByCalandar.yml
+    variables:
+        time: 'wrong_time'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+        
+- test:
+    name: time为空，请求失败
+    api: api/live/web/account/v1_student_web_getCloseCourseInfoByCalandar.yml
+    variables:
+        time: null
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+        
+- test:
+    name: Authorization为wrong_token，请求失败
+    api: api/live/web/account/v1_student_web_getCloseCourseInfoByCalandar.yml
+    variables:
+        time: $current_time
+        Authorization: 'wrong_token'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+        
+- test:
+    name: Authorization为null，请求失败
+    api: api/live/web/account/v1_student_web_getCloseCourseInfoByCalandar.yml
+    variables:
+        time: $current_time
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+        
+- test:
+    name: 未开课，数据为空
+    api: api/live/web/account/v1_student_web_getCloseCourseInfoByCalandar.yml
+    variables:
+        time: $current_time
+        Authorization: $token
+    setup_hooks:
+        - ${delete_room_schedule()}
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - len_eq: [content.data, 0]
+        - eq: [content.success, true]
+        

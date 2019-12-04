@@ -510,8 +510,9 @@ def login_to_liveadmin(username='zhongyanping', password='e10adc3949ba59abbe56e0
     return token
 
 
-def search_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id'), token=login_to_liveadmin()):
+def search_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id')):
     # 查找对应id的开课课程
+    token = login_to_liveadmin()
     id_list = []
     courseScheduleInfoId_list = []
     roomCode_list = []
@@ -543,8 +544,9 @@ def search_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teache
     return {'id_list': id_list, 'courseScheduleInfoId_list': courseScheduleInfoId_list, 'roomCode_list': roomCode_list}
 
 
-def delete_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id'), token=login_to_liveadmin()):
+def delete_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id')):
     # 删除指定学生id和老师id的所有课程
+    token = login_to_liveadmin()
     id_list = search_room_schedule(studentId, teacherId)['id_list']
     if id_list != []:
         for id in id_list:
@@ -562,8 +564,9 @@ def delete_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teache
         return
 
 
-def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id'), token=login_to_liveadmin()):
+def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_id')):
     # 添加新课程
+    token = login_to_liveadmin()
     delete_room_schedule(studentId=studentId, teacherId=teacherId)
 
     url = 'http://liveadmin-test.61info.cn/liveadmin-api/class/room/schedule/add'
@@ -585,8 +588,9 @@ def add_room_schedule(studentId=yml('web_user_id'), teacherId=yml('web_teacher_i
     # print(json.loads(rp.content))
 
 
-def add_room_schedule_by_student_list(studentId_list, teacherId=yml('web_teacher_id'), token=login_to_liveadmin()):
+def add_room_schedule_by_student_list(studentId_list, teacherId=yml('web_teacher_id')):
     # 添加新课程，学生id为列表
+    token = login_to_liveadmin()
     for id in studentId_list:
         delete_room_schedule(studentId=id, teacherId=teacherId)
 
@@ -623,6 +627,9 @@ def get_value_by_redis(key='web_account_17397301080'):
     else:
         return value.strip('"')
 
+def get_current_time():
+    t = int(time.time()*1000)
+    return t
 
 ##################################################################
 # 教师pc端调用方法
@@ -693,17 +700,5 @@ def delete_config_common_for_record_video():
 
 if __name__ == '__main__':
     # gen_random_string(1)
-    # init_function_switch_web_config()
-    # print(login_to_liveadmin())
-    # id = search_room_schedule(studentId=None)
-    # print(id)
 
-    # delete_room_schedule()
-    # add_room_schedule(teacherId=200076)
-    # add_room_schedule_by_student_list([6000079,6000080], 200076)
-    # insert_app_publish_for_windows()
-    # delete_app_publish_code999()
-    # insert_config_common_for_record_video()
-    # delete_config_common_for_record_video()
-    f = open_file('files/live/teacher/screenshot.png')
-    print(f)
+    add_room_schedule()
