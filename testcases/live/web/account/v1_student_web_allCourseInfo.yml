@@ -1,0 +1,160 @@
+- config:
+    name: v1_student_web_allCourseInfo
+    variables:
+        teacherId: ${yml(web_teacher_id)}
+        
+- test:
+    name: get_token
+    testcase: testcases/live/web/account/get_token.yml
+    output:
+        - token
+        
+- test:
+    name: 已开课，请求成功
+    api: api/live/web/account/v1_student_web_allCourseInfo.yml
+    variables:
+        pageSize: 10
+        page: 1
+        Authorization: $token
+    setup_hooks:
+        - ${add_room_schedule()}
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.0.teacherId, $teacherId]
+        - len_eq: [content.data.0, 23]
+        - type_match: [content.data.0.roomUserScheduleId, int]
+        - type_match: [content.data.0.teacherName, str]
+        - type_match: [content.data.0.courseName, str]
+        - type_match: [content.data.0.channel, str]
+        - type_match: [content.data.0.courseRecord, dict]
+        - type_match: [content.data.0.courseAction, dict]
+        - type_match: [content.data.0.serviceTimestamp, int]
+
+- test:
+    name: pageSize为20，请求成功
+    api: api/live/web/account/v1_student_web_allCourseInfo.yml
+    variables:
+        pageSize: 20
+        page: 1
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.0.teacherId, $teacherId]
+        - len_eq: [content.data.0, 23]
+        - type_match: [content.data.0.roomUserScheduleId, int]
+        - type_match: [content.data.0.teacherName, str]
+        - type_match: [content.data.0.courseName, str]
+        - type_match: [content.data.0.channel, str]
+        - type_match: [content.data.0.courseRecord, dict]
+        - type_match: [content.data.0.courseAction, dict]
+        - type_match: [content.data.0.serviceTimestamp, int]
+
+- test:
+    name: pageSize为wrong_size，请求失败
+    api: api/live/web/account/v1_student_web_allCourseInfo.yml
+    variables:
+        pageSize: 'wrong_size'
+        page: 1
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+        
+- test:
+    name: pageSize为空，请求失败
+    api: api/live/web/account/v1_student_web_allCourseInfo.yml
+    variables:
+        pageSize: null
+        page: 1
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+        
+- test:
+    name: page为2，返回数据为空
+    api: api/live/web/account/v1_student_web_allCourseInfo.yml
+    variables:
+        pageSize: 10
+        page: 2
+        Authorization: $token
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 0]
+
+- test:
+    name: page为wrong_page，请求失败
+    api: api/live/web/account/v1_student_web_allCourseInfo.yml
+    variables:
+        pageSize: 10
+        page: 'wrong_page'
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+        
+- test:
+    name: page为空，请求失败
+    api: api/live/web/account/v1_student_web_allCourseInfo.yml
+    variables:
+        pageSize: 10
+        page: null
+        Authorization: $token
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+        
+- test:
+    name: Authorization为wrong_token，请求失败
+    api: api/live/web/account/v1_student_web_allCourseInfo.yml
+    variables:
+        pageSize: 10
+        page: 1
+        Authorization: 'wrong_token'
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: Authorization为空，请求失败
+    api: api/live/web/account/v1_student_web_allCourseInfo.yml
+    variables:
+        pageSize: 10
+        page: 1
+        Authorization: null
+    validate:
+        - eq: [content.code, 703]
+        - eq: [content.msg, 'accessToken error']
+
+- test:
+    name: 未开课，返回数据为空
+    api: api/live/web/account/v1_student_web_allCourseInfo.yml
+    variables:
+        pageSize: 10
+        page: 1
+        Authorization: $token
+    setup_hooks:
+        - ${delete_room_schedule(teacherId=None)}
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - len_eq: [content.data, 0]

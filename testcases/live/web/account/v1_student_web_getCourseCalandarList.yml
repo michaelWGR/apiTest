@@ -1,8 +1,5 @@
 - config:
     name: v1_student_web_getCourseCalandarList
-    setup_hooks:
-        - ${delete_room_schedule(teacherId=None)}
-        - ${add_room_schedule()}
         
 - test:
     name: get_token
@@ -15,6 +12,8 @@
     api: api/live/web/account/v1_student_web_getCourseCalandarList.yml
     variables:
         Authorization: $token
+    setup_hooks:
+        - ${add_room_schedule()}
     validate:
         - eq: [content.code, 200]
         - eq: [content.msg, 'ok']

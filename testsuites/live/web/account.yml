@@ -80,3 +80,5 @@ testcases:
     v1_student_web_getCourseCalandarList:
         testcase: testcases/live/web/account/v1_student_web_getCourseCalandarList.yml
 
+    v1_student_web_allCourseInfo:
+        testcase: testcases/live/web/account/v1_student_web_allCourseInfo.yml

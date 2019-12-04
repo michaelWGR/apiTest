@@ -3,8 +3,6 @@
     variables:
         current_time: ${get_current_time()}
         teacherId: ${yml(web_teacher_id)}
-    setup_hooks:
-        - ${add_room_schedule()}
         
 - test:
     name: get_token
@@ -18,6 +16,8 @@
     variables:
         time: $current_time
         Authorization: $token
+    setup_hooks:
+        - ${add_room_schedule()}
     validate:
         - eq: [content.code, 200]
         - eq: [content.msg, 'ok']

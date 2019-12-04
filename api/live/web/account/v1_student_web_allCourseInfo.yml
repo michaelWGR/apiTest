@@ -1,0 +1,16 @@
+name: v1_student_web_allCourseInfo
+base_url: ${yml(web_base_url)}
+variables:
+    pageSize: 10
+    page: 1
+    Authorization: null
+request:
+    url: /v1/student/web/allCourseInfo
+    method: GET
+    params:
+        pageSize: $pageSize
+        page: $page
+    headers:
+        Authorization: $Authorization
+validate:
+    - eq: [status_code, 200]
