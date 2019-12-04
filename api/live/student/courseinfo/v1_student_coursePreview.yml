@@ -1,0 +1,17 @@
+name: 学生课前预习
+base_url: ${yml(student.base_url)}
+variables:
+    Authorization: null
+    deviceId: null
+    expected_status_code: 200
+    courseInfoId: null
+request:
+    url: /v1/student/coursePreview
+    method: GET
+    headers:
+        Authorization: $Authorization
+    params:
+        deviceId: $deviceId
+        courseInfoId: $courseInfoId
+validate:
+    - eq: ["status_code", $expected_status_code]

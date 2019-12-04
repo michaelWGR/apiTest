@@ -1,0 +1,105 @@
+- config:
+    name: 学生课前预习
+
+
+- test:
+    name: 获取courseInfoId
+    testcase: testcases/live/student/courseinfo/get_student_courseInfo.yml
+    output:
+      - true_courseInfoId
+
+- test:
+    name: get token
+    variables:
+        account: ${yml(web_account)}
+        deviceId: ${yml(student.default_device_id)}
+        password: ${yml(student.account.default_password)}
+    testcase: testcases/live/student/account/student_get_token.yml
+    output:
+        - token
+- test:
+    name: 请求成功
+    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    variables:
+      Authorization: $token
+      deviceId: '123456'
+      courseInfoId: ${int_to_str($true_courseInfoId)}
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, ok]
+        - eq: [content.success, true]
+        - type_match: [content.data.coverImg, str]
+        - type_match: [content.data.majorMessage, str]
+        - type_match: [content.data.videos, list]
+        - type_match: [content.data.paintToolImgs, list]
+        - type_match: [content.data.paperImgs, list]
+        - type_match: [content.data.courseForecasts.0.content, str]
+        - type_match: [content.data.courseForecasts.0.picture, str]
+
+- test:
+    name: token为空
+    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    variables:
+      Authorization: null
+      deviceId: '123456'
+      courseInfoId: ${int_to_str($true_courseInfoId)}
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+- test:
+    name: token错误
+    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    variables:
+      Authorization: abc
+      deviceId: '123456'
+      courseInfoId: ${int_to_str($true_courseInfoId)}
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+- test:
+    name: deviceId为空
+    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    variables:
+      Authorization: $token
+      deviceId: null
+      courseInfoId: ${int_to_str($true_courseInfoId)}
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+- test:
+    name: deviceId不正确
+    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    variables:
+      Authorization: $token
+      deviceId: abc
+      courseInfoId: ${int_to_str($true_courseInfoId)}
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+- test:
+    name: courseInfoId为空
+    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    variables:
+      Authorization: $token
+      deviceId: '123456'
+      courseInfoId: null
+    validate:
+        - eq: [status_code,500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.success, false]
+        - eq: [content.data, null]
+- test:
+    name: courseInfoId不正确
+    api: api/live/student/courseinfo/v1_student_coursePreview.yml
+    variables:
+      Authorization: $token
+      deviceId: '123456'
+      courseInfoId: abc
+    validate:
+        - eq: [status_code,500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, system error]
+        - eq: [content.success, false]
+        - eq: [content.data, null]
+
