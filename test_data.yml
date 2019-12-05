@@ -27,8 +27,8 @@ student:
     default_auth_code: '000000'
     non_exists_account: '99999999999'
     valid_account: '123456'
-    account_qy: '14400000001'
-    password_qy: '000001'
+    account_qy: '12363356961'
+    password_qy: '000000'
 
     # 需要获取验证码的账号
     auth_code_account: '13612362591'
