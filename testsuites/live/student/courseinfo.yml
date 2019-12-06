@@ -13,3 +13,18 @@ testcases:
 
   apply Msg:
     testcase: testcases/live/student/courseinfo/v1_student_applyMsg.yml
+
+  v1_student_courseInfo:
+    testcase: testcases/live/student/courseinfo/v1_student_courseInfo.yml
+
+  v1_student_coursePreview:
+    testcase: testcases/live/student/courseinfo/v1_student_coursePreview.yml
+
+  v1_student_courseReview:
+    testcase: testcases/live/student/courseinfo/v1_student_courseReview.yml
+
+  v1_student_getAppIndexInfo:
+    testcase: testcases/live/student/courseinfo/v1_student_getAppIndexInfo.yml
+
+  v1_student_courseResourceV3:
+    testcase: testcases/live/student/courseinfo/v1_student_courseResourceV3.yml
