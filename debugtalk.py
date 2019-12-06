@@ -227,6 +227,28 @@ def parse_resource_list(src_list: list):
         ids.append(item['id'])
     return str(ids)
 
+def insert_app_publish_of_ios_and_android():
+    # 插入ios和android的更新信息
+    db = MyDB()
+    db.connectDB('i61-draw-course')
+    sql_delete = '''DELETE FROM app_publish WHERE CODE=99999 AND client_type IN ("Android","ios");'''
+    db.executeSQL(sql_delete)
+
+    sql_insert_android = '''INSERT INTO app_publish (platform, client_type, version, CODE, publish_platform, publish_time, is_need_force_update, is_current_lastest, is_need_notify_user, is_gray_scale, package_size, download_url, qr_code_url, publish_describe) VALUES ("phone", "android", "9.9.9", 99999, 3, "2020-01-01 12:12:12", 0, 1, 1, 0, 666, "http://test.app.com", "http://test.png", "test update");'''
+    db.executeSQL(sql_insert_android)
+
+    sql_insert_ios = '''INSERT INTO app_publish (platform, client_type, version, CODE, publish_platform, publish_time, is_need_force_update, is_current_lastest, is_need_notify_user, is_gray_scale, package_size, download_url, qr_code_url, publish_describe) VALUES ("phone", "ios", "9.9.9", 99999, 3, "2020-01-01 12:12:12", 0, 1, 1, 0, 666, "http://test.app.com", "http://test.png", "test update");'''
+    db.executeSQL(sql_insert_ios)
+
+    db.closeDB()
+
+def delete_app_publish_of_ios_and_android():
+    # 删除插入ios和android的更新信息
+    db = MyDB()
+    db.connectDB('i61-draw-course')
+    sql_delete = '''DELETE FROM app_publish WHERE CODE=99999 AND client_type IN ("Android","ios");'''
+    db.executeSQL(sql_delete)
+    db.closeDB()
 
 ##################################################################
 # 外呼系统调用方法
@@ -705,5 +727,4 @@ def delete_config_common_for_record_video():
 
 if __name__ == '__main__':
     # gen_random_string(1)
-
-    add_room_schedule()
+    insert_app_publish_of_ios_and_android()

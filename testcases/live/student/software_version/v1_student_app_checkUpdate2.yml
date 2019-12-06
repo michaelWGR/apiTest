@@ -1,0 +1,511 @@
+- config:
+    name: v1_student_app_checkUpdate2
+    
+- test:
+    name: 参数正确，请求成功
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: 99998
+        publishPlatform: 3
+        deviceId: '123456'
+    setup_hooks:
+        - ${insert_app_publish_of_ios_and_android()}
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, 'phone']
+        - eq: [content.data.clientType, 'android']
+        - eq: [content.data.version, '9.9.9']
+        - eq: [content.data.code, 99999]
+        - eq: [content.data.publishPlatform, 3]
+        - type_match: [content.data.publishTime, str]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, true]
+        - eq: [content.data.currentLastest, false]
+        - eq: [content.data.downloadUrl, 'http://test.app.com']
+        - eq: [content.data.publishDescribe, 'test update']
+
+- test:
+    name: platform为windows，返回数据为null
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'windows'
+        clientType: 'android'
+        code: 99998
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.publishTime, null]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        
+- test:
+    name: platform为wrong_platform，返回数据为null
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'wrong_platform'
+        clientType: 'android'
+        code: 99998
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.publishTime, null]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        
+- test:
+    name: platform为空，请求失败
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: null
+        clientType: 'android'
+        code: 99998
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+        
+- test:
+    name: clientType为ios，返回ios的更新数据
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'ios'
+        code: 99998
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, 'phone']
+        - eq: [content.data.clientType, 'ios']
+        - eq: [content.data.version, '9.9.9']
+        - eq: [content.data.code, 99999]
+        - eq: [content.data.publishPlatform, 3]
+        - type_match: [content.data.publishTime, str]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, true]
+        - eq: [content.data.currentLastest, false]
+        - eq: [content.data.downloadUrl, 'http://test.app.com']
+        - eq: [content.data.publishDescribe, 'test update']
+
+- test:
+    name: clientType为windows，返回数据为null
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'windows'
+        code: 99998
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.publishTime, null]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        
+- test:
+    name: clientType为mac-student，返回数据为null
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'mac-student'
+        code: 99998
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.publishTime, null]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        
+- test:
+    name: clientType为win-student，返回数据为null
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'win-student'
+        code: 99998
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.publishTime, null]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        
+- test:
+    name: clientType为wrong_type，返回数据为null
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'wrong_type'
+        code: 99998
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.publishTime, null]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        
+- test:
+    name: clientType为空，请求失败
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: null
+        code: 99998
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+        
+- test:
+    name: code为99999，请求成功，currentLastest为true
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: 99999
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, 'phone']
+        - eq: [content.data.clientType, 'android']
+        - eq: [content.data.version, '9.9.9']
+        - eq: [content.data.code, 99999]
+        - eq: [content.data.publishPlatform, 3]
+        - type_match: [content.data.publishTime, str]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, 'http://test.app.com']
+        - eq: [content.data.publishDescribe, 'test update']
+
+- test:
+    name: code为100000，请求成功，currentLastest为true
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: 100000
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, 'phone']
+        - eq: [content.data.clientType, 'android']
+        - eq: [content.data.version, '9.9.9']
+        - eq: [content.data.code, 99999]
+        - eq: [content.data.publishPlatform, 3]
+        - type_match: [content.data.publishTime, str]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, 'http://test.app.com']
+        - eq: [content.data.publishDescribe, 'test update']
+
+- test:
+    name: code为wrong_code，请求失败
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: 'wrong_code'
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+       
+- test:
+    name: code为空，请求失败
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: null
+        publishPlatform: 3
+        deviceId: '123456'
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: publishPlatform为0，返回数据为null
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: 99998
+        publishPlatform: 0
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.publishTime, null]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        
+- test:
+    name: publishPlatform为1，返回数据为null
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: 99998
+        publishPlatform: 1
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.publishTime, null]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        
+- test:
+    name: publishPlatform为2，返回数据为null
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: 99998
+        publishPlatform: 2
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.publishTime, null]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        
+- test:
+    name: publishPlatform为4，返回数据为null
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: 99998
+        publishPlatform: 4
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.publishTime, null]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+        
+- test:
+    name: publishPlatform为wrong_platform，请求失败
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: 99998
+        publishPlatform: 'wrong_platform'
+        deviceId: '123456'
+    validate:
+        - eq: [status_code, 500]
+        - eq: [content.code, 500]
+        - eq: [content.msg, 'system error']
+        - eq: [content.data, null]
+        - eq: [content.success, false]
+
+- test:
+    name: publishPlatform为空，返回数据为null
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: 99998
+        publishPlatform: null
+        deviceId: '123456'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, null]
+        - eq: [content.data.clientType, null]
+        - eq: [content.data.version, null]
+        - eq: [content.data.code, 0]
+        - eq: [content.data.publishPlatform, 0]
+        - eq: [content.data.publishTime, null]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, false]
+        - eq: [content.data.currentLastest, true]
+        - eq: [content.data.downloadUrl, null]
+        - eq: [content.data.publishDescribe, null]
+
+- test:
+    name: deviceId为wrong_id，请求成功
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: 99998
+        publishPlatform: 3
+        deviceId: 'wrong_id'
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, 'phone']
+        - eq: [content.data.clientType, 'android']
+        - eq: [content.data.version, '9.9.9']
+        - eq: [content.data.code, 99999]
+        - eq: [content.data.publishPlatform, 3]
+        - type_match: [content.data.publishTime, str]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, true]
+        - eq: [content.data.currentLastest, false]
+        - eq: [content.data.downloadUrl, 'http://test.app.com']
+        - eq: [content.data.publishDescribe, 'test update']
+
+- test:
+    name: deviceId为空，请求成功
+    api: api/live/student/software_version/v1_student_app_checkUpdate2.yml
+    variables:
+        platform: 'phone'
+        clientType: 'android'
+        code: 99998
+        publishPlatform: 3
+        deviceId: null
+    teardown_hooks:
+        - ${delete_app_publish_of_ios_and_android()}
+    validate:
+        - eq: [content.code, 200]
+        - eq: [content.msg, 'ok']
+        - eq: [content.success, true]
+        - eq: [content.data.platform, 'phone']
+        - eq: [content.data.clientType, 'android']
+        - eq: [content.data.version, '9.9.9']
+        - eq: [content.data.code, 99999]
+        - eq: [content.data.publishPlatform, 3]
+        - type_match: [content.data.publishTime, str]
+        - eq: [content.data.needForceUpdate, false]
+        - eq: [content.data.needNotifyUser, true]
+        - eq: [content.data.currentLastest, false]
+        - eq: [content.data.downloadUrl, 'http://test.app.com']
+        - eq: [content.data.publishDescribe, 'test update']
