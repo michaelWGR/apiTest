@@ -1,0 +1,69 @@
+- config:
+    name: 学生首页课程
+- test:
+    name: get token
+    variables:
+        account: ${yml(web_account)}
+        deviceId: ${yml(student.default_device_id)}
+        password: ${yml(student.account.default_password)}
+    testcase: testcases/live/student/account/student_get_token.yml
+    output:
+        - token
+
+- test:
+    name: 请求成功
+    api: api/live/student/courseinfo/v1_student_getAppIndexInfo.yml
+    variables:
+      Authorization: $token
+      deviceId: '123456'
+    validate:
+      - eq: [content.code, 200]
+      - eq: [content.msg, ok]
+      - eq: [content.success, true]
+      - type_match: [content.data.indexFlag, int]
+      - type_match: [content.data.appIndexPageFeatureVos.0.featureId, int]
+      - type_match: [content.data.appIndexPageFeatureVos.0.featureName, str]
+      - type_match: [content.data.appIndexPageFeatureVos.0.featureUrl, str]
+      - eq: [content.data.appIndexPageFeatureVos.0.params, null]
+
+- test:
+    name: token 错误
+    api: api/live/student/courseinfo/v1_student_getAppIndexInfo.yml
+    variables:
+      deviceId: '123456'
+      Authorization: abc
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: token 为空
+    api: api/live/student/courseinfo/v1_student_getAppIndexInfo.yml
+    variables:
+      deviceId: '123456'
+      Authorization: null
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceId 为空
+    api: api/live/student/courseinfo/v1_student_getAppIndexInfo.yml
+    variables:
+      deviceId: null
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+- test:
+    name: deviceId 不正确
+    api: api/live/student/courseinfo/v1_student_getAppIndexInfo.yml
+    variables:
+      deviceId: '666666'
+      Authorization: $token
+    validate:
+      - eq: [content.code, 703]
+      - eq: [content.msg, accessToken error]
+
+
