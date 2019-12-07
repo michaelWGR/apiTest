@@ -4,3 +4,6 @@ config:
 testcases:
     v1_student_app_checkUpdate2:
         testcase: testcases/live/student/software_version/v1_student_app_checkUpdate2.yml
+        
+    v1_student_app_checkUpdate:
+        testcase: testcases/live/student/software_version/v1_student_app_checkUpdate.yml

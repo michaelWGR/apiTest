@@ -1,0 +1,17 @@
+name: v1_student_app_checkUpdate
+base_url: ${yml(student.base_url)}
+variables:
+    platform: 'phone'
+    clientType: 'android'
+    version: '9.9.8'
+    publishPlatform: 3
+request:
+    url: /v1/student/app/checkUpdate
+    method: GET
+    params:
+        platform: $platform
+        clientType: $clientType
+        version: $version
+        publishPlatform: $publishPlatform
+validate:
+    - eq: [status_code, 200]
