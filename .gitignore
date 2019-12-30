@@ -1,11 +1,9 @@
 .idea
 **/__pycache__
-test.py
 reports
 Pipfile
 venv
 .env
 Pipfile.lock
-test.py
 locustfile.py
 test/
